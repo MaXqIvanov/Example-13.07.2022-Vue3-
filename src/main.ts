@@ -3,13 +3,33 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap"
 
 createApp(App).use(store).use(router).mount('#app')
 
-// echo "# storyroom_manager" >> README.md
-// git init
-// git add README.md
-// git commit -m "first commit"
-// git branch -M master
-// git remote add origin https://github.com/CrazyMasters/storyroom_manager.git
-// git push -u origin master
+
+
+
+// <script lang="ts">
+// import { defineComponent } from 'vue';
+// import { mapActions, mapMutations, mapState } from 'vuex';
+// export default defineComponent({
+//   name: 'AuthModal',
+//   components: {
+//   },
+//   data() {
+//   },
+//   methods: {  
+//     ...mapMutations({
+//     }),
+//     ...mapActions({
+//     }),
+//   },
+//   computed: mapState({
+//   }),
+// });
+// </script>
+
+// <style lang="scss">
+// </style>

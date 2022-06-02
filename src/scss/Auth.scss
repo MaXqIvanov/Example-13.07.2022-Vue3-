@@ -1,0 +1,43 @@
+.block_auth{
+    height: 100%;
+    width: 100%;
+}
+
+
+// block_components
+.block_authModal{
+    height: 300px;
+    width: 500px;
+    box-shadow: 0px 0px 5px black;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 25px;
+    background: white;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media(max-width:630px){
+        width: 94%;
+        height: 350px;
+    }
+}
+.block_authModal_wrapper{
+    height: 95%;
+    width: 90%;
+    position: relative;
+}
+.btn_authModal{
+    height: 25px;
+    width: 25px;
+    background-image: url('../assets/close_btn.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+}
