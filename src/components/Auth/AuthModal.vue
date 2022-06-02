@@ -12,7 +12,8 @@
         </div>
         <div class="mb-2">
             <label for="codeInput" class="form-label">Код
-            <input :disabled="!formStageHolder" type="number" placeholder="****" class="form-control" id="codeInput">
+            <input :disabled="!formStageHolder" type="number" placeholder="****" class="form-control" id="codeInput"
+            v-model="code">
             </label>
         </div>
         <button @click="validateInputs" type="submit" class="btn btn-primary">Отправить</button>
