@@ -1,0 +1,21 @@
+.home{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.home_wrapper{
+    width: 90%;
+    height: 100%;
+    margin-top: 30px;
+    min-height: 80vh;
+}
+
+// block_userInfo
+.block_userInfo{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+}
