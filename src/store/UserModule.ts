@@ -4,8 +4,9 @@ import router from '@/router'
 
 export default {
   state: {
-      userInfo: [] as any,
-      userAuth: false,
+    userInfo: [] as any [],
+    userAuth: false as boolean,
+    userCompany: [] as any []
   },
   mutations: {
       userLogOut(state:any, data:any) {
@@ -45,6 +46,18 @@ export default {
               state.userAuth = !state.userAuth;
           }
       },
+
+    //   other don't important function
+    changeNameProfileUser({
+        commit, state
+    }:any, payload:any){
+        api.put('accounts/profile/change_name/',{
+            name: `${payload.name}`
+        }).then((response:any)=>{
+            console.log(response);
+            state.userInfo = response.data
+        })
+    }
   },
   modules: {
   },

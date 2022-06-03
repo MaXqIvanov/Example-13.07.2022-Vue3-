@@ -19,3 +19,21 @@
     display: flex;
     justify-content: center;
 }
+.block_userInfo_group{
+    min-width: 550px;
+    @media(max-width: 530px){
+        min-width: 350px;
+    }
+}
+.group_change_name{
+    display: flex;
+}
+.btn_change_name{
+    background-image: url('../assets/home/btn_change_any.svg');
+    width: 25px;
+    height: 25px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-left: 15px;
+    cursor: pointer;
+}

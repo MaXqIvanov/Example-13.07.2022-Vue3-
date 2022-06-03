@@ -1,7 +1,8 @@
 <template>
   <div id="nav">
-    <router-link to="/">Личный кабинет</router-link> |
-    <router-link to="/cars">Машины</router-link> |
+    <router-link to="/">Личный кабинет</router-link> <span>| </span>
+    <router-link to="/cars" v-if="userAuth">Машины</router-link> <span v-if="userAuth">| </span>
+    <router-link to="/stores" v-if="userAuth">Магазины</router-link> <span v-if="userAuth">| </span>
     <router-link v-if="!userAuth" to="/auth">Авторизация</router-link>
     <router-link v-else to="/logout">Выход</router-link>
   </div>
@@ -54,8 +55,8 @@ export default defineComponent({
     userAuth: (state:any)=> state.user.userAuth,
   }),
    mounted() {
-    // this.checkAuth()
-    // this.getProfile()
+    this.checkAuth()
+    this.getProfile()
   },
 })
 </script>

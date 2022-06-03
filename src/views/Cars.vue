@@ -2,6 +2,7 @@
   <div class="cars">
     <div class="cars_wrapper">
         <CarsInfo />
+        <CarsArray />
     </div>
   </div>
 </template>
@@ -10,11 +11,13 @@
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import CarsInfo from '@/components/cars/CarsInfo.vue';
+import CarsArray from '@/components/cars/CarsArray.vue';
 
 export default defineComponent({
   name: 'Home',
   components: {
     CarsInfo,
+    CarsArray,
   },
    methods: {  
     ...mapMutations({

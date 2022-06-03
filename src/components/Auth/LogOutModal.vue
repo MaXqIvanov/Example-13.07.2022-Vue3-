@@ -22,6 +22,9 @@ export default defineComponent({
   components: {
   },
   data() {
+    return {
+      
+    }
   },
   methods: {  
     ...mapMutations({

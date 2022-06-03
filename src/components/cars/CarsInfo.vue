@@ -8,7 +8,7 @@
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 export default defineComponent({
-  name: 'UserInfo',
+  name: 'CarsInfo',
   components: {
   },
   data() {

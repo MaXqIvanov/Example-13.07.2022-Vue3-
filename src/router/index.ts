@@ -13,9 +13,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/cars',
     name: 'Cars',
     component: () => import(/* webpackChunkName: "about" */ '../views/Cars.vue'),
-    //change this after rewrite backend
-    // requiresAuth = true
-    meta: { requiresAuth: false, },
+    meta: { requiresAuth: true, },
+  },
+  {
+    path: '/stores',
+    name: 'Stores',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Stores.vue'),
+    meta: { requiresAuth: true, },
   },
   {
     path: '/auth',
