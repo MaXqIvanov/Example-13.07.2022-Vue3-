@@ -1,11 +1,12 @@
 import axios from "axios";
 import router from "@/router"
+import Cookies from 'js-cookie'
 
 const api  = axios.create({
     baseURL : "http://dev1.itpw.ru:8005/",
     // baseURL : "http://127.0.0.1:8000/",
     headers : {
-        'Authorization': localStorage.getItem('token') ? "Bearer " + localStorage.getItem('token') : '',
+        'Authorization': Cookies.get('token') ? "Bearer " + Cookies.get('token') : '',
     }
 })
 

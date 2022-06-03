@@ -4,17 +4,25 @@
       <h2>Войти</h2>
       <form @submit.prevent>
         <div class="mb-2">
-          <label for="exampleInputPhoneNumber" class="form-label">Номер телефона</label>
-          <input required type="number" placeholder="+7-(___)-___-__-__" class="form-control" id="exampleInputPhoneNumber" aria-describedby="phoneHelp"
-          v-model="phone">
-          <div id="emailHelp" class="form-text">Ваш телефон не будет передан сторонним лицам</div>
-          <div class="errors_message" v-if="v$.$error">пожалуйста перепроверьте ваш телефон</div>
+          <label for="exampleInputPhoneEmail" class="form-label">Почта</label>
+          <input required type="email" placeholder="user@email.ru" class="form-control" id="exampleInputPhoneEmail" aria-describedby="emailHelp"
+          v-model="email">
+          <div id="emailHelp" class="form-text">Ваша почта не будет передана сторонним лицам</div>
         </div>
         <div class="mb-2">
-            <label for="codeInput" class="form-label">Код
-            <input :disabled="!formStageHolder" type="number" placeholder="****" class="form-control" id="codeInput">
+            <label for="passInput" class="form-label">пароль
+            <input type="password" placeholder="****" class="form-control" id="passInput"
+            v-model="password">
             </label>
         </div>
+        <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'required'
+        && v$.$errors[0]?.$property === 'email'">поле с почтой обязательно для заполнения</div>
+        <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'minLength'
+        && v$.$errors[0]?.$property === 'email'">поле с почтой должно содержать минимально 4 символа</div>
+        <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'required'
+        && v$.$errors[0]?.$property === 'password'">поле пароль обязательно для заполнения</div>
+        <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'minLength'
+        && v$.$errors[0]?.$property === 'password'">минимальная длина пароля 2 символа</div>
         <button @click="validateInputs" type="submit" class="btn btn-primary">Отправить</button>
       </form>
     </div>
@@ -33,13 +41,14 @@ export default defineComponent({
   data() {
     return {
       v$: useValidate(),
-      phone: '',
-      code: '',
+      email: '',
+      password: '',
     };
   },
   validations() {
   		return {
-  			phone: { required, minLength: minLength(11), maxLength: maxLength(13) },
+  			email: { required, minLength: minLength(4), maxLength: maxLength(40) },
+        password: { required, minLength: minLength(2), maxLength: maxLength(40) }
   		}
   	},
   methods: {  
@@ -50,14 +59,14 @@ export default defineComponent({
     }),
     validateInputs() {
       this.v$.$validate()
+      console.log(this.v$.$errors);
       if(this.v$.$error) {
       } else {
-        this.createProfile({phone: this.phone, code: this.code})
+        this.createProfile({email: this.email, password: this.password})
       }
     }
   },
   computed: mapState({
-    formStageHolder: (state:any)=> state.user.formStageHolder,
   }),
   mounted() {}
 });
@@ -66,5 +75,7 @@ export default defineComponent({
 .errors_message{
   font-size: x-small;
   color: red;
+  padding-bottom: 5px;
+  margin-top: -10px;
 }
 </style>

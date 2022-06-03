@@ -5,7 +5,6 @@ import router from '@/router'
 export default {
   state: {
       userInfo: [] as any,
-      formStageHolder: false,
       userAuth: false,
   },
   mutations: {
@@ -19,36 +18,25 @@ export default {
           commit, state
       }:any) {
         api.get('accounts/profile/profile/').then((response:any)=>{
-            console.log(response);
+            state.userInfo = response.data
         })
       },
       createProfile({
           commit, state
       }:any, payload:any) {
-          state.formStageHolder === false ? 
           api.post('accounts/auth/phone_auth/',{
-              phone: `${payload.phone}`
+              email: `${payload.email}`,
+              password: `${payload.password}`,
           })
           .then((response:any)=>{
-              console.log(response);
-              state.formStageHolder = true
+            if(response.status === 200){
+                console.log(response);
+                state.userInfo = response.data.user
+                Cookies.set('token', `${response.data.token}`, { secure: true, path: '/', expires: 45 })
+                state.userAuth = !state.iserAuth;
+            } 
           })
-          : 
-          api.post('accounts/auth/phone_auth/',{
-            //   change this - payload code need string
-              phone: `${payload.phone}`,
-              otc: `${payload.code}`,
-          })
-          .then((response:any)=>{
-              console.log(response);
-              state.user = response.data.user
-              Cookies.set('token', `${response.data.token}`, { secure: true, path: '/', expires: 30 })
-              router.push('/')
-              state.userAuth = !state.iserAuth;
-          })
-          .finally(()=>{
-              state.formStageHolder = false;
-          })
+          .then(()=>router.push('/'))
       },
       checkAuth({
           commit, state

@@ -1,9 +1,9 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link v-if="!userAuth" to="/auth">Auth</router-link>
-    <router-link v-else to="/logout">Log out</router-link>
+    <router-link to="/">Личный кабинет</router-link> |
+    <router-link to="/cars">Машины</router-link> |
+    <router-link v-if="!userAuth" to="/auth">Авторизация</router-link>
+    <router-link v-else to="/logout">Выход</router-link>
   </div>
   <router-view/>
 </template>
@@ -46,14 +46,16 @@ export default defineComponent({
      ...mapMutations({
     }),
     ...mapActions({
-      checkAuth: 'user/checkAuth'
+      checkAuth: 'user/checkAuth',
+      getProfile: 'user/getProfile'
     }),
   },
   computed: mapState({
     userAuth: (state:any)=> state.user.userAuth,
   }),
    mounted() {
-    this.checkAuth()
+    // this.checkAuth()
+    // this.getProfile()
   },
 })
 </script>
