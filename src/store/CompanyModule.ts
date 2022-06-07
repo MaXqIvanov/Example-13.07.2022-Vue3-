@@ -1,7 +1,7 @@
 
 export default {
     state: {
-        storesInfo: [] as any [],
+        companyInfo: [] as any [],
     },
     mutations: {
     },

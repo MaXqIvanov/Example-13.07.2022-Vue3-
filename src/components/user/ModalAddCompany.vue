@@ -2,35 +2,40 @@
   <div class="block_ModalAddCompany">
     <div class="block_ModalAddCompany_wrapper">
       <h3>Добавьте вашу компанию</h3>
-      <form @submit.prevent>
+      <form @submit.prevent id="uploadForm" name="uploadForm">
         <div class="mb-2">
           <label for="inputNameCompany" class="form-label">имя компании:</label>
-          <input required type="text" class="form-control" id="inputNameCompany" aria-describedby="nameCompanyHelp"
+          <input required type="text" class="form-control" id="inputNameCompany"
           v-model="companyName">
         </div>
          <div class="mb-2">
           <label for="inputShortNameCompany" class="form-label">сокращённое имя компании:</label>
-          <input required type="text" class="form-control" id="inputShortNameCompany" aria-describedby="nameCompanyHelp"
+          <input required type="text" class="form-control" id="inputShortNameCompany"
           v-model="companyShortName">
         </div>
          <div class="mb-2">
           <label for="inputInnCompany" class="form-label">ИНН компании:</label>
-          <input required type="text" class="form-control" id="inputInnCompany" aria-describedby="nameCompanyHelp"
+          <input required type="text" class="form-control" id="inputInnCompany"
           v-model="companyINN">
         </div>
-         <div class="mb-2">
-          <label for="inputLogoCompany" class="form-label">логотип компании:</label>
-          <input required type="text" class="form-control" id="inputLogoCompany" aria-describedby="nameCompanyHelp"
-          v-model="companyLogo">
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Загрузите логотип компании</label>
+          <input @change="onAddPhoto" class="form-control" type="file" id="formFile" multiple required>
         </div>
         <div class="mb-3">
           <label for="inputDescriptionCompany" class="form-label">описание компании</label>
           <textarea required v-model="companyDescription" class="form-control" id="inputDescriptionCompany" rows="3"></textarea>
         </div>
-        <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'required'
-        && v$.$errors[0]?.$property === 'name'">поле с именем компании обязательно для заполнения</div>
-        <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'maxLength'
-        && v$.$errors[0]?.$property === 'name'">поле с именем компании не должно быть более 35 символов</div>
+        <!-- validation groups -->
+        <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'maxLength'
+        && v$.$errors[0]?.$property === 'companyName'">поле с именем компании не должно быть более 35 символов</div>
+         <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'maxLength'
+        && v$.$errors[0]?.$property === 'companyShortName'">поле с сокращённым именем компании не должно быть более 35 символов</div>
+         <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'maxLength'
+        && v$.$errors[0]?.$property === 'companyINN'">поле с инн компании не должно быть более 30 символов</div>
+         <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'maxLength'
+        && v$.$errors[0]?.$property === 'companyDescription'">поле с описанием компании не должно быть более 170 символов</div>
+        <!-- end validation groups -->
         <button @click="validateInputs" type="submit" class="btn btn-primary">Отправить</button>
       </form>
       <div @click="changeIsVisibleModalAddCompany" class="close_btn"></div>
@@ -54,26 +59,38 @@ export default defineComponent({
       companyName: '',
       companyShortName: '',
       companyINN: '',
-      companyLogo: '',
+      companyLogo: '' as any,
       companyDescription: '',
     };
   },
   validations() {
   		return {
   		  companyName: { required, maxLength: maxLength(35) },
+        companyShortName: { required, maxLength: maxLength(35)},
+        companyINN: { required, maxLength: maxLength(30)},
+        companyLogo: { required },
+        companyDescription: { required, maxLength: maxLength(170) }
   		}
   	},
   methods: {  
     ...mapMutations({
     }),
     ...mapActions({
+      addNewCompany: 'user/addNewCompany',
     }),
+    onAddPhoto (e:any) {
+        this.companyLogo = e.target.files[0]
+    },
     validateInputs() {
       this.v$.$validate()
       console.log(this.v$.$errors);
       if(this.v$.$error) {
       } else {
-        //   this work any methods
+        this.addNewCompany({full_name:this.companyName,
+        short_name:this.companyShortName, inn: this.companyINN,
+        img: this.companyLogo, description: this.companyDescription})
+
+        //https://si-dev.com/ru/blog/laravel-vue-file-uploads
       }
     }
   },
@@ -108,7 +125,17 @@ export default defineComponent({
     width: 20px;
     cursor: pointer;
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 7px;
+    right: 7px;
+    opacity: 0.6;
+
+    &:hover{
+      opacity: 0.8;
+    }
+}
+.errors_message{
+  margin-top: -10px;
+  color: red;
+  font-size: x-small
 }
 </style>

@@ -17,6 +17,8 @@
         </div>
         <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'required'
         && v$.$errors[0]?.$property === 'email'">поле с почтой обязательно для заполнения</div>
+          <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'email'
+        && v$.$errors[0]?.$property === 'email'">пожалуйста, введите вашу почту</div>
         <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'minLength'
         && v$.$errors[0]?.$property === 'email'">поле с почтой должно содержать минимально 4 символа</div>
         <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'required'
@@ -33,7 +35,7 @@
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import useValidate from "@vuelidate/core";
-import { required, minLength, maxLength } from "@vuelidate/validators";
+import { required, minLength, maxLength, email } from "@vuelidate/validators";
 export default defineComponent({
   name: 'AuthModal',
   components: {
@@ -47,7 +49,7 @@ export default defineComponent({
   },
   validations() {
   		return {
-  			email: { required, minLength: minLength(4), maxLength: maxLength(40) },
+  			email: { required, minLength: minLength(4), maxLength: maxLength(40), email },
         password: { required, minLength: minLength(2), maxLength: maxLength(40) }
   		}
   	},

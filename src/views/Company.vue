@@ -1,23 +1,18 @@
 <template>
-  <div class="home">
-    <div class="home_wrapper">
-      <UserInfo />
-      <UserAction />
+  <div class="company">
+    <div class="company_wrapper">
+        12344
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import UserInfo from '@/components/home/UserInfo.vue';
-import UserAction from '@/components/home/UserAction.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'Company',
   components: {
-    UserInfo,
-    UserAction
   },
    methods: {  
     ...mapMutations({
@@ -30,5 +25,5 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-@import '../scss/Home.scss';
+@import '../scss/Company.scss';
 </style>

@@ -1,13 +1,7 @@
 <template>
     <div class="block_userAction">
         <div class="block_userAction_wrapper">
-            <div>
-                <h2>Компания</h2>
-            </div>
-            <div v-if="userCompany.length === 0">В данный момент вы ещё не зарегистрировали ни одну компанию</div>
-            <div class="btn_addCompany">
-                <button @click="changeIsVisibleModalAddCompany" type="button" class="btn btn-primary">Добавить компанию</button>
-            </div>
+           123
         </div>
         <ModalAddCompany :isVisibleModalAddCompany="isVisibleModalAddCompany"
         :changeIsVisibleModalAddCompany="changeIsVisibleModalAddCompany"

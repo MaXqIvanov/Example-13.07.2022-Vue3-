@@ -1,8 +1,9 @@
 import { createStore } from 'vuex'
 import CarsModule from './CarsModule'
 import ProodsModule from './ProodsModule'
-import StoresModule from './StoresModule'
+import CompanyModule from './CompanyModule'
 import UserModule from './UserModule'
+import PickUpPointsModule from './PickUpPointsModule'
 
 export default createStore({
   state: {
@@ -15,6 +16,7 @@ export default createStore({
     user: UserModule,
     cars: CarsModule,
     proods: ProodsModule,
-    stores: StoresModule,
+    company: CompanyModule,
+    pickuppoints: PickUpPointsModule,
   }
 })

@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
+import Company from '../views/Company.vue'
 import Cookies from 'js-cookie'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Company',
+    component: Company,
     meta: { requiresAuth: true, },
   },
   {
@@ -16,23 +16,29 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true, },
   },
   {
-    path: '/stores',
-    name: 'Stores',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Stores.vue'),
+    path: '/pickup',
+    name: 'PickUpPoints',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PickUpPoints.vue'),
     meta: { requiresAuth: true, },
   },
   {
     path: '/auth',
     name: 'Auth',
     component: () => import(/* webpackChunkName: "about" */ '../views/Auth.vue'),
-    meta: { notRequiresAuth: true },
+    meta: { notRequiresAuth: true, },
   },
   {
     path: '/logOut',
     name: 'LogOut',
     component: () => import('../views/Auth.vue'),
     meta: { requiresAuth: true, },
-  }
+  },
+  {
+    path: '/registration',
+    name: 'Registration',
+    component: () => import('../views/Auth.vue'),
+    meta: { notRequiresAuth: true, },
+  },
 ]
 
 const router = createRouter({

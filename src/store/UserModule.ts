@@ -47,6 +47,23 @@ export default {
           }
       },
 
+
+    //   function add new company user
+    addNewCompany({
+        commit, state
+    }:any, payload:any){
+        console.log(payload);
+        api.post('http://dev1.itpw.ru:8005/marketplace/company/',{
+            full_name: payload.full_name,
+            short_name: payload.short_name,
+            inn: payload.inn,
+            img: payload.img,
+            description: payload.description
+        }).then((response:any)=>{
+            console.log(response);
+        })
+    },
+
     //   other don't important function
     changeNameProfileUser({
         commit, state
