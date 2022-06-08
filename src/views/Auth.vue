@@ -1,7 +1,7 @@
 <template>
   <div class="block_auth">
-      <Registration v-if="!userAuth && isVisibleRegistration"/>
-      <AuthModal v-if="!userAuth && !isVisibleRegistration"/>
+      <Registration :changeVisibleRegistration="changeVisibleRegistration" props="" v-if="!userAuth && isVisibleRegistration"/>
+      <AuthModal :changeVisibleRegistration="changeVisibleRegistration" v-if="!userAuth && !isVisibleRegistration"/>
       <LogOutModal v-else-if="userAuth && !isVisibleRegistration"/>
   </div>
 </template>
@@ -30,6 +30,11 @@ export default defineComponent({
     }),
     ...mapActions({
     }),
+
+    // change window
+    changeVisibleRegistration() {
+      this.isVisibleRegistration = !this.isVisibleRegistration
+    },
   },
   computed: mapState({
     userAuth: (state:any)=> state.user.userAuth,

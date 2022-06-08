@@ -7,12 +7,12 @@
           <label for="exampleInputPhoneEmail" class="form-label">Почта</label>
           <input required type="email" placeholder="user@email.ru" class="form-control" id="exampleInputPhoneEmail" aria-describedby="emailHelp"
           v-model="email">
-          <div id="emailHelp" class="form-text">Ваша почта не будет передана сторонним лицам</div>
         </div>
-        <div class="mb-2">
+        <div class="mb-2 custom-label">
             <label for="passInput" class="form-label">пароль
             <input type="password" placeholder="****" class="form-control" id="passInput"
             v-model="password">
+            <div @click="navigate" title="войти в систему" class="auth_unauth">нет аккаунта?</div>
             </label>
         </div>
         <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'required'
@@ -21,11 +21,10 @@
         && v$.$errors[0]?.$property === 'email'">пожалуйста, введите вашу почту</div>
         <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'minLength'
         && v$.$errors[0]?.$property === 'email'">поле с почтой должно содержать минимально 4 символа</div>
-        <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'required'
-        && v$.$errors[0]?.$property === 'password'">поле пароль обязательно для заполнения</div>
         <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'minLength'
         && v$.$errors[0]?.$property === 'password'">минимальная длина пароля 2 символа</div>
-        <button @click="validateInputs" type="submit" class="btn btn-primary">Отправить</button>
+        <!-- end validate -->
+        <button @click="validateInputs" type="submit" class="btn btn-primary">Войти</button>
       </form>
     </div>
   </div>
@@ -36,8 +35,10 @@ import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import useValidate from "@vuelidate/core";
 import { required, minLength, maxLength, email } from "@vuelidate/validators";
+import router from '@/router';
 export default defineComponent({
   name: 'AuthModal',
+  props: ['changeVisibleRegistration'],
   components: {
   },
   data() {
@@ -66,6 +67,10 @@ export default defineComponent({
       } else {
         this.createProfile({email: this.email, password: this.password})
       }
+    },
+    navigate() {
+      this.changeVisibleRegistration()
+      router.push('/registration')
     }
   },
   computed: mapState({
@@ -79,5 +84,23 @@ export default defineComponent({
   color: red;
   padding-bottom: 5px;
   margin-top: -10px;
+}
+.auth_unauth{
+  color: red;
+  font-size: small;
+  cursor: pointer;
+  opacity: 0.7;
+
+  &:hover{
+    opacity: 1;
+  }
+}
+.custom-label{
+  position: relative;
+}
+.auth_unauth{
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
 }
 </style>
