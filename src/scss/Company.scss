@@ -1,11 +1,12 @@
-.company{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.company_wrapper{
-    height: 96%;
-    width: 90%;
-    min-height: 80vh;
-}
+.company_description::-webkit-scrollbar {
+    width: 6px; /* ширина scrollbar */
+  }
+  .company_description::-webkit-scrollbar-track {
+    background: rgb(255, 255, 255); /* цвет дорожки */
+    border-radius: 25px;
+  }
+  .company_description::-webkit-scrollbar-thumb {
+    background-color: #b8e5ff; /* цвет плашки */
+    border-radius: 20px; /* закругления плашки */
+    border: 3px solid #b8e5ff; /* padding вокруг плашки */
+  }

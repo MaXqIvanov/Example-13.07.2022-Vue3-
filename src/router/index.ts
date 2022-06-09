@@ -10,6 +10,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true, },
   },
   {
+    path: '/company/:id',
+    name: 'AboutCompany',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutCompany.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
     path: '/cars',
     name: 'Cars',
     component: () => import(/* webpackChunkName: "about" */ '../views/Cars.vue'),
@@ -19,6 +25,18 @@ const routes: Array<RouteRecordRaw> = [
     path: '/pickup',
     name: 'PickUpPoints',
     component: () => import(/* webpackChunkName: "about" */ '../views/PickUpPoints.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
+    path: '/prood',
+    name: 'Proods',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Proods.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Users.vue'),
     meta: { requiresAuth: true, },
   },
   {

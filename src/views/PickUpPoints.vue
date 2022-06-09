@@ -1,6 +1,7 @@
 <template>
   <div class="pickuppoints">
     <div class="pickuppoints_wrapper">
+      pick up points
     </div>
   </div>
 </template>

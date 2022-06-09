@@ -3,9 +3,12 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .cars_wrapper{
-    height: 96%;
-    width: 90%;
+    height: 98%;
+    width: 98%;
     min-height: 80vh;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

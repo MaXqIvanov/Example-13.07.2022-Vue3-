@@ -1,6 +1,7 @@
 <template>
   <div class="proods">
     <div class="proods_wrapper">
+      товары
     </div>
   </div>
 </template>
