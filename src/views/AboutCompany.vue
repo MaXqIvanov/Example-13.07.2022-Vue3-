@@ -18,9 +18,11 @@ export default defineComponent({
     ...mapMutations({
     }),
     ...mapActions({
+      getOneCompany: 'company/getOneCompany'
     }),
   },
   mounted() {
+    this.getOneCompany()
   },
 });
 </script>

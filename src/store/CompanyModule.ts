@@ -23,12 +23,17 @@ export default {
             commit, state
         }:any, payload:any) {
             state.choose_company = payload;
-            console.log(state.choose_company);
-            // router.push(`/company/${payload}`)
+            // router.push(`/?company_id=${payload}`)
         },
         getOneCompany({
             commit, state
         }:any, payload: any) {
+            console.log(payload);
+            // finish this task later, need added get company info, if user reload page
+            if(state.choose_company == undefined) {
+                let urlParams = new URLSearchParams(window.location.search);
+                state.choose_company = router.currentRoute.value.params.id;
+            }
             api.get('')
         },
         createCompany({
