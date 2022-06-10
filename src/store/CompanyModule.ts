@@ -13,9 +13,8 @@ export default {
         getCompanies({
             commit, state
         }:any) {
-          api.get('marketplace/company/').then((response:any)=>{
+          api.get('marketplace/company_for_staff/').then((response:any)=>{
               if(response.status === 200) {
-                console.log(response.data.results);
                 state.all_company = response.data.results
               }
           })
