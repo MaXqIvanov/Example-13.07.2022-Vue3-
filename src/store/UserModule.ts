@@ -31,13 +31,24 @@ export default {
           })
           .then((response:any)=>{
             if(response.status === 200){
-                console.log(response);
                 state.userInfo = response.data.user
                 Cookies.set('token', `${response.data.token}`, { secure: true, path: '/', expires: 45 })
                 state.userAuth = !state.iserAuth;
             } 
           })
           .then(()=>router.push('/'))
+      },
+      user_registration({
+        commit, state
+      }:any, payload:any) {
+        api.post('/registration', {
+            name: `${payload.name}`,
+            email: `${payload.email}`,
+            password: `${payload.password}`,
+        })
+        .then((response:any)=>{
+            console.log(response);
+        })
       },
       checkAuth({
           commit, state
@@ -47,8 +58,6 @@ export default {
           }
       },
 
-
-    //   function add new company user
     //   other don't important function
     changeNameProfileUser({
         commit, state

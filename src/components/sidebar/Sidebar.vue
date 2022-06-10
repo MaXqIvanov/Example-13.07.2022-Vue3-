@@ -15,7 +15,7 @@
         </SidebarLink> 
       </li>
       <li v-if="choose_company !== undefined" :class="{toggle_sidebar : !collapsed}">
-        <SidebarLink to="/company/1" class="nav-link text-white">
+        <SidebarLink :to="'/company/'+choose_company" class="nav-link text-white">
           <svg class="bi me-2 custom-about-company-icon" width="20" height="20"></svg>
           <span v-if="collapsed">О компании</span>
         </SidebarLink>

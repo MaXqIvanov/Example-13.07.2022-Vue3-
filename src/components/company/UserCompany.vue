@@ -4,7 +4,7 @@
         <div class="company_name">{{ company.short_name }}</div>
         <div class="company_description">{{ company.description }}</div>
         <img :src="company.img" class="company_img">
-        <div :style="[company.status == 1 ? {backgroundImage: `url(${company_accept})`}
+        <div :style="[company.approved == true ? {backgroundImage: `url(${company_accept})`}
         :{backgroundImage: `url(${company_wait})`}]" class="company_status"></div>
       </div>
     </div>

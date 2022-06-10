@@ -12,3 +12,15 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+.carsinfo_description::-webkit-scrollbar {
+    width: 6px; /* ширина scrollbar */
+  }
+  .carsinfo_description::-webkit-scrollbar-track {
+    background: rgb(255, 255, 255); /* цвет дорожки */
+    border-radius: 25px;
+  }
+  .carsinfo_description::-webkit-scrollbar-thumb {
+    background-color: #b8e5ff; /* цвет плашки */
+    border-radius: 20px; /* закругления плашки */
+    border: 3px solid #b8e5ff; /* padding вокруг плашки */
+  }
