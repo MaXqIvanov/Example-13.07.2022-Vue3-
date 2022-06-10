@@ -52,13 +52,14 @@ export default {
                 // создание компании от самозанятого
                 // companyType: { required },
                 api.post('marketplace/company/',{
+                    company_type: payload.company_type,
                     full_name: payload.full_name,
                     short_name: payload.short_name,
                     inn: payload.inn,
                     img: payload.img,
                     description: payload.description,
-                    // personal_account: payload.personal_account,
-                    // fact_address: payload.fact_address,
+                    personal_account: payload.personal_account,
+                    fact_address: payload.fact_address,
                 }).then((response:any)=>{
                     console.log(response);
                 })
@@ -74,6 +75,7 @@ export default {
                 // companyType: { required },
                 // companyORGN: { required },
                 api.post('marketplace/company/',{
+                    company_type: payload.company_type,
                     full_name: payload.full_name,
                     short_name: payload.short_name,
                     inn: payload.inn,

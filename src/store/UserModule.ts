@@ -32,7 +32,8 @@ export default {
           .then((response:any)=>{
             if(response.status === 200){
                 state.userInfo = response.data.user
-                Cookies.set('token', `${response.data.token}`, { secure: true, path: '/', expires: 45 })
+                //Cookies.set('token', `${response.data.token}`, { secure: true, path: '/', expires: 45 })
+                Cookies.set('token', `${response.data.token}`, { path: '/', expires: 45 })
                 state.userAuth = !state.iserAuth;
             } 
           })
