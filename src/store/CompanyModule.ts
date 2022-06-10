@@ -1,3 +1,4 @@
+import axios from 'axios';
 import api from "@/plugins/axios";
 import router from '@/router';
 
@@ -6,6 +7,7 @@ export default {
         all_company: [] as any [],
         choose_company: undefined as number | undefined,
         one_company: {} as {},
+        validInn: false as boolean,
     },
     mutations: {
     },
@@ -27,7 +29,7 @@ export default {
                 state.choose_company = payload;
             }
             else {
-                alert("данная компания ещё проходит этам подтверждения")
+                alert("данная компания ещё проходит этап подтверждения")
             }
             // router.push(`/?company_id=${payload}`)
         },
@@ -46,10 +48,9 @@ export default {
         createCompany({
                  commit, state
         }:any, payload:any){
-            console.log(payload);
+            // 352605176243
             if(payload.type == 'Самозанятый') {
                 // создание компании от самозанятого
-                // companyType: { required },
                 api.post('marketplace/company/',{
                     company_type: payload.company_type,
                     full_name: payload.full_name,
@@ -63,17 +64,8 @@ export default {
                     console.log(response);
                 })
             }else {
-                // this.createCompany({company_type: this.companyType, full_name:this.companyName,
-                //     short_name:this.companyShortName, inn: this.companyINN,
-                //     img: this.companyLogo, description: this.companyDescription,
-                //     checking_account: this.companyCheckingAccount, name_bank: this.companyNameBank,
-                //     bik: this.companyBik, correspondent_account: this.companyCorrespondentAccount,
-                //     legal_address: this.companyLegalAddress, orgn: this.companyORGN,
-                //     fact_address: this.сompanyFactAdress, personal_account: this.companyPersonalAccount})    
-                // создание компании от юр. лица
-                // companyType: { required },
-                // companyORGN: { required },
                 api.post('marketplace/company/',{
+                    // создании компании от юр.лица
                     company_type: payload.company_type,
                     full_name: payload.full_name,
                     short_name: payload.short_name,
@@ -91,6 +83,16 @@ export default {
                 })
             }
         },
+        checkInn({
+            commit, state
+            }:any, payload:any){
+            axios.post(`https://htmlweb.ru/json/validator/inn/${payload}`).then((response:any)=>{
+                if(response.data.status == 200) {
+                    state.validInn = true;
+                }
+                else{ state.validInn = false }
+            })
+        },        
         // test function and check
     },
     modules: {

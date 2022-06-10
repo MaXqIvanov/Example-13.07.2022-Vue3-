@@ -4,7 +4,7 @@
         <div class="block_ModalAddCompany_wrapper">
         <h3>Добавьте вашу компанию</h3>
         <form @submit.prevent id="uploadForm" name="uploadForm">
-          <label for="selected_type" class="form-label">Тип организации</label>
+          <label for="selected_type" class="form-label">тип организации</label>
           <select required v-model="companyType" class="form-select mb-2" id="selected_type" aria-label="Пример выбора по умолчанию">
             <option selected>ООО</option>
             <option value="АО">АО</option>
@@ -24,11 +24,19 @@
           </div>
           <div class="mb-2">
             <label for="inputInnCompany" class="form-label">ИНН:</label>
-            <input required type="text" class="form-control" id="inputInnCompany"
-            v-model="companyINN">
+            <div class="group_checkInn">
+              <input @blur="checkInn(companyINN)" required type="text" class="form-control" :class="{'is-invalid': !validInn, 'is-valid': validInn}" id="inputInnCompany"
+              v-model="companyINN">
+              <div id="validationServerinputInnCompany" class="invalid-feedback custom_invalid">
+              инн не действителен
+              </div>
+              <div id="validationServerinputInnCompany" class="valid-feedback custom_invalid">
+              инн действителен
+              </div>
+            </div>
           </div>
           <div class="mb-3">
-            <label for="formFile" class="form-label">Загрузите логотип компании</label>
+            <label for="formFile" class="form-label">загрузите логотип компании</label>
             <input @change="onAddPhoto" class="form-control" type="file" id="formFile" multiple required>
           </div>
           <div v-if="companyType !== 'Самозанятый' && companyType !== ''" class="mb-2">
@@ -101,10 +109,16 @@ import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import useValidate from "@vuelidate/core";
 import { required, maxLength } from "@vuelidate/validators";
+import validate_approve from '../../assets/validate_approve.svg';
+import validate_error from '../../assets/validate-error.svg';
+
 export default defineComponent({
   name: 'ModalAddCompany',
   props: ['isVisibleModalAddCompany', 'changeIsVisibleModalAddCompany'],
   components: {
+  },
+  setup() {
+    return { validate_approve, validate_error }
   },
   data() {
     return {
@@ -160,13 +174,14 @@ export default defineComponent({
     }),
     ...mapActions({
       createCompany: 'company/createCompany',
+      checkInn: 'company/checkInn',
     }),
     onAddPhoto (e:any) {
         this.companyLogo = e.target.files[0]
     },
     validateInputs() {
       this.v$.$validate()
-      if(this.v$.$error) {
+      if(this.v$.$error && this.validInn) {
       } else {
         this.createCompany({company_type: this.companyType, full_name:this.companyName,
         short_name:this.companyShortName, inn: this.companyINN,
@@ -180,11 +195,19 @@ export default defineComponent({
     }
   },
   computed: mapState({
+    validInn: (state:any)=> state.company.validInn,
   }),
   mounted() {}
 });
 </script>
 <style lang="scss" scoped>
+.custom_invalid{
+  margin-left: 20px;
+}
+.group_checkInn{
+  display: flex;
+  align-items: center;
+}
 .custom_btn_changeCompany{
   margin-top: 5px;
 }
@@ -192,7 +215,7 @@ export default defineComponent({
     position: fixed;
     top: 50%;
     left: calc(50% + 47px);
-    width: 650px;
+    width: 700px;
     min-height: 300px;
     min-width: 450px;
     transform: translate(-50%, -50%);
@@ -211,7 +234,7 @@ export default defineComponent({
 .block_ModalAddCompany_wrapper{
   height: 100%;
   width: 94%;
-  max-height: 90vh;
+  max-height: 86vh;
 }
 .block_modal_scroll{
   height: 100%;

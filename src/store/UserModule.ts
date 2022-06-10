@@ -49,8 +49,17 @@ export default {
         })
         .then((response:any)=>{
             console.log(response);
-        })
-      },
+            if(response.status === 200 || response.status === 201) {
+                alert('ссылка для подтверждения почты отправлена вам на почту')
+            }
+            else{
+                alert('Произошла ошибка, попробуйте повторить запрос позже')
+            }
+            })
+            .catch((error:any)=>{
+                alert('Произошла ошибка, попробуйте повторить запрос позже')
+            })
+        },
       checkAuth({
           commit, state
       }:any, payload:any) {
