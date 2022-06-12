@@ -52,7 +52,7 @@ export default defineComponent({
     position: relative;
     font-family: 'Montserrat', sans-serif;
 
-    @media(max-width: 1000px){
+    @media(max-width: 980px){
         height: 600px;    
     }
 }
@@ -60,21 +60,26 @@ export default defineComponent({
     position: absolute;
     top: 0px;
     left: 0px;
-    height: 300px;
-    width: 300px;
+    height: 280px;
+    width: 280px;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     box-shadow: 0px 0px 5px gray ;
     border-radius: 25px;
+
+    @media(max-width: 980px){
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
 }
 .carsinfo_full_name{
     position: absolute;
     top: 0px;
-    left: 350px;
+    left: 310px;
     font-size: x-large;
 
-    @media(max-width: 1000px){
+    @media(max-width: 980px){
         top: 310px;
         left: 0px; 
     }
@@ -83,9 +88,9 @@ export default defineComponent({
     position: absolute;
     top: 35px;
     font-size: x-large;
-    left: 350px;
+    left: 310px;
 
-    @media(max-width: 1000px){
+    @media(max-width: 980px){
         top: 340px;
         left: 0px; 
     }
@@ -94,11 +99,11 @@ export default defineComponent({
 .carsinfo_description{
     position: absolute;
     top: 140px;
-    left: 350px;
+    left: 310px;
     overflow-y: scroll;
     height: 150px;
     
-    @media(max-width: 1000px){
+    @media(max-width: 980px){
         top: 435px;
         left: 0px; 
     }
@@ -111,9 +116,9 @@ export default defineComponent({
 .carsinfo_inn{
     position: absolute;
     top: 75px;
-    left: 350px;
+    left: 310px;
 
-    @media(max-width: 1000px){
+    @media(max-width: 980px){
         top: 375px;
         left: 0px; 
     }
@@ -128,11 +133,11 @@ export default defineComponent({
 .carsinfo_approved{
     position: absolute;
     top: 105px;
-    left: 350px;
+    left: 310px;
     width: fit-content;
     display: flex;
 
-    @media(max-width: 1000px){
+    @media(max-width: 980px){
         top: 405px;
         left: 0px; 
     }

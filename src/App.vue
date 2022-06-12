@@ -103,29 +103,17 @@ export default defineComponent({
   height: 100%;
   font-family: 'Montserrat', sans-serif;
 }
-</style>
 
-<!-- <nav class="navbar navbar-expand-lg bg-dark">
-  <div class="container-fluid">
-    <router-link class="navbar-brand" to="/">Личный кабинет</router-link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Переключатель навигации">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li v-if="userAuth" class="nav-item">
-          <router-link to="/cars">Машины</router-link> 
-        </li>
-        <li v-if="userAuth" class="nav-item">
-          <router-link to="/stores">Магазины</router-link> 
-        </li>
-        <li v-if="!userAuth" class="nav-item">
-          <router-link to="/auth">Авторизация</router-link>
-        </li>
-        <li v-if="userAuth" class="nav-item">
-          <router-link to="/logout">Выход</router-link>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav> -->
+body::-webkit-scrollbar {
+    width: 6px; /* ширина scrollbar */
+  }
+body::-webkit-scrollbar-track {
+    background: rgb(255, 255, 255); /* цвет дорожки */
+    border-radius: 25px;
+  }
+body::-webkit-scrollbar-thumb {
+    background-color: #84d1fd; /* цвет плашки */
+    border-radius: 20px; /* закругления плашки */
+    border: 3px solid #84d1fd; /* padding вокруг плашки */
+  }
+</style>

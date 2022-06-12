@@ -109,8 +109,8 @@ import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import useValidate from "@vuelidate/core";
 import { required, maxLength } from "@vuelidate/validators";
-import validate_approve from '../../assets/validate_approve.svg';
-import validate_error from '../../assets/validate-error.svg';
+// import validate_approve from '../../assets/validate_approve.svg';
+// import validate_error from '../../assets/validate-error.svg';
 
 export default defineComponent({
   name: 'ModalAddCompany',
@@ -118,7 +118,7 @@ export default defineComponent({
   components: {
   },
   setup() {
-    return { validate_approve, validate_error }
+    // return { validate_approve, validate_error }
   },
   data() {
     return {

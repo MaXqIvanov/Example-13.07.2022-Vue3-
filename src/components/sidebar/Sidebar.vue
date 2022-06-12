@@ -47,18 +47,18 @@
     </ul>
     <hr>
     <div class="dropdown">
-      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+      <div class="d-flex align-items-center text-white text-decoration-none">
         <img src="https://avatars.githubusercontent.com/u/100379657?s=400&u=f5466ed5a05c8cc705c275e95e3c82952e6a2cb8&v=4" alt="" width="32" height="32"
         class="rounded-circle me-2 custom-image-user">
-        <strong v-if="collapsed">Макс</strong>
+        <strong class="user_name_sidebar dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" :style="[!collapsed ? {display: 'none'}:{opacity: '100%'}]">Макс</strong>
         <!-- name user -->
-      </a>
-      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
         <li><a class="dropdown-item" href="#">настройки</a></li>
         <li><a class="dropdown-item" href="#">профиль</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><router-link to="/logout" class="dropdown-item" href="#">Выход из аккаунта</router-link></li>
       </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -87,6 +87,9 @@ export default {
 </style>
 
 <style scoped>
+.user_name_sidebar{
+  cursor: pointer;
+}
 .toggle_sidebar{
   margin-left: -40px;
 }
