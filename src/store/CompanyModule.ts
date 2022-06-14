@@ -43,6 +43,8 @@ export default {
                 state.choose_company = Number(router.currentRoute.value.params.id);
             }
             api.get(`marketplace/company/${state.choose_company}/`).then((response:any)=>{
+                console.log("this is response getonecompany");
+                console.log(response);
                 state.one_company = response.data
             })
         },
