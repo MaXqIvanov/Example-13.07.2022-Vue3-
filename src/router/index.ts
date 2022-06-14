@@ -34,6 +34,24 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true, },
   },
   {
+    path: '/prood/:id',
+    name: 'ProodOne',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ProodOne.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
+    path: '/nomenclature',
+    name: 'Nomenclature',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Nomenclature.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
+    path: '/nomenclature/:id',
+    name: 'NomenclatureOne',
+    component: () => import(/* webpackChunkName: "about" */ '../views/NomenclatureOne.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
     path: '/users',
     name: 'Users',
     component: () => import(/* webpackChunkName: "about" */ '../views/Users.vue'),

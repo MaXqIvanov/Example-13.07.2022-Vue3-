@@ -33,12 +33,18 @@
         </SidebarLink>
       </li>
       <li v-if="choose_company !== undefined" :class="{toggle_sidebar : !collapsed}">
+        <SidebarLink to="/nomenclature" class="nav-link text-white">
+          <svg class="bi me-2 custom-nomenclature-icon" width="20" height="20"></svg>
+          <span v-if="collapsed">Номенклатура</span>
+        </SidebarLink>
+      </li>
+      <li v-if="choose_company !== undefined" :class="{toggle_sidebar : !collapsed}">
         <SidebarLink to="/cars" class="nav-link text-white">
           <svg class="bi me-2 custom-cars-icon" width="20" height="22"></svg>
           <span v-if="collapsed">Машины</span>
         </SidebarLink>
       </li>
-       <li v-if="choose_company !== undefined" :class="{toggle_sidebar : !collapsed}">
+      <li v-if="choose_company !== undefined" :class="{toggle_sidebar : !collapsed}">
         <SidebarLink to="/users" class="nav-link text-white">
           <svg class="bi me-2 sidebar-users-icon" width="20" height="20"></svg>
           <span v-if="collapsed">Пользователи</span>
@@ -102,6 +108,11 @@ export default {
   background-size: contain;
   border-radius: 50%;
   margin-left: -5px;
+}
+.custom-nomenclature-icon{
+  background-image: url('../../assets/nomenclature/nomenclature-icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 .custom-prood-icon{
   background-image: url('../../assets/proods/prood-icon.svg');

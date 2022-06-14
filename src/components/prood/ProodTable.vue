@@ -2,7 +2,7 @@
   <div class="prood_table">
     <div class="prood_table_wrapper">
         <table class="table table-bordered table-dark custom_table">
-            <thead>
+            <thead class="thead">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">наименование</th>
@@ -51,6 +51,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+
 .prood_table{
     height: 100%;
     width: 100%;
@@ -64,7 +65,10 @@ export default defineComponent({
     width: 98%;
     max-width: 98% !important;
     min-height: 80vh;
-    margin-right: 5px;
+    margin-right: 2px;
+    @media(max-width: 1300px){
+      margin-right: 5px;
+    }
 }
 
 </style>

@@ -4,6 +4,7 @@ import ProodsModule from './ProodsModule'
 import CompanyModule from './CompanyModule'
 import UserModule from './UserModule'
 import PickUpPointsModule from './PickUpPointsModule'
+import NomenclatureModule from './NomenclatureModule'
 
 export default createStore({
   state: {
@@ -18,5 +19,6 @@ export default createStore({
     proods: ProodsModule,
     company: CompanyModule,
     pickuppoints: PickUpPointsModule,
+    nomenclature: NomenclatureModule,
   }
 })

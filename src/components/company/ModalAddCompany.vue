@@ -36,8 +36,8 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="formFile" class="form-label">загрузите логотип компании</label>
-            <input @change="onAddPhoto" class="form-control" type="file" id="formFile" multiple required>
+            <label for="file" class="form-label">загрузите логотип компании</label>
+            <input v-on:change="onAddPhoto()" class="form-control" type="file" id="file" ref="file" required>
           </div>
           <div v-if="companyType !== 'Самозанятый' && companyType !== ''" class="mb-2">
             <label for="companyCheckingAccount" class="form-label">расчётный счёт:</label>
@@ -109,6 +109,9 @@ import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import useValidate from "@vuelidate/core";
 import { required, maxLength } from "@vuelidate/validators";
+import { ref } from 'vue';
+import axios from 'axios';
+import Cookies from 'js-cookie'
 // import validate_approve from '../../assets/validate_approve.svg';
 // import validate_error from '../../assets/validate-error.svg';
 
@@ -127,7 +130,7 @@ export default defineComponent({
       companyName: '',
       companyShortName: '',
       companyINN: '',
-      companyLogo: '' as any,
+      file: '' as any,
       companyDescription: '',
       companyCheckingAccount: '',  //Расчётный счёт
       companyNameBank: '',        
@@ -137,6 +140,7 @@ export default defineComponent({
       companyORGN: '',
       сompanyFactAdress: '',
       companyPersonalAccount: '',
+      // 
     };
   },
   validations() {
@@ -146,7 +150,7 @@ export default defineComponent({
   		  companyName: { required, maxLength: maxLength(45) },
         companyShortName: { required, maxLength: maxLength(35)},
         companyINN: { required, maxLength: maxLength(30)},
-        companyLogo: { required },
+        file: { required },
         companyDescription: { required, maxLength: maxLength(170) },
         companyPersonalAccount: { required },
         сompanyFactAdress: { required },
@@ -158,7 +162,7 @@ export default defineComponent({
   		  companyName: { required, maxLength: maxLength(45) },
         companyShortName: { required, maxLength: maxLength(35)},
         companyINN: { required, maxLength: maxLength(30)},
-        companyLogo: { required },
+        file: { required },
         companyDescription: { required, maxLength: maxLength(170) },
         companyCheckingAccount: { required },
         companyNameBank: { required },
@@ -176,20 +180,42 @@ export default defineComponent({
       createCompany: 'company/createCompany',
       checkInn: 'company/checkInn',
     }),
-    onAddPhoto (e:any) {
-        this.companyLogo = e.target.files[0]
+    onAddPhoto () {
+      let image:any = this.$refs.file
+      this.file = image.files[0];
+      console.log(this.file);
+       // this.companyLogo = e.target.files[0]
     },
     validateInputs() {
       this.v$.$validate()
       if(this.v$.$error && this.validInn) {
       } else {
-        this.createCompany({company_type: this.companyType, full_name:this.companyName,
-        short_name:this.companyShortName, inn: this.companyINN,
-        img: this.companyLogo, description: this.companyDescription,
-        checking_account: this.companyCheckingAccount, name_bank: this.companyNameBank,
-        bik: this.companyBik, correspondent_account: this.companyCorrespondentAccount,
-        legal_address: this.companyLegalAddress, orgn: this.companyORGN,
-        fact_address: this.сompanyFactAdress, personal_account: this.companyPersonalAccount})           
+        let formData = new FormData();
+        if(this.companyType == 'Самозанятый'){
+          formData.append('img', this.file);
+          formData.append('company_type', this.companyType);
+          formData.append('full_name', this.companyName);
+          formData.append('short_name', this.companyShortName);
+          formData.append('inn', this.companyINN);
+          formData.append('description', this.companyDescription);
+          formData.append('personal_account', this.companyPersonalAccount);
+          formData.append('fact_address', this.сompanyFactAdress);
+        }
+        else {
+          formData.append('img', this.file);
+          formData.append('company_type', this.companyType);
+          formData.append('full_name', this.companyName);
+          formData.append('short_name', this.companyShortName);
+          formData.append('inn', this.companyINN);
+          formData.append('description', this.companyDescription);
+          formData.append('checking_account', this.companyCheckingAccount);
+          formData.append('bank_nae', this.companyNameBank);
+          formData.append('bik', this.companyBik);
+          formData.append('correspondent_account', this.companyCorrespondentAccount);
+          formData.append('legal_address', this.companyLegalAddress);
+          formData.append('ogrn', this.companyORGN);
+        }
+        this.createCompany(formData)
         //https://si-dev.com/ru/blog/laravel-vue-file-uploads
       }
     }

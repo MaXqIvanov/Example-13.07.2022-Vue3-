@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 
 const api  = axios.create({
     //baseURL : "http://dev1.itpw.ru:8005/",
-    baseURL : "https://5d0d9965-b589-498f-a2ed-0d1348e473f6.mock.pstmn.io",
+    baseURL : "http://dev1.itpw.ru:8005/",
     headers : {
         'Authorization': Cookies.get('token') ? "Bearer " + Cookies.get('token') : '',
     }

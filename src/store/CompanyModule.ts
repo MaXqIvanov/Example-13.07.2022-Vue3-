@@ -1,6 +1,7 @@
 import axios from 'axios';
 import api from "@/plugins/axios";
 import router from '@/router';
+import Cookies from 'js-cookie'
 
 export default {
     state: {
@@ -49,39 +50,10 @@ export default {
                  commit, state
         }:any, payload:any){
             // 352605176243
-            if(payload.type == 'Самозанятый') {
-                // создание компании от самозанятого
-                api.post('marketplace/company/',{
-                    company_type: payload.company_type,
-                    full_name: payload.full_name,
-                    short_name: payload.short_name,
-                    inn: payload.inn,
-                    img: payload.img,
-                    description: payload.description,
-                    personal_account: payload.personal_account,
-                    fact_address: payload.fact_address,
-                }).then((response:any)=>{
-                    console.log(response);
-                })
-            }else {
-                api.post('marketplace/company/',{
-                    // создании компании от юр.лица
-                    company_type: payload.company_type,
-                    full_name: payload.full_name,
-                    short_name: payload.short_name,
-                    inn: payload.inn,
-                    img: payload.img,
-                    description: payload.description,
-                    checking_account: payload.checking_account,
-                    name_bank: payload.name_bank,
-                    bik: payload.bik,
-                    correspondent_account: payload.correspondent_account,
-                    legal_address: payload.legal_address,
-                    orgn: payload.orgn,
-                }).then((response:any)=>{
-                    console.log(response);
-                })
-            }
+            api.post('http://dev1.itpw.ru:8005/marketplace/company_for_staff/', payload).then((response:any)=>{
+                console.log(response.data);
+                state.all_company = [...state.all_company, response.data];
+            })
         },
         checkInn({
             commit, state
@@ -92,7 +64,17 @@ export default {
                 }
                 else{ state.validInn = false }
             })
-        },        
+        },
+        deleteCompany({
+            commit, state
+        }:any, payload:any){
+            axios.delete(`marketplace/company/${payload}`).then((response:any)=>{
+                console.log(response);
+                if(response.data.status == 200){
+                    alert('удаление компании прошло успешно')
+                }
+            })
+        }        
         // test function and check
     },
     modules: {

@@ -4,9 +4,20 @@ import router from '@/router'
 
 export default {
   state: {
-    userInfo: [] as any [],
+    //   auth
+    userInfo: [] as any[],
     userAuth: false as boolean,
-    userCompany: [] as any []
+    user_profile: [] as any[],
+    // end auth
+
+    // all users
+    users_all: [] as any [],
+    // end all users
+
+    // one user
+    user_one: {} as any,
+    choise_user: undefined as number | undefined,
+    // end one user
   },
   mutations: {
       userLogOut(state:any, data:any) {
@@ -19,53 +30,98 @@ export default {
           commit, state
       }:any) {
         api.get('accounts/profile/profile/').then((response:any)=>{
-            state.userInfo = response.data
+            console.log(response);
+            state.user_profile = response.data
         })
       },
       createProfile({
           commit, state
       }:any, payload:any) {
-          api.post('accounts/auth/',{
+          api.post('accounts/auth/email_login/',{
               email: `${payload.email}`,
               password: `${payload.password}`,
           })
           .then((response:any)=>{
-            if(response.status === 200){
+            if(response?.status === 200){
                 state.userInfo = response.data.user
-                //Cookies.set('token', `${response.data.token}`, { secure: true, path: '/', expires: 45 })
+                //Cookies.set('token', `${response.data.token}`, { secure: true, path: '/', expires: 45 }) for ssl sertificate
                 Cookies.set('token', `${response.data.token}`, { path: '/', expires: 45 })
-                state.userAuth = !state.iserAuth;
-            } 
+                state.userAuth = true;
+                state.user_profile = response.data;
+            }
+            else{
+                alert('Неверный логин или пароль')
+            }
           })
           .then(()=>router.push('/'))
       },
       user_registration({
         commit, state
       }:any, payload:any) {
-        api.post('/registration', {
+        api.post('accounts/auth/email_registration/', {
             name: `${payload.name}`,
             email: `${payload.email}`,
             password: `${payload.password}`,
         })
         .then((response:any)=>{
-            console.log(response);
             if(response.status === 200 || response.status === 201) {
-                alert('ссылка для подтверждения почты отправлена вам на почту')
+                alert(response.data.detail)
             }
             else{
                 alert('Произошла ошибка, попробуйте повторить запрос позже')
             }
-            })
-            .catch((error:any)=>{
-                alert('Произошла ошибка, попробуйте повторить запрос позже')
             })
         },
       checkAuth({
           commit, state
       }:any, payload:any) {
           if(Cookies.get('token')){
-              state.userAuth = !state.userAuth;
+              state.userAuth = true;
           }
+      },
+
+    //   works with all users
+      getUsers({
+          commit, state
+      }:any, payload:any) {
+          api.get(``).then((response:any)=>{
+            state.users_all = response.data.results
+          })
+      },
+      addUser({
+          commit, state
+      }:any, payload:any) {
+          api.post(``,{
+
+          }).then((response:any)=>{
+              console.log(response);
+          })
+      },
+      changeUser({
+          commit, state
+      }:any, payload:any) {
+        api.put(``,{
+
+        }).then((response:any)=>{
+            console.log(response);
+        })
+      },
+      deleteUser({
+          commit, state
+      }:any, payload:any){
+          api.delete(``).then((response:any)=>{
+              console.log(response);
+          })
+      },
+    // works with one user
+      getOneUser({
+          commit, state
+      }:any, payload:any) {
+          state.choise_user = payload,
+          api.get(``).then((response:any)=>{
+            console.log(response);
+            state.user_one = response.data.results
+          })
       },
 
     //   other don't important function
