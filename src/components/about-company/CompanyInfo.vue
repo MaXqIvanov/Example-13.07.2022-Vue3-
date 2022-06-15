@@ -2,6 +2,10 @@
     <div class="block_CarsInfo">
       <div class="block_CarsInfo_wrapper">
           <div :style="{backgroundImage: `url(${one_company.img})`}" class="carsinfo_image"></div>
+          <div class="btn_group_company">
+              <div @click="deleteCompany(one_company.id)" class="btn btn-success me-2 btn_delete_company">удалить</div>
+              <div @click="ChangeCompanyVisible" class="btn btn-primary btn_change_company">изменить</div>
+          </div>
           <div class="block_carsinfo_info">
                 <div class="carsinfo_full_name">{{ one_company.full_name }}</div>
                 <div class="carsinfo_short_name">{{ one_company.short_name }}</div>
@@ -20,6 +24,7 @@
                 <!-- this is last stroke -->
                 <div v-if="one_company.description" class="carsinfo_description"><span>описание компани:</span> {{ one_company.description }}</div>
           </div>
+          <ModalChangeCompany v-if="visibleChangeCompany"/>
       </div>
     </div>
 </template>
@@ -29,11 +34,13 @@ import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import company_accept from '../../assets/company/company_accept.svg';
 import company_wait from '../../assets/company/company_wait.svg';
+import ModalChangeCompany from './ModalChangeCompany.vue';
 
 export default defineComponent({
   name: 'CompanyInfo',
   components: {
-  },
+    ModalChangeCompany
+},
   data() {
   },
   setup() {
@@ -43,22 +50,40 @@ export default defineComponent({
     ...mapMutations({
     }),
     ...mapActions({
+        deleteCompany: 'company/deleteCompany',
+        ChangeCompanyVisible: 'company/ChangeCompanyVisible',
     }),
   },
   computed: mapState({
     one_company: (state:any)=> state.company.one_company,
+    visibleChangeCompany: (state:any)=> state.company.visibleChangeCompany,
   }),
   mounted() {}
 });
 </script>
 <style lang="scss" scoped>
+.btn_group_company{
+    height: fit-content;
+    width: fit-content;
+    position: absolute;
+    left: 40px;
+    top: 290px;
+    @media(max-width: 1000px){
+        top: 300px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    display: flex;
+}
 .block_CarsInfo{
     height: fit-content;
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .block_CarsInfo_wrapper{
     height: 310px;
-    width: 100%;
+    width: 90%;
     position: relative;
     font-family: 'Montserrat', sans-serif;
 
@@ -77,7 +102,7 @@ export default defineComponent({
     @media(max-width: 980px){
         width: 90%;
         margin-left: 0px;
-        padding-top: 300px;
+        padding-top: 320px;
     }
 }
 .carsinfo_ogrn{
@@ -159,6 +184,12 @@ export default defineComponent({
     span{
         text-decoration: underline;
         cursor: default;
+    }
+    @media(min-width: 1000px){
+        width: 50%;
+    }
+    @media(max-width: 630px){
+        height: fit-content;
     }
 }
 

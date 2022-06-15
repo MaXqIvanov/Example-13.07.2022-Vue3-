@@ -252,8 +252,10 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
-    @media(max-width:550px){
-        min-width: 97%;
+    @media(max-width:700px){
+        min-width: 85%;
+        width: 85%;
+        left: calc(50% + 25px);
     }
     z-index: 999;
 }

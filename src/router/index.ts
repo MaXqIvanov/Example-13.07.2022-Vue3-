@@ -83,6 +83,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  //const currentUser = localStorage.getItem('token');
   const currentUser = Cookies.get('token');
   const requieAuth = to.matched.some((todo) => todo.meta.requiresAuth);
   const notRequieAuth = to.matched.some((todo) => todo.meta.notRequiresAuth);

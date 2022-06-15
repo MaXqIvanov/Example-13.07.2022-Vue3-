@@ -73,6 +73,9 @@ export default defineComponent({
     grid-template-columns: 49% 49%;
     column-gap: 2%; 
     }
+    @media(max-width: 700px) {
+      grid-template-columns: 98%;
+    }
 }
 .company_wrapper_collapse{
 @media(max-width: 1450px){

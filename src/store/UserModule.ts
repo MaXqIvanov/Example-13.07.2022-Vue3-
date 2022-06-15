@@ -7,7 +7,7 @@ export default {
     //   auth
     userInfo: [] as any[],
     userAuth: false as boolean,
-    user_profile: [] as any[],
+    user_profile: [] as any,
     // end auth
 
     // all users
@@ -21,6 +21,7 @@ export default {
   },
   mutations: {
       userLogOut(state:any, data:any) {
+        //localStorage.removeItem('token')
         Cookies.remove('token')
         state.userAuth = false
       }
@@ -30,7 +31,6 @@ export default {
           commit, state
       }:any) {
         api.get('accounts/profile/profile/').then((response:any)=>{
-            console.log(response);
             state.user_profile = response.data
         })
       },
@@ -43,11 +43,13 @@ export default {
           })
           .then((response:any)=>{
             if(response?.status === 200){
-                state.userInfo = response.data.user
+                state.userInfo = response.data
                 //Cookies.set('token', `${response.data.token}`, { secure: true, path: '/', expires: 45 }) for ssl sertificate
                 Cookies.set('token', `${response.data.token}`, { path: '/', expires: 45 })
                 state.userAuth = true;
                 state.user_profile = response.data;
+                //localStorage.setItem('token', response.data.token)
+                //router.push('/')
             }
             else{
                 alert('Неверный логин или пароль')
@@ -58,12 +60,15 @@ export default {
       user_registration({
         commit, state
       }:any, payload:any) {
+    
         api.post('accounts/auth/email_registration/', {
             name: `${payload.name}`,
             email: `${payload.email}`,
             password: `${payload.password}`,
         })
         .then((response:any)=>{
+            console.log("this is response");
+            console.log(response);
             if(response.status === 200 || response.status === 201) {
                 alert(response.data.detail)
             }
@@ -78,6 +83,9 @@ export default {
           if(Cookies.get('token')){
               state.userAuth = true;
           }
+        // if(localStorage.getItem('token')){
+        //     state.userAuth = true;
+        // }
       },
 
     //   works with all users

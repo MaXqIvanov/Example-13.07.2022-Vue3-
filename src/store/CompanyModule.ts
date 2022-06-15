@@ -9,6 +9,9 @@ export default {
         choose_company: undefined as number | undefined,
         one_company: {} as {},
         validInn: false as boolean,
+
+        // companyInfo
+        visibleChangeCompany: false,
     },
     mutations: {
     },
@@ -16,7 +19,12 @@ export default {
         getCompanies({
             commit, state
         }:any) {
-          api.get('marketplace/company_for_staff/').then((response:any)=>{
+          axios.get('http://dev1.itpw.ru:8005/marketplace/company_for_staff/',{
+            headers : {
+                'Authorization': Cookies.get('token') ? "Bearer " + Cookies.get('token') : '',
+                //'Authorization': localStorage.getItem('token') ? "Bearer " + localStorage.getItem('token') : '',
+            }
+          }).then((response:any)=>{
               if(response.status === 200) {
                 state.all_company = response.data.results
               }
@@ -70,12 +78,33 @@ export default {
         deleteCompany({
             commit, state
         }:any, payload:any){
-            axios.delete(`marketplace/company/${payload}`).then((response:any)=>{
-                console.log(response);
-                if(response.data.status == 200){
-                    alert('удаление компании прошло успешно')
-                }
-            })
+            const isConfirm = confirm('вы уверены что хотите удалить компанию?')
+            if(isConfirm){
+                api.delete(`marketplace/company_for_staff/${payload}/`).then((response:any)=>{
+                state.all_company = state.all_company.filter((elem:any)=> elem.id !== payload)
+                })
+            }
+        },
+        ChangeCompanyVisible({
+            commit, state
+        }:any, payload:any){
+            state.visibleChangeCompany = !state.visibleChangeCompany;
+        },
+        changeCompany({
+            commit, state
+        }:any, payload:any){
+            console.log(payload);
+
+            // api.put(`marketplace/company_for_staff/${payload}`,{
+            //     id: payload,
+            //     full_name: '123',
+            //     short_name: '123',
+            //     inn: '123',
+            //     img: 'img',
+            //     description: 'просто кам',
+            // }).then((response:any)=>{
+            //     console.log(response);
+            // })
         }        
         // test function and check
     },

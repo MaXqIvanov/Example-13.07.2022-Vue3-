@@ -2,7 +2,8 @@
   <div class="nomenclature">
     <div class="nomenclature_wrapper">
         <NomenclatureNav />
-        <NomenclatureAll />
+        <!-- <NomenclatureAll /> -->
+        <NomenclatureTable />
     </div>
   </div>
 </template>
@@ -12,12 +13,14 @@ import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import NomenclatureNav from '../components/nomenclature/NomenclatureNav.vue';
 import NomenclatureAll from '@/components/nomenclature/NomenclatureAll.vue';
+import NomenclatureTable from '@/components/nomenclature/NomenclatureTable.vue';
 
 export default defineComponent({
   name: 'Nomenclature',
   components: {
     NomenclatureNav,
-    NomenclatureAll
+    NomenclatureAll,
+    NomenclatureTable
 },
    methods: {  
     ...mapMutations({
