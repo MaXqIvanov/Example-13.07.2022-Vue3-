@@ -26,7 +26,6 @@ export default {
   },
   mutations: {
       userLogOut(state:any, data:any) {
-        //localStorage.removeItem('token')
         Cookies.remove('token')
         state.userAuth = false
       }
@@ -57,26 +56,29 @@ export default {
                 state.userAuth = true;
                 state.user_profile = response.data;
             }
+            if(response.response.status === 400){
+                alert(response.response.data.detail)
+            }
             else{
-                alert('Неверный логин или пароль')
+                alert('произошла ошибка, повторите запрос позже')
             }
           })
           .then(()=>router.push('/'))
       },
-      user_registration({
+      async user_registration({
         commit, state
       }:any, payload:any) {
-    
-        api.post('accounts/auth/email_registration/', {
+        api.post('http://dev1.itpw.ru:8005/accounts/auth/email_registration/', {
             name: `${payload.name}`,
             email: `${payload.email}`,
             password: `${payload.password}`,
         })
         .then((response:any)=>{
-            console.log("this is response");
-            console.log(response);
             if(response.status === 200 || response.status === 201) {
                 alert(response.data.detail)
+            }
+            if(response.response.status === 400) {
+                alert(response.response.data.detail)
             }
             else{
                 alert('Произошла ошибка, попробуйте повторить запрос позже')
@@ -89,9 +91,6 @@ export default {
           if(Cookies.get('token')){
               state.userAuth = true;
           }
-        // if(localStorage.getItem('token')){
-        //     state.userAuth = true;
-        // }
       },
 
     //   works with all users

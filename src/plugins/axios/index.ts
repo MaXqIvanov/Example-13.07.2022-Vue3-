@@ -17,6 +17,9 @@ api.interceptors.response.use(undefined, (error) => {
     if (error.response && error.response.status === 401) {
         router.push({path:'auth'})
     }
+    else{
+        return error
+    }
 
 });
 export default api
