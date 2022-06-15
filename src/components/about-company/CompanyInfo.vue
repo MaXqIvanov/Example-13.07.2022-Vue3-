@@ -16,13 +16,13 @@
                 </span>
                 <div v-if="one_company.bank_name" class="carsinfo_bank_name"><span>банк:</span>{{ one_company.bank_name }}</div>
                 <div v-if="one_company.bik" class="carsinfo_bik"><span>бик:</span>{{ one_company.bik }}</div>
-                <div v-if="one_company.checking_account" class="carsinfo_checking_account"><span>расчетный счет:</span>{{ one_company.checking_account }}</div>
+                <div v-if="one_company.checking_account" class="carsinfo_checking_account"><span>расчетный счет: </span>{{ one_company.checking_account }}</div>
                 <div v-if="one_company.correspondent_account" class="carsinfo_correspondent_account"><span>корреспондентский счет:</span>{{ one_company.correspondent_account }}</div>
-                <div v-if="one_company.fact_address" class="carsinfo_fact_address"><span>фактический адрес:</span>{{ one_company.fact_address }}</div>
-                <div v-if="one_company.legal_address" class="carsinfo_legal_address"><span>юридический адрес:</span>{{ one_company.legal_address }}</div>
+                <div v-if="one_company.fact_address" class="carsinfo_fact_address"><span>фактический адрес: </span>{{ one_company.fact_address }}</div>
+                <div v-if="one_company.legal_address" class="carsinfo_legal_address"><span>юридический адрес: </span>{{ one_company.legal_address }}</div>
                  <div v-if="one_company.ogrn" class="carsinfo_ogrn"><span>огрн:</span>{{ one_company.ogrn }}</div>
                 <!-- this is last stroke -->
-                <div v-if="one_company.description" class="carsinfo_description"><span>описание компани:</span> {{ one_company.description }}</div>
+                <div v-if="one_company.description" class="carsinfo_description"><span>описание компани: </span> {{ one_company.description }}</div>
           </div>
           <ModalChangeCompany v-if="visibleChangeCompany"/>
       </div>
@@ -175,7 +175,7 @@ export default defineComponent({
     font-size: x-large;
 }
 .carsinfo_short_name{
-    font-size: x-large;
+    font-size: large;
 }
 
 .carsinfo_description{

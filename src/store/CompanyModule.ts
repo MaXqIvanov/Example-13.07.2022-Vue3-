@@ -7,7 +7,7 @@ export default {
     state: {
         all_company: [] as any [],
         choose_company: undefined as number | undefined,
-        one_company: {} as {},
+        one_company: {} as any,
         validInn: false as boolean,
 
         // companyInfo
@@ -47,8 +47,6 @@ export default {
                 state.choose_company = Number(router.currentRoute.value.params.id);
             }
             api.get(`marketplace/company/${state.choose_company}/`).then((response:any)=>{
-                console.log("this is response getonecompany");
-                console.log(response);
                 state.one_company = response.data
             })
         },
@@ -56,9 +54,12 @@ export default {
                  commit, state
         }:any, payload:any){
             // 352605176243
-            api.post('http://dev1.itpw.ru:8005/marketplace/company_for_staff/', payload).then((response:any)=>{
+            console.log(payload);
+            api.post('marketplace/company_for_staff/', payload.formData).then((response:any)=>{
                 console.log(response.data);
                 state.all_company = [...state.all_company, response.data];
+            }).then(()=>{
+                payload.changeIsVisibleModalAddCompany(false)
             })
         },
         checkInn({
@@ -89,18 +90,13 @@ export default {
         changeCompany({
             commit, state
         }:any, payload:any){
-            console.log(payload);
-
-            // api.put(`marketplace/company_for_staff/${payload}`,{
-            //     id: payload,
-            //     full_name: '123',
-            //     short_name: '123',
-            //     inn: '123',
-            //     img: 'img',
-            //     description: 'просто кам',
-            // }).then((response:any)=>{
-            //     console.log(response);
-            // })
+            // console.log(...payload);
+            const isConfirm = confirm("компания будет отправлена на перепроверку изменённых данных менеджером")
+            if(isConfirm){
+                api.put(`marketplace/company_for_staff/${state.choose_company}/`, payload ).then((response:any)=>{
+                    console.log(response);
+                })
+            }
         }        
         // test function and check
     },

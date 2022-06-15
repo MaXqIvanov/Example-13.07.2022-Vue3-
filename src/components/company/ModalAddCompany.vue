@@ -91,7 +91,7 @@
           <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'maxLength'
           && v$.$errors[0]?.$property === 'companyINN'">поле с инн компании не должно быть более 30 символов</div>
           <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'maxLength'
-          && v$.$errors[0]?.$property === 'companyDescription'">поле с описанием компании не должно быть более 170 символов</div>
+          && v$.$errors[0]?.$property === 'companyDescription'">поле с описанием компании не должно быть более 400 символов</div>
           <!-- end validation groups -->
           <button @click="validateInputs" type="submit" class="btn btn-primary custom_btn_changeCompany">Отправить</button>
         </form>
@@ -109,9 +109,7 @@ import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import useValidate from "@vuelidate/core";
 import { required, maxLength } from "@vuelidate/validators";
-import { ref } from 'vue';
-import axios from 'axios';
-import Cookies from 'js-cookie'
+
 // import validate_approve from '../../assets/validate_approve.svg';
 // import validate_error from '../../assets/validate-error.svg';
 
@@ -145,15 +143,15 @@ export default defineComponent({
   },
   validations() {
     if(this.companyType == 'Самозанятый') {
-      	return {
-        companyType: { required },
-  		  companyName: { required, maxLength: maxLength(45) },
-        companyShortName: { required, maxLength: maxLength(35)},
-        companyINN: { required, maxLength: maxLength(30)},
-        file: { required },
-        companyDescription: { required, maxLength: maxLength(170) },
-        companyPersonalAccount: { required },
-        сompanyFactAdress: { required },
+      return {
+      companyType: { required },
+  		companyName: { required, maxLength: maxLength(45) },
+      companyShortName: { required, maxLength: maxLength(35)},
+      companyINN: { required, maxLength: maxLength(30)},
+      file: { required },
+      companyDescription: { required, maxLength: maxLength(400) },
+      companyPersonalAccount: { required },
+      сompanyFactAdress: { required },
       }
     }
     else {
@@ -215,7 +213,7 @@ export default defineComponent({
           formData.append('legal_address', this.companyLegalAddress);
           formData.append('ogrn', this.companyORGN);
         }
-        this.createCompany(formData)
+        this.createCompany({formData, changeIsVisibleModalAddCompany: this.changeIsVisibleModalAddCompany})
         //https://si-dev.com/ru/blog/laravel-vue-file-uploads
       }
     }
