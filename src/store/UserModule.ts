@@ -1,6 +1,11 @@
+import axios, {HeadersDefaults} from 'axios';
 import api from "@/plugins/axios";
 import Cookies from 'js-cookie'
 import router from '@/router'
+
+interface CommonHeaderProperties extends HeadersDefaults {
+    Authorization: string;
+  }
 
 export default {
   state: {
@@ -46,10 +51,11 @@ export default {
                 state.userInfo = response.data
                 //Cookies.set('token', `${response.data.token}`, { secure: true, path: '/', expires: 45 }) for ssl sertificate
                 Cookies.set('token', `${response.data.token}`, { path: '/', expires: 45 })
+                api.defaults.headers = {
+                    Authorization: `Bearer ${response.data.token}`
+                  } as CommonHeaderProperties;
                 state.userAuth = true;
                 state.user_profile = response.data;
-                //localStorage.setItem('token', response.data.token)
-                //router.push('/')
             }
             else{
                 alert('Неверный логин или пароль')

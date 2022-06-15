@@ -19,12 +19,8 @@ export default {
         getCompanies({
             commit, state
         }:any) {
-          axios.get('http://dev1.itpw.ru:8005/marketplace/company_for_staff/',{
-            headers : {
-                'Authorization': Cookies.get('token') ? "Bearer " + Cookies.get('token') : '',
-                //'Authorization': localStorage.getItem('token') ? "Bearer " + localStorage.getItem('token') : '',
-            }
-          }).then((response:any)=>{
+          api.get('marketplace/company_for_staff/')
+          .then((response:any)=>{
               if(response.status === 200) {
                 state.all_company = response.data.results
               }
