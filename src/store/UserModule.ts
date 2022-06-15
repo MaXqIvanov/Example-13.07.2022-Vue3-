@@ -56,7 +56,7 @@ export default {
                 state.userAuth = true;
                 state.user_profile = response.data;
             }
-            if(response.response.status === 400){
+            else if(response?.response?.status === 400){
                 alert(response.response.data.detail)
             }
             else{
@@ -65,7 +65,7 @@ export default {
           })
           .then(()=>router.push('/'))
       },
-      async user_registration({
+      user_registration({
         commit, state
       }:any, payload:any) {
         api.post('http://dev1.itpw.ru:8005/accounts/auth/email_registration/', {
