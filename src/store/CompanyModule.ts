@@ -32,19 +32,28 @@ export default {
             let company = state.all_company.filter((elem:any)=> elem.id === payload)
             if(company[0].approved == true) {
                 state.choose_company = payload;
+                let company = {
+                    company_id: payload
+                }
+                localStorage.setItem('SR_settings', JSON.stringify(company))
             }
             else {
                 alert("данная компания ещё проходит этап подтверждения")
             }
-            // router.push(`/?company_id=${payload}`)
+            //router.push(`/?company_id=${payload}`)
         },
         getOneCompany({
             commit, state
         }:any, payload: any) {
             // проверить на наличие возможности поменять url адресс и получить не свою компанию
+            console.log('getOneCompany');
             if(state.choose_company == undefined) {
                 let urlParams = new URLSearchParams(window.location.search);
                 state.choose_company = Number(router.currentRoute.value.params.id);
+            }
+            let history:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings')
+            if(history){
+                state.choose_company = JSON.parse(history).company_id;
             }
             api.get(`marketplace/company/${state.choose_company}/`).then((response:any)=>{
                 state.one_company = response.data

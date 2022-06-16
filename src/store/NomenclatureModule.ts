@@ -7,6 +7,7 @@ export default {
 
         // one_nomenclature
         choise_nomenclature: undefined as number | undefined,
+        nomenclature_one: {} as any,
     },
     mutations: {
     },
@@ -23,14 +24,14 @@ export default {
           })
         },
 
-
-        // for NomenclatureOne
+        // for Nomenclature_One
         getOneNomenclature({
           commit, state
         }:any, payload:any) {
           state.choise_nomenclature = payload;
           api.get(`marketplace/nomenclature/${payload}`).then((response:any)=>{
             console.log(response);
+            state.nomenclature_one = response.data
           })
         }
     },

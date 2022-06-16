@@ -1,28 +1,37 @@
 <template>
     <div class="block_CarsInfo">
       <div class="block_CarsInfo_wrapper">
-          <div :style="{backgroundImage: `url(${one_company.img})`}" class="carsinfo_image"></div>
-          <div class="btn_group_company">
-              <div @click="deleteCompany(one_company.id)" class="btn btn-success me-2 btn_delete_company">удалить</div>
-              <div @click="ChangeCompanyVisible" class="btn btn-primary btn_change_company">изменить</div>
+          <div class="img_btn_wrapper">
+              <div>
+                    <div :style="{backgroundImage: `url(${one_company.img})`}" class="carsinfo_image"></div>
+                    <div class="btn_group_company">
+                        <div class="btn_group_company_wrapper">
+                            <div @click="deleteCompany(one_company.id)" class="btn btn-success me-2 btn_delete_company">удалить</div>
+                            <div @click="ChangeCompanyVisible" class="btn btn-primary btn_change_company">изменить</div>
+                        </div>
+                    </div>
+              </div>
           </div>
+          <div class="separating_line"></div>
           <div class="block_carsinfo_info">
-                <div class="carsinfo_full_name">{{ one_company.full_name }}</div>
-                <div class="carsinfo_short_name">{{ one_company.short_name }}</div>
-                <div v-if="one_company.inn" title="инн компании" class="carsinfo_inn"><span>инн:</span> {{ one_company.inn }}</div>
-                <span v-if="one_company.approved" title="Статус компании" class="carsinfo_approved"><span>статус компании: </span>
-                    <div :style="[one_company.approved == true ? {backgroundImage: `url(${company_accept})`}
-                    :{backgroundImage: `url(${company_wait})`}]" class="carsinfo_approved_img"></div>
-                </span>
-                <div v-if="one_company.bank_name" class="carsinfo_bank_name"><span>банк:</span>{{ one_company.bank_name }}</div>
-                <div v-if="one_company.bik" class="carsinfo_bik"><span>бик:</span>{{ one_company.bik }}</div>
-                <div v-if="one_company.checking_account" class="carsinfo_checking_account"><span>расчетный счет: </span>{{ one_company.checking_account }}</div>
-                <div v-if="one_company.correspondent_account" class="carsinfo_correspondent_account"><span>корреспондентский счет:</span>{{ one_company.correspondent_account }}</div>
-                <div v-if="one_company.fact_address" class="carsinfo_fact_address"><span>фактический адрес: </span>{{ one_company.fact_address }}</div>
-                <div v-if="one_company.legal_address" class="carsinfo_legal_address"><span>юридический адрес: </span>{{ one_company.legal_address }}</div>
-                 <div v-if="one_company.ogrn" class="carsinfo_ogrn"><span>огрн:</span>{{ one_company.ogrn }}</div>
-                <!-- this is last stroke -->
-                <div v-if="one_company.description" class="carsinfo_description"><span>описание компани: </span> {{ one_company.description }}</div>
+              <div>
+                   <div class="carsinfo_full_name">{{ one_company.full_name }}</div>
+                    <div class="carsinfo_short_name mt-2">{{ one_company.short_name }}</div>
+                    <div v-if="one_company.inn" title="инн компании" class="carsinfo_inn mt-2"><span>инн:</span> {{ one_company.inn }}</div>
+                    <span v-if="one_company.approved" title="Статус компании" class="carsinfo_approved mt-2"><span>статус компании: </span>
+                        <div :style="[one_company.approved == true ? {backgroundImage: `url(${company_accept})`}
+                        :{backgroundImage: `url(${company_wait})`}]" class="carsinfo_approved_img mt-2"></div>
+                    </span>
+                    <div v-if="one_company.bank_name" class="carsinfo_bank_name mt-2"><span>банк:</span>{{ one_company.bank_name }}</div>
+                    <div v-if="one_company.bik" class="carsinfo_bik mt-2"><span>бик:</span>{{ one_company.bik }}</div>
+                    <div v-if="one_company.checking_account" class="carsinfo_checking_account mt-2"><span>расчетный счет: </span>{{ one_company.checking_account }}</div>
+                    <div v-if="one_company.correspondent_account" class="carsinfo_correspondent_account mt-2"><span>корреспондентский счет:</span>{{ one_company.correspondent_account }}</div>
+                    <div v-if="one_company.fact_address" class="carsinfo_fact_address mt-2"><span>фактический адрес: </span>{{ one_company.fact_address }}</div>
+                    <div v-if="one_company.legal_address" class="carsinfo_legal_address mt-2"><span>юридический адрес: </span>{{ one_company.legal_address }}</div>
+                    <div v-if="one_company.ogrn" class="carsinfo_ogrn mt-2"><span>огрн:</span>{{ one_company.ogrn }}</div>
+                    <!-- this is last stroke -->
+                    <div v-if="one_company.description" class="carsinfo_description mt-2"><span>описание компани: </span> {{ one_company.description }}</div>
+              </div>
           </div>
           <ModalChangeCompany v-if="visibleChangeCompany"/>
       </div>
@@ -62,18 +71,22 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.img_btn_wrapper{
+    display: flex;
+    justify-content: center;
+}
 .btn_group_company{
     height: fit-content;
     width: fit-content;
-    position: absolute;
-    left: 40px;
-    top: 290px;
-    @media(max-width: 1000px){
-        top: 300px;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
     display: flex;
+    justify-content: center;
+}
+.btn_group_company_wrapper{
+    width: fit-content;
+    margin-top: 10px;
+    width: 280px;
+    display: flex;
+    justify-content: center;
 }
 .block_CarsInfo{
     height: fit-content;
@@ -86,24 +99,20 @@ export default defineComponent({
     width: 90%;
     position: relative;
     font-family: 'Montserrat', sans-serif;
+    display: grid;
+    grid-template-columns: 49% 2% 49%;
 
-    @media(max-width: 980px){
-        height: 600px;
-        display: flex;
-        justify-content: center;    
-    }
-
+}
+.separating_line{
+    height: 100%;
+    max-width: 2px;
+    background: rgb(0, 195, 255);
 }
 .block_carsinfo_info{
     height: fit-content;
-    width: calc(100% - 300px);
-    margin-left: 300px;
-
-    @media(max-width: 980px){
-        width: 90%;
-        margin-left: 0px;
-        padding-top: 320px;
-    }
+    width: calc(100%);
+    display: flex;
+    justify-content: center;
 }
 .carsinfo_ogrn{
     height: fit-content;
@@ -155,9 +164,6 @@ export default defineComponent({
     }
 }
 .carsinfo_image{
-    position: absolute;
-    top: 0px;
-    left: 0px;
     height: 280px;
     width: 280px;
     background-size: contain;
@@ -165,11 +171,7 @@ export default defineComponent({
     background-repeat: no-repeat;
     box-shadow: 0px 0px 5px gray ;
     border-radius: 25px;
-
-    @media(max-width: 980px){
-        left: 50%;
-        transform: translate(-50%, 0);
-    }
+    border: 1px solid black;
 }
 .carsinfo_full_name{
     font-size: x-large;
@@ -180,16 +182,16 @@ export default defineComponent({
 
 .carsinfo_description{
     overflow-y: scroll;
-    height: 150px;
+    height: fit-content;
+    max-height: 200px;
+    width: 100%;
+
     span{
         text-decoration: underline;
         cursor: default;
     }
-    @media(min-width: 1000px){
-        width: 50%;
-    }
-    @media(max-width: 630px){
-        height: fit-content;
+    @media(min-width: 1200px){
+        width: 80%;
     }
 }
 

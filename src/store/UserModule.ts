@@ -2,6 +2,7 @@ import axios, {HeadersDefaults} from 'axios';
 import api from "@/plugins/axios";
 import Cookies from 'js-cookie'
 import router from '@/router'
+import store from '.';
 
 interface CommonHeaderProperties extends HeadersDefaults {
     Authorization: string;
@@ -37,6 +38,10 @@ export default {
         api.get('accounts/profile/profile/').then((response:any)=>{
             state.user_profile = response.data
         })
+        let history:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings')
+        if(history){
+            store.dispatch(`company/getOneCompany`)
+        }
       },
       createProfile({
           commit, state

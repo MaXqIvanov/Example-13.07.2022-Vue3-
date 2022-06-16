@@ -1,6 +1,7 @@
 <template>
     <div class="user_company_main" :style="[company.id == choose_company ? {boxShadow: '0px 0px 5px rgb(20, 145, 247)', background: 'rgb(247, 255, 255)'} :'']">
-      <div :style="[company.id == choose_company ? {opacity: '100%'} : '']" @click="isDeleteCompany && chooseCompany(company.id)" class="wrapper_user_company_main" title="посмотреть подробнее информацию о компании">
+      <div :style="[company.id == choose_company ? {opacity: '100%'} : '']"
+      @click="isDeleteCompany && chooseCompany(company.id)" class="wrapper_user_company_main" title="посмотреть подробнее информацию о компании">
         <div class="company_name">{{ company.short_name }}</div>
         <div class="company_description">{{ company.description }}</div>
         <img :src="company.img" class="company_img">
@@ -13,6 +14,7 @@
 </template>
 
 <script lang="ts">
+import router from '@/router';
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import company_accept from '../../assets/company/company_accept.svg';
@@ -40,7 +42,7 @@ export default defineComponent({
     }),
     changeIsDeleteCompany(){
       this.isDeleteCompany = !this.isDeleteCompany
-    }
+    },
   },
   mounted() {
   },

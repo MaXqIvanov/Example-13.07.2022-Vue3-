@@ -1,25 +1,46 @@
 import api from "@/plugins/axios";
 import router from '@/router';
+import store from '.';
 
 export default {
     state: {
         proods_all: [] as any[],
-
+        page_count: 1 as number,
+        limit: 10 as number,
+        current_page: 1 as number,
         // one_prood
         choise_prood: undefined as number | undefined,
         prood_one: {} as any
     },
     mutations: {
+      changeCurrentPage(state:any, page: number){
+        if(page < 1){
+          page = 1
+        }
+        if(page > state.page_count){
+          page = state.page_count
+        }
+        if(page !== state.current_page){
+          state.current_page = page;
+          api.get(`marketplace/product/?page=${page}&psz=${state.limit}`).then((response:any)=>{
+            console.log(response);
+            if(response.status === 200) {
+                state.proods_all = response.data.results
+            }
+          })
+        }
+      }
     },
     actions: {
         getProods({
             commit, state
         }:any, payload:any) {
             // psz - count prood on page
-          api.get(`marketplace/product/?psz=10`).then((response:any)=>{
+          api.get(`marketplace/product/?page=${state.current_page}&psz=${state.limit}`).then((response:any)=>{
             console.log(response);
             if(response.status === 200) {
                 state.proods_all = response.data.results
+                state.page_count = Math.ceil(response.data.count / state.limit) 
             }
           })
         },
@@ -55,13 +76,20 @@ export default {
             console.log(response);
           })
         },
-        // for ProodOne
+        // for Prood One
         getOneProod({
           commit, state
         }:any, payload:any) {
-          state.choise_prood = payload;
-          api.get(`marketplace/product/${payload}`).then((response:any)=>{
-            console.log(response);
+          if(payload){
+            state.choise_prood = payload.id;     
+          }else{
+            let urlParams = new URLSearchParams(window.location.search);
+            state.choise_prood = Number(router.currentRoute.value.params.id);
+          }
+          api.get(`marketplace/product/${state.choise_prood}`).then((response:any)=>{
+            state.prood_one = response.data;
+          }).then(()=>{
+            store.dispatch(`nomenclature/getOneNomenclature`, state.prood_one.nomenclature)
           })
         }
     },

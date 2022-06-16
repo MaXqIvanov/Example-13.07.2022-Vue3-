@@ -3,6 +3,7 @@
     <div class="proods_wrapper">
       <ProodNav />
       <ProodTable />
+      <Pagination />
     </div>
   </div>
 </template>
@@ -12,12 +13,14 @@ import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import ProodTable from '@/components/prood/ProodTable.vue';
 import ProodNav from '../components/prood/ProodNav.vue';
+import Pagination from '@/components/prood/Pagination.vue';
 
 export default defineComponent({
   name: 'Proods',
   components: {
     ProodTable,
-    ProodNav
+    ProodNav,
+    Pagination
 },
    methods: {  
     ...mapMutations({
@@ -27,7 +30,7 @@ export default defineComponent({
     }),
   },
   mounted() {
-    this.getProods()
+    this.getProods(2)
   },
 });
 </script>
