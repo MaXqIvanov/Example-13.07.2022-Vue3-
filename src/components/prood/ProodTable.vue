@@ -61,6 +61,10 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.custom_table{
+  border-radius: 5px !important;
+  overflow:hidden;
+}
 .icon_img_add{
   height: 25px;
   width: 25px;
@@ -88,7 +92,7 @@ export default defineComponent({
   }
 }
 .active_stroke_table{
-  background: rgb(0, 253, 211);
+  background: #008cff96;
   color: black;
 }
 .prood_table{

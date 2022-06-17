@@ -30,7 +30,7 @@ export default defineComponent({
     }),
   },
   mounted() {
-    this.getProods(2)
+    this.getProods(1)
   },
 });
 </script>

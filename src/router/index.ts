@@ -28,6 +28,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true, },
   },
   {
+    path: '/pickup/:id',
+    name: 'PickUpPointOne',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PickUpPointOne.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
     path: '/prood',
     name: 'Proods',
     component: () => import(/* webpackChunkName: "about" */ '../views/Proods.vue'),

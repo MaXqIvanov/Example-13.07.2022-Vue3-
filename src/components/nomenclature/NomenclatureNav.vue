@@ -3,8 +3,8 @@
     <div class="nomenclature_nav_wrapper">
         <div class="nomenclature_nav_title">Номенклатуры</div>
         <div class="d-flex nomenclature_nav_choice">
-            <div class="nomenclature_all"><span>все</span></div>
-            <div class="nomenclature_my"><span>мои</span></div>
+            <!-- <div class="nomenclature_all"><span>все</span></div> -->
+            <div class="nomenclature_my"><span>ждут подтверждение</span></div>
             <form class="d-flex">
                 <input class="form-control mr-sm-2" type="search" placeholder="Поиск...">
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Поиск</button>

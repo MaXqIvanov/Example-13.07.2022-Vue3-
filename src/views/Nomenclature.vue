@@ -4,6 +4,7 @@
         <NomenclatureNav />
         <!-- <NomenclatureAll /> -->
         <NomenclatureTable />
+        <PaginationNom />
     </div>
   </div>
 </template>
@@ -14,13 +15,15 @@ import { mapActions, mapMutations, mapState } from 'vuex';
 import NomenclatureNav from '../components/nomenclature/NomenclatureNav.vue';
 import NomenclatureAll from '@/components/nomenclature/NomenclatureAll.vue';
 import NomenclatureTable from '@/components/nomenclature/NomenclatureTable.vue';
+import PaginationNom from '@/components/nomenclature/PaginationNom.vue';
 
 export default defineComponent({
   name: 'Nomenclature',
   components: {
     NomenclatureNav,
     NomenclatureAll,
-    NomenclatureTable
+    NomenclatureTable,
+    PaginationNom
 },
    methods: {  
     ...mapMutations({
