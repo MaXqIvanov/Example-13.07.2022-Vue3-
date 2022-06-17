@@ -28,6 +28,9 @@
                 </tr>
             </tbody>
         </table>
+        <div v-else>
+            <Pickup_pointMap />
+        </div>
         <div title="добавить свою точку выдачи" class="add_new_prood">
           <span class="icon_img_add"></span>
         </div>
@@ -39,6 +42,7 @@
 import router from '@/router';
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
+import Pickup_pointMap from '@/components/pickuppoint/Pickup_pointMap.vue';
 
 export default defineComponent({
   name: 'Pickup_pointTable',
@@ -47,6 +51,7 @@ export default defineComponent({
     }
   },
   components: {
+    Pickup_pointMap
   },
    methods: {  
     ...mapMutations({
