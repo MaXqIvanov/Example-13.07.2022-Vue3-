@@ -108,12 +108,6 @@ export default defineComponent({
 }
 .dimensions{
   display: flex;
-    div{
-        //font-size: small;
-    }
-}
-.category{
-    // color: rgb(27, 27, 27);
 }
 .proodOne_info{
     margin-left: 40px;
