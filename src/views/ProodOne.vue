@@ -1,8 +1,8 @@
 <template>
   <div class="proodOne">
     <div class="proodOne_wrapper">
-        {{prood_one.id}}
-        {{nomenclature_one.id}}
+        <ProodOneNav />
+        <ProodOneInfo />
     </div>
   </div>
 </template>
@@ -10,10 +10,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
+import ProodOneInfo from '../components/prood_one/ProodOne-Info.vue';
+import ProodOneNav from '../components/prood_one/ProodOneNav.vue';
 
 export default defineComponent({
   name: 'ProodOne',
   components: {
+    ProodOneInfo,
+    ProodOneNav,
 },
   methods: {  
     ...mapMutations({
@@ -23,8 +27,6 @@ export default defineComponent({
     }),
   },
   computed: mapState({
-    prood_one: (state:any)=> state.proods.prood_one,
-    nomenclature_one: (state:any)=> state.nomenclature.nomenclature_one,
   }),
   mounted() {
     this.getOneProod()
@@ -41,8 +43,8 @@ export default defineComponent({
   align-items: center;
 }
 .proodOne_wrapper{
-  height: 98%;
-  width: 98%;
-  min-height: 96vh;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
 }
 </style>

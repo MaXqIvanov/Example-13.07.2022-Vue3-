@@ -18,7 +18,7 @@
                 <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._nomenclature }}</td>
                 <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.cost }}</td>
                 <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.count }}</td>
-                <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._shop }}</td>
+                <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._shop.address }}</td>
                 </tr>
             </tbody>
         </table>

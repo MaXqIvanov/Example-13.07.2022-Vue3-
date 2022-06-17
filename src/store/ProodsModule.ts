@@ -86,11 +86,14 @@ export default {
             let urlParams = new URLSearchParams(window.location.search);
             state.choise_prood = Number(router.currentRoute.value.params.id);
           }
-          api.get(`marketplace/product/${state.choise_prood}`).then((response:any)=>{
-            state.prood_one = response.data;
-          }).then(()=>{
-            store.dispatch(`nomenclature/getOneNomenclature`, state.prood_one.nomenclature)
-          })
+          console.log(state.choise_prood);
+          if(state.choise_prood !== payload){
+            api.get(`marketplace/product/${state.choise_prood}`).then((response:any)=>{
+              state.prood_one = response.data;
+            }).then(()=>{
+              store.dispatch(`nomenclature/getOneNomenclature`, state.prood_one.nomenclature)
+            })
+          }
         }
     },
     modules: {
