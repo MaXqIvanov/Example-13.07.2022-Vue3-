@@ -1,5 +1,6 @@
 import api from "@/plugins/axios";
 import router from '@/router';
+import mapboxgl from "mapbox-gl";
 
 export default {
     state: {
@@ -12,7 +13,9 @@ export default {
         point_one: {} as any,
 
         // work with map
-        visibleMap: false,
+        visibleMap: false as boolean,
+        map: {},
+        currentMap: undefined as number | undefined,
     },
     mutations: {
         changeCurrentPage(state:any, page: number){
@@ -36,7 +39,71 @@ export default {
           // works with map
         changeDisplayWindow(state:any){
           state.visibleMap = !state.visibleMap
-        }
+        },
+        loadMap(state:any){
+          let long:any = 30.3158;
+          let lati:any = 59.95901;
+          mapboxgl.accessToken =
+            "pk.eyJ1Ijoia2VtcGVydmlwcyIsImEiOiJjbDRoYzg4cDAwMHgxM2J1YmU5cTJsNmZ4In0.LC5CLsMavfdKrMPj_JORuw";
+          state.map = new mapboxgl.Map({
+            container: "point_map",
+            style: "mapbox://styles/mapbox/streets-v9",
+            center: [long, lati],
+            zoom: 8,
+            //trackResize: true,
+          });
+          state.map.on('load', () => {
+            state.map.flyTo({
+              center: [state.point_all[0].longitude, state.point_all[0].latitude]
+              });
+          // TODO: Here we want to load a layer
+          state.point_all.map((elem:any, index:any)=>{
+            const popup:any = new mapboxgl.Popup({ closeOnClick: true, anchor: 'left', })
+            .setLngLat([elem.longitude, elem.latitude])
+            .setHTML(`<div class="popup_size">
+            <h5>${elem._company ? elem._company : 'Наименование магазина '}</h5>
+            <span>город: ${elem?._city}</span>
+            <br>
+            <span>адрес: ${elem?.address}</span>
+            <br>
+            <span>${elem?.description}</span>
+            </div>`)
+            const marker:any = new mapboxgl.Marker().setLngLat([elem.longitude, elem.latitude])
+            .setPopup(popup)
+            .addTo(state.map)
+            
+            marker.getElement().addEventListener('click', (e:any) => {
+              state.map.flyTo({
+                center: [elem.longitude, elem.latitude],
+                speed: 0.2,
+              })
+            });
+          })
+          });
+          window.setTimeout(()=>state.map.resize(), 500);
+          },
+          flyToNewPoint(state:any, data:any){  
+            state.map.flyTo({
+              center: [data.longitude, data.latitude],
+              speed: 0.2,
+            })
+            state.currentMap = data.id
+            const popups = document.getElementsByClassName('mapboxgl-popup');
+            if ( popups.length ) {
+                popups[0].remove();
+            }
+            let popup:any = new mapboxgl.Popup({ closeOnClick: true, anchor: 'left', })
+            .setLngLat([data.longitude, data.latitude])
+            .setHTML(`<div class="popup_size">
+            <h5>${data._company ? data._company : 'Наименование магазина '}</h5>
+            <span>город: ${data?._city}</span>
+            <br
+            <span>адрес: ${data?.address}</span>
+            <br>
+            <span>${data?.description}</span>
+            </div>`)
+            .addTo(state.map)
+          }
     },
     actions: {
         getPoints({

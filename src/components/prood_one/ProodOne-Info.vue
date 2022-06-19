@@ -35,54 +35,16 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
-import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { onMounted, onUpdated, reactive } from "vue";
-import store from '@/store';
 
 export default defineComponent({
   name: 'proodOne-info',
   components: { },
-  setup() {
-    onUpdated(()=>{
-
-    })
-    onMounted(() => {
-      let data:any = store.state;
-      console.log(data.proods.prood_one);
-      let long:any = 30.3158;
-      let lati:any = 59.95901;
-      mapboxgl.accessToken =
-        "pk.eyJ1Ijoia2VtcGVydmlwcyIsImEiOiJjbDRoYzg4cDAwMHgxM2J1YmU5cTJsNmZ4In0.LC5CLsMavfdKrMPj_JORuw";
-      const map = new mapboxgl.Map({
-        container: "map",
-        style: "mapbox://styles/mapbox/streets-v9",
-        //center: [data.proods.prood_one._shop.longitude, data.proods.prood_one._shop.latitude],
-        center: [long, lati],
-        zoom: 8,
-      });
-      map.on('load', () => {
-      // TODO: Here we want to load a layer
-      new mapboxgl.Marker().setLngLat([data.proods.prood_one._shop.longitude, data.proods.prood_one._shop.latitude]).addTo(map);
-      // TODO: Here we want to load/setup the popup
-      const popup = new mapboxgl.Popup({ closeOnClick: false })
-      .setLngLat([data.proods.prood_one._shop.longitude, data.proods.prood_one._shop.latitude])
-      .setHTML(`<h3>${data.proods.prood_one._shop.short_name ? data.proods.prood_one._shop.short_name : 'Наименование магазина '}</h3>`)
-      .addTo(map);
-      // map.on("click", "usa-fill", function (e) {
-      //   new mapboxgl.Popup()
-      //     .setLngLat(e.lngLat)
-      //     .setHTML('Hello World.')
-      //     .addTo(map);
-      // });
-      });
-    });
-    return {};
-  },
    data: () => ({
   }),
   methods: {  
     ...mapMutations({
+      loadMap: 'proods/loadMap'
     }),
     ...mapActions({
       getOneProod: 'proods/getOneProod'
@@ -95,6 +57,7 @@ export default defineComponent({
   }),
   mounted() {
     this.getOneProod()
+    this.loadMap()
   },
 });
 </script>

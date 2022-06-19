@@ -15,10 +15,10 @@
                 <tr @click="getOneProod(prood)" v-for="prood in proods_all" :key="prood.id"
                 @dblclick="navigateToOneProod">
                 <th :class="{'active_stroke_table': prood.id == choise_prood}" scope="row">{{ prood.id }}</th>
-                <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._nomenclature }}</td>
+                <td class="col-5" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._nomenclature }}</td>
                 <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.cost }}</td>
                 <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.count }}</td>
-                <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._shop.address }}</td>
+                <td class="col-7" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._shop.address }}</td>
                 </tr>
             </tbody>
         </table>

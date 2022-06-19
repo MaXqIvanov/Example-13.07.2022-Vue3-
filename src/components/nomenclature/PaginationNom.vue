@@ -51,12 +51,12 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .page-item.active .page-link{
-    background-color: black !important;
+    background-color: rgb(33,37,41) !important;
     border-color: white !important;
     color: white !important;
 }
 .custom_link{
-    color: black !important;
+    color: rgb(33,37,41) !important;
 }
 .prood_pagination{
     width: 100%;
