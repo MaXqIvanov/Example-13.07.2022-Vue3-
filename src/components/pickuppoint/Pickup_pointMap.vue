@@ -167,9 +167,6 @@ max-width: 400px !important;
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 .popup_size{
-  h4{
-
-  }
   span{
     margin-top: 2px;
   }
