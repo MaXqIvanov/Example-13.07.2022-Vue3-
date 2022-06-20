@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="point_map_wrapper">
-        <div id="point_map" />
+        <div id="point_map"></div>
       </div>
     </div>
   </div>
@@ -130,8 +130,6 @@ export default defineComponent({
   min-height: 400px;
   width: 100%;
   min-width: 100% !important;
-  display: flex;
-  justify-content: right;
 }
 .point_map_wrapper{
   min-height: 400px;
