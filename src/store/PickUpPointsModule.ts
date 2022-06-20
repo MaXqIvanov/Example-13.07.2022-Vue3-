@@ -222,17 +222,28 @@ export default {
         }:any, payload:any) {
             //let confirmDo = confirm("вы уверены что хотите добавить данную точку ?")
             let history:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings')
-            if(history){
-                 api.post(`marketplace/shop_for_staff/`,{
-                  city: state.address._city,
-                  company: JSON.parse(history).company_id,
-                  address: state.address.address,
-                  longitude: state.address.longitude,
-                  latitude:  state.address.latitude,
-                }).then((response:any)=>{
-                    console.log(response);
-                })
-            }
+            let city: any;
+            api.get(`marketplace/city/?search=${state.address._city}`).then((response:any)=>{
+              console.log(response.data.results[0].id);
+              city = response.data.results[0].id
+            })
+            .finally(()=>{
+              if(history){
+                api.post(`marketplace/shop_for_staff/`,{
+                 city: Number(city),
+                 company: JSON.parse(history).company_id,
+                 address: state.address.address,
+                 longitude: state.address.longitude,
+                 latitude:  state.address.latitude,
+                 description: payload.description,
+               }).then((response:any)=>{
+                  //  this is need to add dinamic render data in array mypoint or allpoint ?
+                  state.point_all = [ response.data, ...state.point_all]
+                  state.addPointModal = false;
+               })
+              }
+            })
+  
         },
         
         // point_one

@@ -7,7 +7,13 @@
       <div>
         <div v-if="address.address" class="choose_address_on_map d-flex">ваш адрес : {{address.address}}</div>
       </div>
-      <input :disabled="!address.address" @click="createPoint" class="btn btn-primary mt-2" value="добавить точку"/>
+      <div class="mb-3 description_point">
+        <label for="inputDescriptionPoint" class="form-label mt-2">описание точки выдачи : </label>
+        <textarea required v-model="pointDescription" placeholder="пн 10:00-18:00, вт 10:00-18:00, ср 10:00-18:00, чт 10:00-18:00" class="form-control" id="inputDescriptionPoint" rows="3"></textarea>
+      </div>
+      <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'minLength'
+        && v$.$errors[0]?.$property === 'pointDescription'">минимальная длина поля 5 символов</div>
+      <input :disabled="!address.address" @click="validateInputs" type="button" class="btn btn-primary mt-2" value="добавить точку"/>
     </div>
   </div>
 </template>
@@ -16,6 +22,7 @@
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import useValidate from "@vuelidate/core";
+import { required, minLength } from "@vuelidate/validators";
 
 export default defineComponent({
   name: 'CreatepointModal',
@@ -25,10 +32,12 @@ export default defineComponent({
     return {
       v$: useValidate(),
       errors: '',
+      pointDescription: '' as string,
     };
   },
   validations() {
   		return {
+        pointDescription: { minLength: minLength(5) },
   		}
   	},
   methods: {  
@@ -39,6 +48,14 @@ export default defineComponent({
     ...mapActions({
       createPoint: 'pickuppoints/createPoint',
     }),
+    validateInputs() {
+      console.log("this is works");
+      this.v$.$validate()
+      if(this.v$.$error) {
+      } else {
+        this.createPoint({description: this.pointDescription})
+      }
+    }
   },
   computed: mapState({
     address: (state:any)=> state.pickuppoints.address,
@@ -49,6 +66,9 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.description_point{
+  text-align: start;
+}
 .choose_address_on_map{
   text-align: left;
   font-size: small;
@@ -63,6 +83,7 @@ export default defineComponent({
   color: red;
   padding-bottom: 5px;
   margin-top: -10px;
+  text-align: start;
 }
 .delete_btn{
   background: url('../../assets/close_btn.svg');
