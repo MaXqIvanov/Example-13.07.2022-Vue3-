@@ -4,7 +4,8 @@
       <div class="block_address">
         <div class="block_address_wrapper">
           <div class="template_address" v-for="point in point_all" :key="point.id">
-            <div :class="{active_map : point.id === currentMap}" @click="flyToNewPoint(point)" class="template_address_wrapper">
+            <div :class="{active_map : point.id === currentMap}" @click="[flyToNewPoint(point), getOnePoint({id: point.id}) ]"
+            @dblclick="navigateToOneNomenclature" class="template_address_wrapper">
               <div class="map_company">{{point._company}}</div>
               <div class="map_address">{{point.address}}</div>
             </div>
@@ -43,7 +44,11 @@ export default defineComponent({
       flyToNewPoint: 'pickuppoints/flyToNewPoint',
     }),
     ...mapActions({
+      getOnePoint: 'pickuppoints/getOnePoint',
     }),
+    navigateToOneNomenclature() {
+      router.push(`/pickup/${this.currentMap}`)
+    }
   },
   computed: mapState({
     current_page_point: (state:any)=>state.pickuppoints.current_page_point,
@@ -140,8 +145,8 @@ export default defineComponent({
 .pickuppoints_map_wrapper{
     margin-top: 10px;
     height: 96%;
-    width: 98%;
-    max-width: 98% !important;
+    width: 100%;
+    max-width: 100% !important;
     min-height: 400px;
     margin-right: 2px;
     margin-bottom: 20px;

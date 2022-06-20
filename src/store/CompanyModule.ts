@@ -55,7 +55,7 @@ export default {
             if(history){
                 state.choose_company = JSON.parse(history).company_id;
             }
-            api.get(`marketplace/company/${state.choose_company}/`).then((response:any)=>{
+            api.get(`marketplace/company_for_staff/${state.choose_company}/`).then((response:any)=>{
                 state.one_company = response.data
             })
         },

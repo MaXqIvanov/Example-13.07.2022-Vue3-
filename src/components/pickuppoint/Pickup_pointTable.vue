@@ -1,7 +1,7 @@
 <template>
   <div class="pickuppoints_table">
     <div class="pickuppoints_table_wrapper">
-      <div class="form-check form-switch d-flex justify-content-end">
+      <div class="form-check form-switch d-flex justify-content-end me-2">
         <input class="form-check-input me-2 custom_form_check" type="checkbox" role="switch" id="flexSwitchCheckMap"
         @change="changeDisplayWindow" :checked="visibleMap">
         <label class="form-check-label" for="flexSwitchCheckMap">отобразить ввиде карты</label>
@@ -31,7 +31,7 @@
         <div v-else>
             <Pickup_pointMap />
         </div>
-        <div title="добавить свою точку выдачи" class="add_new_prood">
+        <div @click="changeCreateModal" title="добавить свою точку выдачи" class="add_new_prood">
           <span class="icon_img_add"></span>
         </div>
     </div>
@@ -55,7 +55,8 @@ export default defineComponent({
   },
    methods: {  
     ...mapMutations({
-      changeDisplayWindow: 'pickuppoints/changeDisplayWindow'
+      changeDisplayWindow: 'pickuppoints/changeDisplayWindow',
+      changeCreateModal: 'pickuppoints/changeCreateModal'
     }),
     ...mapActions({
       getOnePoint: 'pickuppoints/getOnePoint',
