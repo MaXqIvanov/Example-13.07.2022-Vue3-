@@ -172,7 +172,6 @@ export default {
             }
             company = [company, ...response.data.results];
             state.user_partner = company;
-            console.log(company);
           })
         },
         getCurrentUserProod({
