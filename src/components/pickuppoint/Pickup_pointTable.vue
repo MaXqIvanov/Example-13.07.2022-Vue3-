@@ -6,7 +6,7 @@
         @change="changeDisplayWindow" :checked="visibleMap">
         <label class="form-check-label" for="flexSwitchCheckMap">отобразить ввиде карты</label>
       </div>
-        <table v-if="!visibleMap" class="table table-bordered table-dark custom_table">
+        <table v-if="!visibleMap" class="table table-bordered table-dark custom_table table-hover">
             <thead class="thead">
                 <tr>
                     <th scope="col">#</th>
@@ -119,7 +119,7 @@ export default defineComponent({
   cursor: pointer;
   transition: all 0.3s linear;
   &:hover{
-    box-shadow: 0px 0px 5px rgba($color: #008cff, $alpha: 0.6);
+    box-shadow: 0px 0px 5px rgba($color: #008cff, $alpha: 0.9);
   }
 }
 .active_stroke_table{

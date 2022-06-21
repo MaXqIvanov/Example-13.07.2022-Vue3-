@@ -9,7 +9,7 @@
       </div>
       <div class="mb-3 description_point">
         <label for="inputDescriptionPoint" class="form-label mt-2">описание точки выдачи : </label>
-        <textarea required v-model="pointDescription" placeholder="пн 10:00-18:00, вт 10:00-18:00, ср 10:00-18:00, чт 10:00-18:00" class="form-control" id="inputDescriptionPoint" rows="3"></textarea>
+        <textarea required v-model="pointDescription" placeholder="режим работы : пн 10:00-18:00, вт 10:00-18:00, ср 10:00-18:00, чт 10:00-18:00" class="form-control" id="inputDescriptionPoint" rows="3"></textarea>
       </div>
       <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'minLength'
         && v$.$errors[0]?.$property === 'pointDescription'">минимальная длина поля 5 символов</div>

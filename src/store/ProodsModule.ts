@@ -11,12 +11,29 @@ export default {
         current_page: 1 as number,
         // one_prood
         choise_prood: undefined as number | undefined,
-        prood_one: {} as any
+        prood_one: {} as any,
 
         // works with map
 
+        // all modal window
+        isCreateProodModal: false as boolean,
+
+        // prood users
+        proods_user: [] as any[],
+        user_nomenclature: [] as any[],
+        isVisibleMyProod: false as boolean,
+
+        // get partners for add proods
+        user_partner: [] as any,
     },
     mutations: {
+      changeIsCreateProodModal(state:any){
+        state.isCreateProodModal = !state.isCreateProodModal
+      },
+      changeIsVisibleMyProod(state:any){
+        console.log("works");
+        state.isVisibleMyProod = !state.isVisibleMyProod;
+      },
       changeCurrentPage(state:any, page: number){
         if(page < 1){
           page = 1
@@ -76,7 +93,7 @@ export default {
             commit, state
         }:any, payload:any) {
             // psz - count prood on page
-          api.get(`marketplace/product/?page=${state.current_page}&psz=${state.limit}`).then((response:any)=>{
+          api.get(`marketplace/product_for_staff/?page=${state.current_page}&psz=${state.limit}`).then((response:any)=>{
             console.log(response);
             if(response.status === 200) {
                 state.proods_all = response.data.results
@@ -87,7 +104,7 @@ export default {
         addProod({
           commit, state
         }:any, payload:any) {
-          api.post(`marketplace/product/`,{
+          api.post(`marketplace/product_for_staff/`,{
             shop: 1,
             nomenclature: 1,
             cost: 123,
@@ -108,7 +125,7 @@ export default {
         changeProod({
           commit, state
         }:any, payload:any) {
-          api.put(`marketplace/product/${payload.id}`,{
+          api.put(`marketplace/product_for_staff/${payload.id}`,{
             // change this when already back
             nomenclature: 1,
             cost: 550
@@ -128,12 +145,61 @@ export default {
           }
           console.log(state.choise_prood);
           if(state.choise_prood !== payload){
-            api.get(`marketplace/product/${state.choise_prood}`).then((response:any)=>{
+            api.get(`marketplace/product_for_staff/${state.choise_prood}`).then((response:any)=>{
               state.prood_one = response.data;
             }).then(()=>{
               store.dispatch(`nomenclature/getOneNomenclature`, state.prood_one.nomenclature)
             })
           }
+        },
+
+        // for users prood 
+        // info function for addCreatemodal 
+        getUserProod({
+          commit, state
+        }:any, pyaload:any) {
+          store.dispatch(`pickuppoints/getUserPoint`)
+          api.get(`marketplace/nomenclature/?limit=50`).then((response:any)=>{
+            state.user_nomenclature = response.data.results;
+          })
+          api.get(`marketplace/partner/`).then((response:any)=>{
+            console.log(response);
+            let company:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings');
+            company = {
+              company: JSON.parse(company).company_id,
+              short_name: JSON.parse(company).company_name,
+              id: 999,
+            }
+            company = [company, ...response.data.results];
+            state.user_partner = company;
+            console.log(company);
+          })
+        },
+        getCurrentUserProod({
+          commit, state
+        }:any, payload:any){
+          let id:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings');
+          id =JSON.parse(id).company_id,
+          api.get(`marketplace/product_for_staff/?page=${state.current_page}&psz=10&company=${id}`).then((response:any)=>{
+            console.log(response);
+            state.proods_all = response.data.results
+            state.proods_user = response.data.results
+            state.page_count = Math.ceil(response.data.count / state.limit) 
+          }) 
+        },
+        createNewProod({
+          commit, state
+        }:any, payload:any) {
+          api.post(`marketplace/product_for_staff/`,{
+            company: payload.company_id,
+            shop: payload.shop.id,
+            nomenclature: payload.nomenclature.id,
+            cost: payload.cost,
+            count: payload.count,
+          }).then((response:any)=>{
+            console.log(response);
+            // add change this for user_prood
+          })
         }
     },
     modules: {

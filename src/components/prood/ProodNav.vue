@@ -3,8 +3,8 @@
     <div class="prood_nav_wrapper">
         <div class="prood_nav_title">Товары</div>
         <div class="d-flex prood_nav_choice">
-            <div class="prood_all"><span>все</span></div>
-            <div class="prood_my"><span>мои</span></div>
+            <div @click="nav_all" class="prood_all"><span>все</span></div>
+            <div @click="nav_my" class="prood_my"><span>мои</span></div>
             <form class="d-flex">
                 <input class="form-control mr-sm-2" type="search" placeholder="Поиск...">
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Поиск</button>
@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+import router from '@/router';
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
@@ -30,8 +31,18 @@ export default defineComponent({
     ...mapMutations({
     }),
     ...mapActions({
+        getCurrentUserProod: 'proods/getCurrentUserProod',
+        getProods: 'proods/getProods',
     }),
+    nav_all(){
+        this.getProods()
+    },
+    nav_my(){
+        this.getCurrentUserProod()
+    }
   },
+   computed: mapState({
+  }),
   mounted() {
   },
 });

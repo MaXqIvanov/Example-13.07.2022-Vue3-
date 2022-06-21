@@ -1,7 +1,7 @@
 <template>
   <div class="prood_table">
     <div class="prood_table_wrapper">
-        <table class="table table-bordered table-dark custom_table">
+        <table class="table table-bordered table-dark custom_table table-hover">
             <thead class="thead">
                 <tr>
                     <th scope="col">#</th>
@@ -17,12 +17,12 @@
                 <th :class="{'active_stroke_table': prood.id == choise_prood}" scope="row">{{ prood.id }}</th>
                 <td class="col-5" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._nomenclature }}</td>
                 <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.cost }}</td>
-                <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.count }}</td>
-                <td class="col-7" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._shop.address }}</td>
+                <td class="prood_count" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.count }}</td>
+                <td class="col-7 shop_address" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._shop.address }}</td>
                 </tr>
             </tbody>
         </table>
-        <div title="добавить новый товар" class="add_new_prood">
+        <div @click="changeIsCreateProodModal" title="добавить новый товар" class="add_new_prood">
           <span class="icon_img_add"></span>
         </div>
     </div>
@@ -44,6 +44,7 @@ export default defineComponent({
   },
    methods: {  
     ...mapMutations({
+      changeIsCreateProodModal: 'proods/changeIsCreateProodModal',
     }),
     ...mapActions({
       getOneProod: 'proods/getOneProod',
@@ -88,7 +89,7 @@ export default defineComponent({
   cursor: pointer;
   transition: all 0.3s linear;
   &:hover{
-    box-shadow: 0px 0px 5px rgba($color: #008cff, $alpha: 0.6);
+    box-shadow: 0px 0px 5px rgba($color: #008cff, $alpha: 0.9);
   }
 }
 .active_stroke_table{
@@ -114,5 +115,8 @@ export default defineComponent({
       margin-right: 5px;
     }
 }
+
+</style>
+<style lang="scss">
 
 </style>

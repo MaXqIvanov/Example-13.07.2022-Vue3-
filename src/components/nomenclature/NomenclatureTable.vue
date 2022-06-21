@@ -1,7 +1,7 @@
 <template>
   <div class="prood_table">
     <div class="prood_table_wrapper">
-        <table class="table table-bordered table-dark custom_table">
+        <table class="table table-bordered table-dark custom_table table-hover">
             <thead class="thead">
                 <tr>
                     <th scope="col nomenclature_title">изображения</th>
@@ -107,7 +107,7 @@ export default defineComponent({
   cursor: pointer;
   transition: all 0.3s linear;
   &:hover{
-    box-shadow: 0px 0px 5px rgba($color: #008cff, $alpha: 0.6);
+    box-shadow: 0px 0px 5px rgba($color: #008cff, $alpha: 0.9);
   }
 }
 .active_stroke_table{

@@ -24,6 +24,9 @@ export default {
         mapCreatePoint: {} as any,
         // all modal window
         addPointModal: false as boolean,
+
+        // currentpoint user
+        point_user: [] as any[],
     },
     mutations: {
         changeCurrentPage(state:any, page: number){
@@ -296,8 +299,18 @@ export default {
               console.log(response);
             })
           }
-        }
+        },
         // works with maps
+
+        // works with point current user
+        getUserPoint({
+          commit, state
+        }:any, payload:any) {
+          let user_company:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings')
+          api.get(`marketplace/shop_for_staff/?company=${JSON.parse(user_company).company_id}`).then((response:any)=>{
+            state.point_user = response.data.results
+          })
+        }
     },
     modules: {
     },

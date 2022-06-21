@@ -30,12 +30,14 @@ export default {
             commit, state
         }:any, payload:any) {
             let company = state.all_company.filter((elem:any)=> elem.id === payload)
+            console.log(company);
             if(company[0].approved == true) {
                 state.choose_company = payload;
-                let company = {
-                    company_id: payload
+                let new_company = {
+                    company_id: payload,
+                    company_name: company[0].short_name
                 }
-                localStorage.setItem('SR_settings', JSON.stringify(company))
+                localStorage.setItem('SR_settings', JSON.stringify(new_company))
             }
             else {
                 alert("данная компания ещё проходит этап подтверждения")

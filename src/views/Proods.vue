@@ -4,6 +4,7 @@
       <ProodNav />
       <ProodTable />
       <Pagination />
+      <CreateproodModal v-if="isCreateProodModal"/>
     </div>
   </div>
 </template>
@@ -14,13 +15,15 @@ import { mapActions, mapMutations, mapState } from 'vuex';
 import ProodTable from '@/components/prood/ProodTable.vue';
 import ProodNav from '../components/prood/ProodNav.vue';
 import Pagination from '@/components/prood/Pagination.vue';
+import CreateproodModal from '@/components/prood/CreateproodModal.vue';
 
 export default defineComponent({
   name: 'Proods',
   components: {
     ProodTable,
     ProodNav,
-    Pagination
+    Pagination,
+    CreateproodModal
 },
    methods: {  
     ...mapMutations({
@@ -29,6 +32,9 @@ export default defineComponent({
       getProods: 'proods/getProods'
     }),
   },
+  computed: mapState({
+    isCreateProodModal: (state:any)=> state.proods.isCreateProodModal,
+  }),
   mounted() {
     this.getProods(1)
   },
