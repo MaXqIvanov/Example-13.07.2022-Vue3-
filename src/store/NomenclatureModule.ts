@@ -10,6 +10,9 @@ export default {
         // one_nomenclature
         choose_nomenclature: undefined as number | undefined,
         nomenclature_one: {} as any,
+
+        // all modal window
+        isCreateNomenclatureModal: false as boolean,
     },
     mutations: {
       changeCurrentPage(state:any, page: number){
@@ -28,6 +31,9 @@ export default {
             }
           })
         }
+      },
+      changeIsCreateNomenclatureModal(state:any){
+        state.isCreateNomenclatureModal = !state.isCreateNomenclatureModal;
       }
     },
     actions: {

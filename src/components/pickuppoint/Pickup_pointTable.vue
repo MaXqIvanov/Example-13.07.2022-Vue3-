@@ -6,7 +6,8 @@
         @change="changeDisplayWindow" :checked="visibleMap">
         <label class="form-check-label" for="flexSwitchCheckMap">отобразить ввиде карты</label>
       </div>
-        <table v-if="!visibleMap" class="table table-bordered table-dark custom_table table-hover">
+      <!-- table-hover -->
+        <table v-if="!visibleMap" class="table table-bordered table-dark custom_table">
             <thead class="thead">
                 <tr>
                     <th scope="col">#</th>
@@ -31,7 +32,7 @@
         <div v-else>
             <Pickup_pointMap />
         </div>
-        <div @click="changeCreateModal" title="добавить свою точку выдачи" class="add_new_prood">
+        <div @click="changeCreateModal" title="добавить свою точку выдачи" class="add_new_prood bg-dark">
           <span class="icon_img_add"></span>
         </div>
     </div>
@@ -81,6 +82,7 @@ export default defineComponent({
 .custom_table{
   border-radius: 5px !important;
   overflow:hidden;
+  cursor: pointer;
 }
 .nomenclature_img{
     //   --bs-body-font-family: var(--bs-font-sans-serif);
@@ -102,16 +104,16 @@ export default defineComponent({
   background: url('../../assets/company/add_anything.svg');
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: 0.6;
+  opacity: 0.8;
 
   &:hover{
-    opacity: 0.9;
+    opacity: 1;
   }
 }
 .add_new_prood{
   width: 100%;
   height: 50px;
-  box-shadow: 0px 0px 5px gray;
+  box-shadow:  0px 0px 5px rgba($color: rgb(0, 255, 255), $alpha: 0.6);
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -119,7 +121,7 @@ export default defineComponent({
   cursor: pointer;
   transition: all 0.3s linear;
   &:hover{
-    box-shadow: 0px 0px 5px rgba($color: #008cff, $alpha: 0.9);
+    box-shadow:  0px 0px 5px rgba($color: rgb(0, 255, 255), $alpha: 0.9);
   }
 }
 .active_stroke_table{

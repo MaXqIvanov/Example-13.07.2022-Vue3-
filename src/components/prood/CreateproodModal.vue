@@ -4,12 +4,12 @@
       <h3>Добавить товар</h3>
       <div class="block_createProod_info">
           <label for="current_company" class="form-label mt-2">ваша компания или партнёр</label>
-          <select id="current_company" class="form-select" aria-label="Пример выбора по умолчанию">
-            <option v-for="partner in user_partner" :key="partner.id" selected :value="partner">{{partner.id}}</option>
+          <select @change="getUserPoint(current_company)" v-model="current_company" id="current_company" class="form-select" aria-label="Пример выбора по умолчанию">
+            <option v-for="partner in user_company" :key="partner.id" :value="partner">{{partner._company}}</option>
           </select>
           <label for="current_point" class="form-label mt-2">выберите точку выдачи</label>
           <select v-model="current_point" id="current_point" class="form-select" aria-label="Пример выбора по умолчанию">
-            <option v-for="point in point_user" :key="point.id" :value="point">{{point.address}}</option>
+            <option v-for="point in user_point" :key="point.id" :value="point">{{point._shop}}</option>
           </select>
           <label for="current_nomenclature" class="form-label mt-2">выберите одну из предложенных номенклатур</label>
           <select v-model="current_nomenclature" id="current_nomenclature" class="form-select" aria-label="Пример выбора по умолчанию">
@@ -48,6 +48,7 @@ export default defineComponent({
     return {
       v$: useValidate(),
       errors: '',
+      current_company: '' as any,
       current_point: '' as any,
       current_nomenclature: '' as any,
       current_count: 1 as any,
@@ -70,6 +71,7 @@ export default defineComponent({
     ...mapActions({
         getUserProod: 'proods/getUserProod',
         createNewProod: 'proods/createNewProod',
+        getUserPoint: 'proods/getUserPoint',
     }),
     validateInputs() {
       this.v$.$validate()
@@ -77,16 +79,17 @@ export default defineComponent({
       
       if(this.v$.$error) {
       } else {
-          this.createNewProod({shop: this.current_point, nomenclature: this.current_nomenclature, count: this.current_count,
+          this.createNewProod({company: this.current_company, shop: this.current_point, nomenclature: this.current_nomenclature, count: this.current_count,
           cost: this.current_price})
       }
     }
   },
   computed: mapState({
     isCreateProodModal: (state:any)=> state.proods.isCreateProodModal,
-    point_user: (state:any)=> state.pickuppoints.point_user,
     user_nomenclature: (state:any)=> state.proods.user_nomenclature,
     user_partner: (state:any)=> state.proods.user_partner,
+    user_point: (state:any)=> state.proods.user_point,
+    user_company: (state:any)=> state.proods.user_company,
   }),
   mounted() {
       this.getUserProod()

@@ -3,6 +3,7 @@ import router from '@/router';
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import store from '.';
 
 export default {
     state: {
@@ -26,26 +27,33 @@ export default {
         addPointModal: false as boolean,
 
         // currentpoint user
+        isVisibleMyPoint: false as boolean,
         point_user: [] as any[],
+
+        // works with partners
+        getCountPartners: undefined as number | undefined,
+        allPartners: [] as any[],
     },
     mutations: {
+        changeIsVisibleMyPoint(state:any, payload:any){
+          console.log("works");
+          state.isVisibleMyPoint = payload;
+        },
         changeCurrentPage(state:any, page: number){
-            if(page < 1){
-              page = 1
-            }
-            if(page > state.page_count_point){
-              page = state.page_count_point
-            }
-            if(page !== state.current_page_point){
-              state.current_page_point = page;
-              api.get(`marketplace/shop_for_staff/?page=${page}&psz=${state.limit}`).then((response:any)=>{
-                console.log(response);
-                if(response.status === 200) {
-                    state.point_all = response.data.results
-                }
-              })
-            }
-          },
+          if(page > state.page_count){
+            page = state.page_count
+          }
+          if(page <= 1){
+            page = 1
+          }
+          state.current_page_point = page;
+          if(state.isVisibleMyPoint === false){
+            store.dispatch('pickuppoints/getPoints')
+          }
+          else{
+            store.dispatch('pickuppoints/getUserPoint')
+          }
+        },
         changeCreateModal(state:any){
           state.addPointModal = !state.addPointModal;
         },
@@ -217,6 +225,7 @@ export default {
               if(response.status === 200) {
                 state.point_all = response.data.results
                 state.page_count_point = Math.ceil(response.data.count / state.limit) 
+                state.point_user = [];
               }
           })
         },
@@ -293,12 +302,28 @@ export default {
         }:any, payload: any) {
           let addPartnersConfirm = confirm('Вы уверены что хотите добавить пользователя с данной точкой в партнёры')
           if(addPartnersConfirm){
-            api.post(``,{
-              // point_one...
+            api.post(`marketplace/partner/`,{
+              shop: state.point_one.id,
+              company: state.point_one.company
             }).then((response:any)=>{
               console.log(response);
+              if(response.status = 400){
+                alert(response.response.data.detail)
+              }else{
+                alert("заявка успешно отправлена")
+              // state.getCountPartners = state.getCountPartners + 1;
+              }
             })
           }
+        },
+        getStatusPartners({
+          commit, state
+        }:any, payload:any) {
+          api.get(`marketplace/partner/`).then((response:any)=>{
+            console.log(response);
+            state.getCountPartners = response.data.count;
+            state.allPartners = response.data.results
+          })
         },
         // works with maps
 
@@ -306,9 +331,13 @@ export default {
         getUserPoint({
           commit, state
         }:any, payload:any) {
+          //state.current_page_point = 1;
           let user_company:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings')
-          api.get(`marketplace/shop_for_staff/?company=${JSON.parse(user_company).company_id}`).then((response:any)=>{
+          api.get(`marketplace/shop_for_staff/?company=${JSON.parse(user_company).company_id}&is_company_employee=1`).then((response:any)=>{
+            console.log(response);            
             state.point_user = response.data.results
+            state.point_all = response.data.results
+            state.page_count_point = Math.ceil(response.data.count / state.limit) 
           })
         }
     },

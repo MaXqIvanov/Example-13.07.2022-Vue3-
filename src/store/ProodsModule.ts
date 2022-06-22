@@ -24,31 +24,31 @@ export default {
         isVisibleMyProod: false as boolean,
 
         // get partners for add proods
-        user_partner: [] as any,
+        user_partner: [] as any[],
+        user_point: [] as any[],
+        user_company: [] as any[],
     },
     mutations: {
       changeIsCreateProodModal(state:any){
         state.isCreateProodModal = !state.isCreateProodModal
       },
-      changeIsVisibleMyProod(state:any){
+      changeIsVisibleMyProod(state:any, payload:any){
         console.log("works");
-        state.isVisibleMyProod = !state.isVisibleMyProod;
+        state.isVisibleMyProod = payload;
       },
       changeCurrentPage(state:any, page: number){
-        if(page < 1){
-          page = 1
-        }
         if(page > state.page_count){
           page = state.page_count
         }
-        if(page !== state.current_page){
-          state.current_page = page;
-          api.get(`marketplace/product/?page=${page}&psz=${state.limit}`).then((response:any)=>{
-            console.log(response);
-            if(response.status === 200) {
-                state.proods_all = response.data.results
-            }
-          })
+        if(page <= 1){
+          page = 1
+        }
+        state.current_page = page;
+        if(state.isVisibleMyProod === false){
+          store.dispatch('proods/getProods')
+        }
+        else{
+          store.dispatch('proods/getCurrentUserProod')
         }
       },
       loadMap(state:any){
@@ -77,14 +77,6 @@ export default {
       .addTo(map)
       .togglePopup();
       // TODO: Here we want to load/setup the popup
-      // map.on("click", "usa-fill", function (e) {
-      //   new mapboxgl.Popup()
-      //     .setLngLat(e.lngLat)
-      //     .setHTML('Hello World.')
-      //     .addTo(map);
-      // });
-      // sidebar
-      // https://docs.mapbox.com/mapbox-gl-js/example/offset-vanishing-point-with-padding/
       });
       }
     },
@@ -93,26 +85,34 @@ export default {
             commit, state
         }:any, payload:any) {
             // psz - count prood on page
+            if(state.current_page == 0){
+              state.current_page = 1;
+            }
           api.get(`marketplace/product_for_staff/?page=${state.current_page}&psz=${state.limit}`).then((response:any)=>{
             console.log(response);
             if(response.status === 200) {
                 state.proods_all = response.data.results
-                state.page_count = Math.ceil(response.data.count / state.limit) 
+                if(Math.ceil(response.data.count / state.limit) !== 0){ 
+                 state.page_count = Math.ceil(response.data.count / state.limit) 
+                }
+                else{
+                  state.page_count = 1;
+                }
             }
           })
         },
-        addProod({
-          commit, state
-        }:any, payload:any) {
-          api.post(`marketplace/product_for_staff/`,{
-            shop: 1,
-            nomenclature: 1,
-            cost: 123,
-            count: 1,
-          }).then((response:any)=>{
-            console.log(response);
-          })
-        },
+        // addProod({
+        //   commit, state
+        // }:any, payload:any) {
+        //   api.post(`marketplace/product_for_staff/`,{
+        //     shop: 1,
+        //     nomenclature: 1,
+        //     cost: 123,
+        //     count: 1,
+        //   }).then((response:any)=>{
+        //     console.log(response);
+        //   })
+        // },
         addProodExcel({
           commit, state
         }:any, payload:any) {
@@ -158,27 +158,53 @@ export default {
         getUserProod({
           commit, state
         }:any, pyaload:any) {
-          store.dispatch(`pickuppoints/getUserPoint`)
+          // store.dispatch(`pickuppoints/getUserPoint`)
           api.get(`marketplace/nomenclature/?limit=50`).then((response:any)=>{
             state.user_nomenclature = response.data.results;
           })
-          api.get(`marketplace/partner/`).then((response:any)=>{
+          api.get(`marketplace/partner/?accepted=1`).then((response:any)=>{
             console.log(response);
             let company:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings');
             company = {
               company: JSON.parse(company).company_id,
-              short_name: JSON.parse(company).company_name,
-              id: 999,
+              _company: JSON.parse(company).company_name,
+              id: 0,
             }
             company = [company, ...response.data.results];
+            let new_company:any = [];
+            new_company = company.filter((value:any, index:any, self:any) =>
+              index === self.findIndex((t:any) => (
+                t.company === value.company
+              ))
+            )
             state.user_partner = company;
+            state.user_company = new_company;
           })
         },
+        getUserPoint({
+          commit, state
+        }:any, payload:any){
+          let company:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings');
+          company = JSON.parse(company);
+          if(company.company_name === payload._company){
+            api.get(`marketplace/shop_for_staff/?company=${company.company_id}`).then((response:any)=>{
+              state.user_point = response.data.results
+              state.user_point = state.user_point.map((elem:any, index:any)=> { return {...elem, '_shop': elem.address }})
+            })
+          }else{
+            state.user_point = []
+            state.user_point = state.user_partner.filter((elem:any)=> elem.company === payload.company)
+          }
+        },
+        // end info function for addCreatemodal
         getCurrentUserProod({
           commit, state
         }:any, payload:any){
           let id:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings');
-          id =JSON.parse(id).company_id,
+          id =JSON.parse(id).company_id;
+          if (state.current_page == 0) {
+            state.current_page == 1;
+          }
           api.get(`marketplace/product_for_staff/?page=${state.current_page}&psz=10&company=${id}`).then((response:any)=>{
             console.log(response);
             state.proods_all = response.data.results
@@ -189,16 +215,16 @@ export default {
         createNewProod({
           commit, state
         }:any, payload:any) {
+          let my_company:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings');
           api.post(`marketplace/product_for_staff/`,{
-            company: payload.company_id,
+            company: JSON.parse(my_company).company_id,
             shop: payload.shop.id,
             nomenclature: payload.nomenclature.id,
             cost: payload.cost,
             count: payload.count,
           }).then((response:any)=>{
             console.log(response);
-            // add change this for user_prood
-          })
+          }).then(()=>state.isCreateProodModal = !state.isCreateProodModal)
         }
     },
     modules: {

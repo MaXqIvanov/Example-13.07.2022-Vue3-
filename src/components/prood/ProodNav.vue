@@ -29,16 +29,20 @@ export default defineComponent({
   },
    methods: {  
     ...mapMutations({
+        changeCurrentPage: 'proods/changeCurrentPage',
+        changeIsVisibleMyProod: 'proods/changeIsVisibleMyProod',
     }),
     ...mapActions({
         getCurrentUserProod: 'proods/getCurrentUserProod',
         getProods: 'proods/getProods',
     }),
     nav_all(){
-        this.getProods()
+        this.changeIsVisibleMyProod(false);
+        this.changeCurrentPage(1);
     },
     nav_my(){
-        this.getCurrentUserProod()
+        this.changeIsVisibleMyProod(true);
+        this.changeCurrentPage(1);
     }
   },
    computed: mapState({
