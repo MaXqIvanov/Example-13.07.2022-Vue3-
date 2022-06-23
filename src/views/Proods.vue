@@ -5,6 +5,7 @@
       <ProodTable />
       <Pagination />
       <CreateproodModal v-if="isCreateProodModal"/>
+      <ChangeProodModal v-if="visibleChangeProodModal"/>
     </div>
   </div>
 </template>
@@ -16,6 +17,7 @@ import ProodTable from '@/components/prood/ProodTable.vue';
 import ProodNav from '../components/prood/ProodNav.vue';
 import Pagination from '@/components/prood/Pagination.vue';
 import CreateproodModal from '@/components/prood/CreateproodModal.vue';
+import ChangeProodModal from '@/components/prood/ChangeProodModal.vue';
 
 export default defineComponent({
   name: 'Proods',
@@ -23,7 +25,8 @@ export default defineComponent({
     ProodTable,
     ProodNav,
     Pagination,
-    CreateproodModal
+    CreateproodModal,
+    ChangeProodModal
 },
    methods: {  
     ...mapMutations({
@@ -34,6 +37,7 @@ export default defineComponent({
   },
   computed: mapState({
     isCreateProodModal: (state:any)=> state.proods.isCreateProodModal,
+    visibleChangeProodModal: (state:any)=> state.proods.visibleChangeProodModal,
   }),
   mounted() {
     this.getProods(1)

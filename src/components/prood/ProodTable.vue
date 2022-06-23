@@ -13,13 +13,16 @@
                 </tr>
             </thead>
             <tbody >
-                <tr @click="getOneProod(prood)" v-for="prood in proods_all" :key="prood.id"
+                <tr @click="isDelete && getOneProod(prood)" v-for="prood in proods_all" :key="prood.id"
                 @dblclick="navigateToOneProod">
                 <th :class="{'active_stroke_table': prood.id == choise_prood}" scope="row">{{ prood.id }}</th>
                 <td class="col-5" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._nomenclature }}</td>
                 <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.cost }}</td>
                 <td class="prood_count" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.count }}</td>
-                <td class="col-7 shop_address" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood?._shop?.address ? prood?._shop?.address : 'адрес не установлен'}}</td>
+                <td class="col-7 shop_address" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood?._shop?.address ? prood?._shop?.address : 'адрес не установлен'}}
+                <span v-if="isVisibleMyProod && proods_user.length > 0" @mouseleave="changeIsDelete"
+                  @mouseenter="changeIsDelete" title="удалить товар" @click="deteteMyProod(prood)"
+                  class="delete_btn"></span></td>
                 </tr>
             </tbody>
         </table>
@@ -39,6 +42,7 @@ export default defineComponent({
   name: 'ProodTable',
   data() {
     return {
+      isDelete: true as boolean,
     }
   },
   components: {
@@ -49,20 +53,45 @@ export default defineComponent({
     }),
     ...mapActions({
       getOneProod: 'proods/getOneProod',
+      deteteMyProod: 'proods/deteteMyProod',
     }),
     navigateToOneProod() {
       router.push(`/prood/${this.choise_prood}`)
+    },
+    changeIsDelete(){
+      this.isDelete = !this.isDelete;
     }
   },
   computed: mapState({
     proods_all: (state:any)=> state.proods.proods_all,
     choise_prood: (state:any)=> state.proods.choise_prood,
+    isVisibleMyProod: (state:any)=> state.proods.isVisibleMyProod,
+    proods_user: (state:any)=> state.proods.proods_user,
   }),
   mounted() {
   },
 });
 </script>
 <style lang="scss" scoped>
+.shop_address{
+  position: relative;
+}
+.delete_btn{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 15px;
+  width: 15px;
+  opacity: 0.5;
+  background-image: url('../../assets/close_btn.svg');
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: all 0.3s linear;
+  &:hover{
+    opacity:0.75;
+  }
+}
 .custom_table{
   border-radius: 5px !important;
   overflow:hidden;

@@ -27,6 +27,9 @@ export default {
         user_partner: [] as any[],
         user_point: [] as any[],
         user_company: [] as any[],
+
+        // works with my prood
+        visibleChangeProodModal: false as boolean,
     },
     mutations: {
       changeIsCreateProodModal(state:any){
@@ -34,7 +37,12 @@ export default {
       },
       changeIsVisibleMyProod(state:any, payload:any){
         console.log("works");
+        state.choise_prood = undefined;
+        state.prood_one = {};
         state.isVisibleMyProod = payload;
+      },
+      changeChangeModal(state:any){
+        state.visibleChangeProodModal = !state.visibleChangeProodModal;
       },
       changeCurrentPage(state:any, page: number){
         if(page > state.page_count){
@@ -85,35 +93,31 @@ export default {
             commit, state
         }:any, payload:any) {
             // psz - count prood on page
+          if(state.current_page == 0){
+            state.current_page = 1;
+          }
+          let params = router.currentRoute.value.query.settings ? router.currentRoute.value.query.settings : '';
+          console.log(params);
+          if(params === "my"){
+            state.isVisibleMyProod = true;
+            store.dispatch('proods/getCurrentUserProod')
+          }else{
             state.isVisibleMyProod = false;
-            if(state.current_page == 0){
-              state.current_page = 1;
-            }
-          api.get(`marketplace/product_for_staff/?page=${state.current_page}&psz=${state.limit}`).then((response:any)=>{
-            console.log(response);
-            if(response.status === 200) {
-                state.proods_all = response.data.results
-                if(Math.ceil(response.data.count / state.limit) !== 0){ 
-                 state.page_count = Math.ceil(response.data.count / state.limit) 
-                }
-                else{
-                  state.page_count = 1;
-                }
-            }
-          })
+            api.get(`marketplace/product_for_staff/?page=${state.current_page}&psz=${state.limit}`).then((response:any)=>{
+              console.log(response);
+              if(response.status === 200) {
+                  state.proods_all = response.data.results
+                  state.proods_user = [];
+                  if(Math.ceil(response.data.count / state.limit) !== 0){ 
+                   state.page_count = Math.ceil(response.data.count / state.limit) 
+                  }
+                  else{
+                    state.page_count = 1;
+                  }
+              }
+            })
+          }
         },
-        // addProod({
-        //   commit, state
-        // }:any, payload:any) {
-        //   api.post(`marketplace/product_for_staff/`,{
-        //     shop: 1,
-        //     nomenclature: 1,
-        //     cost: 123,
-        //     count: 1,
-        //   }).then((response:any)=>{
-        //     console.log(response);
-        //   })
-        // },
         addProodExcel({
           commit, state
         }:any, payload:any) {
@@ -125,14 +129,35 @@ export default {
         },
         changeProod({
           commit, state
-        }:any, payload:any) {
-          api.put(`marketplace/product_for_staff/${payload.id}`,{
-            // change this when already back
-            nomenclature: 1,
-            cost: 550
+        }:any, payload:any) {      
+          api.put(`marketplace/product_for_staff/${state.prood_one.id}/`,{
+            company: state.prood_one.company,
+            nomenclature: state.prood_one.nomenclature,
+            shop: state.prood_one.shop,
+            cost: payload.cost,
+            count: payload.count,
           }).then((response:any)=>{
-            console.log(response);
+            let indexArray:any;
+              state.proods_all.map((elem:any, index:any)=> {if(elem.id === state.prood_one.id){
+                return indexArray = index
+              }} )
+            state.proods_all[indexArray] = response.data;
+            state.prood_one = response.data;
+          }).then(()=>{
+            state.visibleChangeProodModal = !state.visibleChangeProodModal
           })
+        },
+        deteteMyProod({
+          commit, state
+        }:any, payload:any) {
+          console.log(payload);
+          let confirm_todo = confirm('вы уверены, что хотите удалить товар?')
+          if(confirm_todo){
+            api.delete(`marketplace/product_for_staff/${payload.id}/`).then((response:any)=>{
+              console.log(response);
+              state.proods_all = state.proods_all.filter((elem:any)=> elem.id !== payload.id)
+            })
+          }
         },
         // for Prood One
         getOneProod({
@@ -225,7 +250,7 @@ export default {
             cost: payload.cost,
             count: payload.count,
           }).then((response:any)=>{
-            console.log(response);
+            state.proods_all = [...state.proods_all, response.data]
           }).then(()=>state.isCreateProodModal = !state.isCreateProodModal)
         }
     },
