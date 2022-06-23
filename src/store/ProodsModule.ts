@@ -85,6 +85,7 @@ export default {
             commit, state
         }:any, payload:any) {
             // psz - count prood on page
+            state.isVisibleMyProod = false;
             if(state.current_page == 0){
               state.current_page = 1;
             }
@@ -200,6 +201,7 @@ export default {
         getCurrentUserProod({
           commit, state
         }:any, payload:any){
+          state.isVisibleMyProod = true;
           let id:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings');
           id =JSON.parse(id).company_id;
           if (state.current_page == 0) {

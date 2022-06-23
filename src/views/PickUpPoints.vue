@@ -5,6 +5,7 @@
       <Pickup_pointTable />
       <PaginationPoint />
       <CreatepointModal v-if="addPointModal"/>
+      <ChangePointModal v-if="visibleChangeModal"/>
     </div>
   </div>
 </template>
@@ -16,6 +17,7 @@ import Pickup_pointTable from '@/components/pickuppoint/Pickup_pointTable.vue';
 import Pickup_pointNav from '@/components/pickuppoint/Pickup_pointNav.vue';
 import PaginationPoint from '@/components/pickuppoint/PaginationPoint.vue';
 import CreatepointModal from '@/components/pickuppoint/CreatepointModal.vue';
+import ChangePointModal from '@/components/pickuppoint/ChangePointModal.vue';
 
 export default defineComponent({
   name: 'PickUpPoints',
@@ -23,7 +25,8 @@ export default defineComponent({
     Pickup_pointTable,
     Pickup_pointNav,
     PaginationPoint,
-    CreatepointModal
+    CreatepointModal,
+    ChangePointModal,
 },
    methods: {  
     ...mapMutations({
@@ -34,6 +37,7 @@ export default defineComponent({
   },
   computed: mapState({
     addPointModal: (state:any)=> state.pickuppoints.addPointModal,
+    visibleChangeModal: (state:any)=> state.pickuppoints.visibleChangeModal,
   }),
   mounted() {
     this.getPoints()

@@ -33,10 +33,17 @@ export default {
         // works with partners
         getCountPartners: undefined as number | undefined,
         allPartners: [] as any[],
+
+        // change info for point
+        changeMap: {} as any,
+        newAddress: {} as any,
+        visibleChangeModal: false as boolean,
     },
     mutations: {
         changeIsVisibleMyPoint(state:any, payload:any){
           console.log("works");
+          state.point_one = {};
+          state.choose_point = undefined;
           state.isVisibleMyPoint = payload;
         },
         changeCurrentPage(state:any, page: number){
@@ -55,7 +62,56 @@ export default {
           }
         },
         changeCreateModal(state:any){
+          state.address = {};
           state.addPointModal = !state.addPointModal;
+        },
+        changeChangeModal(state:any){
+          state.newAddress = {};
+          state.visibleChangeModal = !state.visibleChangeModal;
+        },
+        loadMapChangeModal(state:any){
+          let long:any = 30.3158;
+          let lati:any = 59.95901;
+          mapboxgl.accessToken =
+            "pk.eyJ1Ijoia2VtcGVydmlwcyIsImEiOiJjbDRoYzg4cDAwMHgxM2J1YmU5cTJsNmZ4In0.LC5CLsMavfdKrMPj_JORuw";
+          state.changeMap = new mapboxgl.Map({
+            container: "createPoint_map",
+            style: "mapbox://styles/mapbox/streets-v9",
+            center: [long, lati],
+            zoom: 8,
+          });
+          state.changeMap.on('load', () => {
+          // TODO: Here we want to load a layer
+          })
+            const geocoder = new MapboxGeocoder({
+            accessToken: "pk.eyJ1Ijoia2VtcGVydmlwcyIsImEiOiJjbDRoYzg4cDAwMHgxM2J1YmU5cTJsNmZ4In0.LC5CLsMavfdKrMPj_JORuw",
+            mapboxgl: mapboxgl,
+            placeholder: 'Введите адрес вашей точки выдачи...',
+            reverseGeocode: true,
+            countries: 'ru',
+            language: 'ru',
+            })
+            state.changeMap.addControl(geocoder)
+            geocoder.on('result', (e:any) => {
+              //console.log(JSON.stringify(e.result));
+              let city: any;
+              try {
+                city = e.result.context[2].text_ru 
+              } catch (error) {
+                
+              }              
+              let newInfo = {
+                _city: city,
+                longitude: e.result.center[0],
+                latitude: e.result.center[1],
+                address: e.result.place_name
+              }
+              state.newAddress = newInfo;
+            });
+            state.changeMap.addControl(new mapboxgl.NavigationControl());
+            const marker:any = new mapboxgl.Marker().setLngLat([state.point_one.longitude, state.point_one.latitude])
+            .addTo(state.changeMap)
+          window.setTimeout(()=>state.changeMap.resize(), 500);
         },
         loadMapCreateModal(state:any){
           let long:any = 30.3158;
@@ -84,12 +140,15 @@ export default {
               //console.log(JSON.stringify(e.result));
               let city: any;
               try {
-                city = e.result.place_name.split(',') 
+                city = e.result.context[2].text_ru 
               } catch (error) {
                 
               }
+              console.log("this is result");
+              console.log(city);
+              
               let newInfo = {
-                _city: city[1].trim(),
+                _city: city,
                 longitude: e.result.center[0],
                 latitude: e.result.center[1],
                 address: e.result.place_name
@@ -226,6 +285,7 @@ export default {
                 state.point_all = response.data.results
                 state.page_count_point = Math.ceil(response.data.count / state.limit) 
                 state.point_user = [];
+                state.isVisibleMyPoint = false;
               }
           })
         },
@@ -286,8 +346,31 @@ export default {
         changePoint({
             commit, state
         }:any, payload:any) {
-            api.put(``).then((response:any)=>{
-                console.log(response);
+          console.log("work function changePoint");
+          console.log(state.point_one.id);
+          let city: any;
+            api.get(`marketplace/city/?search=${state.newAddress._city}`).then((response:any)=>{
+              console.log(response.data.results[0].id);
+              city = response.data.results[0].id
+            }).finally(()=>{
+              api.put(`marketplace/shop_for_staff/${state.point_one.id}/`,{
+                company: state.point_one.company,
+                city: Number(city) ? Number(city) : state.point_one.city,
+                address: state.newAddress.address ? state.newAddress.address : state.point_one.address,
+                longitude: state.newAddress.address ? state.newAddress.longitude : state.point_one.longitude,
+                latitude:  state.newAddress.address ? state.newAddress.latitude : state.point_one.latitude,
+                description: payload.description,
+              }).then((response:any)=>{
+
+               let indexArray:any;
+               state.point_all.map((elem:any, index:any)=> {if(elem.id === state.point_one.id){
+                 return indexArray = index
+               }} )
+               state.point_all[indexArray] = response.data;
+               state.point_one = response.data;
+               state.visibleChangeModal = !state.visibleChangeModal;
+                  //console.log(response.data);
+              })
             })
         },
         deletePoint({

@@ -9,7 +9,7 @@
             <div>Адрес компании : {{point_one.address}}</div>
             <div>{{point_one.description}}</div>
             <br />
-            <div @click="addPartners" title="при добавлении точки в избранное, человеку, который владеет данной точкой отправится запрос в партнёры" class="btn btn-primary">добавить точку в избранное</div>
+            <div @click="addPartners" title="при добавлении точки в избранное, человеку, который владеет данной точкой отправится запрос в партнёры" class="btn btn-primary">отправить заявку в партнёры</div>
         </div>
         <div class="separate_line_wrapper">
             <div class="separate_line"></div>
