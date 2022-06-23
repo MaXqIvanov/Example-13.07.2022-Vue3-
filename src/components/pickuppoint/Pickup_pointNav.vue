@@ -41,12 +41,22 @@ export default defineComponent({
         getStatusPartners: 'pickuppoints/getStatusPartners',
     }),
     nav_all(){
-        this.changeIsVisibleMyPoint(false);
-        this.changeCurrentPage(1);
+        let promise = new Promise((resolve, reject) => {
+            resolve(this.$router.push('/pickup'))
+        });
+        promise.then(()=>{
+            this.changeIsVisibleMyPoint(false);
+            this.changeCurrentPage(1);
+        })
     },
     nav_my(){
-        this.changeIsVisibleMyPoint(true);
-        this.changeCurrentPage(1);
+       let promise = new Promise((resolve, reject) => {
+            resolve(this.$router.push('/pickup?settings=my'))
+        });
+        promise.then(()=>{
+            this.changeIsVisibleMyPoint(true);
+            this.changeCurrentPage(1);
+        })
     },
     nav_request_partner(){
         alert('переход в заявки')
@@ -64,6 +74,11 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.pickup_point_nav_title{
+    @media(max-width:900px){
+        font-size: medium;
+    }
+}
 .pickup_point_edit{
     margin-right: 10px;
     height: 25px;

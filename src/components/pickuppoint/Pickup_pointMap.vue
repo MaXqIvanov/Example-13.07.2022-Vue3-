@@ -4,10 +4,12 @@
       <div class="block_address">
         <div class="block_address_wrapper">
           <div class="template_address" v-for="point in point_all" :key="point.id">
-            <div :class="{active_map : point.id === currentMap}" @click="[flyToNewPoint(point), getOnePoint({id: point.id}) ]"
+            <div :class="{active_map : point.id === currentMap}" @click="isDelete && [flyToNewPoint(point), getOnePoint({id: point.id}) ]"
             @dblclick="navigateToOneNomenclature" class="template_address_wrapper">
               <div class="map_company">{{point._company}}</div>
               <div class="map_address">{{point.address}}</div>
+              <div @mouseleave="changeIsDelete"
+                  @mouseenter="changeIsDelete" v-if="isVisibleMyPoint && point_user.length > 0" class="delete_btn" @click="deletePoint(point)"></div>
             </div>
           </div>
         </div>
@@ -31,6 +33,7 @@ export default defineComponent({
   data() {
     return {
       isCollapsed: true,
+      isDelete: true as boolean,
     }
   },
   setup() {
@@ -45,19 +48,28 @@ export default defineComponent({
     }),
     ...mapActions({
       getOnePoint: 'pickuppoints/getOnePoint',
+      deletePoint: 'pickuppoints/deletePoint',
     }),
     navigateToOneNomenclature() {
       router.push(`/pickup/${this.currentMap}`)
+    },
+    changeIsDelete(){
+      this.isDelete = !this.isDelete;
     }
   },
   computed: mapState({
     current_page_point: (state:any)=>state.pickuppoints.current_page_point,
     point_all: (state:any)=>state.pickuppoints.point_all,
     currentMap: (state:any)=>state.pickuppoints.currentMap,
+    isVisibleMyPoint: (state:any)=> state.pickuppoints.isVisibleMyPoint,
+    point_user: (state:any)=> state.pickuppoints.point_user,
   }),
   watch: {
     // Note: only simple paths. Expressions are not supported.
     current_page_point (){
+      this.loadMap()
+    },
+    point_all (){
       this.loadMap()
     },
     collapsed (){      
@@ -73,6 +85,22 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.delete_btn{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 15px;
+  width: 15px;
+  opacity: 0.6;
+  background-image: url('../../assets/close_btn.svg');
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &:hover{
+    opacity:0.8;
+  }
+}
 .active_map{
   box-shadow: 0px 0px 4px rgba($color: #de00fc, $alpha: 1.0) !important;
 }

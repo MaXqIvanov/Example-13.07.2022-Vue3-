@@ -279,7 +279,14 @@ export default {
         getPoints({
             commit, state
         }:any) {
-          api.get(`marketplace/shop_for_staff/?page=${state.current_page_point}&psz=${state.limit}`).then((response:any)=>{
+          
+          let params = router.currentRoute.value.query.settings ? router.currentRoute.value.query.settings : '';
+          console.log(params);
+          if(params === "my"){
+            state.isVisibleMyPoint = true;
+            store.dispatch('pickuppoints/getUserPoint')
+          }else{
+            api.get(`marketplace/shop_for_staff/?page=${state.current_page_point}&psz=${state.limit}`).then((response:any)=>{
               console.log(response);
               if(response.status === 200) {
                 state.point_all = response.data.results
@@ -287,7 +294,8 @@ export default {
                 state.point_user = [];
                 state.isVisibleMyPoint = false;
               }
-          })
+            })
+          }
         },
         createPoint({
             commit, state
@@ -375,10 +383,16 @@ export default {
         },
         deletePoint({
             commit, state
-        }:any) {
-            api.delete(``).then((response:any)=>{
-                console.log(response);
+        }:any, payload:any) {
+          let confirm_todo = confirm('вы уверены что хотите удалить данную точку выдачи')
+          if(confirm_todo){
+            api.delete(`marketplace/shop_for_staff/${payload.id}/`).then((response:any)=>{
+              state.point_all = state.point_all.filter((elem:any)=> elem.id !== payload.id)
+              if(state.point_one.id === payload.id){
+                state.point_one = {}
+              }
             })
+          }
         },
         addPartners({
           commit, state

@@ -18,14 +18,16 @@
                 </tr>
             </thead>
             <tbody >
-                <tr @click="getOnePoint(pickuppoints)" v-for="pickuppoints in point_all" :key="pickuppoints.id"
+                <tr @click="isDelete && getOnePoint(pickuppoints)" v-for="pickuppoints in point_all" :key="pickuppoints.id"
                 @dblclick="navigateToOneNomenclature">
                   <th :class="{'active_stroke_table': pickuppoints.id == choose_point}" scope="row">{{ pickuppoints?.id }}</th>
                   <td class="col-1" :class="{'active_stroke_table': pickuppoints.id == choose_point}">{{ pickuppoints?._city }}</td>
                   <td class="col-1" :class="{'active_stroke_table': pickuppoints.id == choose_point}">{{ pickuppoints?._company }}</td>
                   <td class="col-4" :class="{'active_stroke_table': pickuppoints.id == choose_point}">{{ pickuppoints?.address }}</td>
                   <td class="col-6 point_description" :class="{'active_stroke_table': pickuppoints.id == choose_point}">{{ pickuppoints?.description ? 
-                  pickuppoints?.description : '-'}}</td>
+                  pickuppoints?.description : 'описание отсутствует'}}<span v-if="isVisibleMyPoint && point_user.length > 0" @mouseleave="changeIsDelete"
+                  @mouseenter="changeIsDelete" title="удалить точку выдачи" @click="deletePoint(pickuppoints)"
+                  class="delete_btn"></span></td>
                 </tr>
             </tbody>
         </table>
@@ -49,6 +51,7 @@ export default defineComponent({
   name: 'Pickup_pointTable',
   data() {
     return {
+      isDelete: true as boolean,
     }
   },
   components: {
@@ -61,21 +64,46 @@ export default defineComponent({
     }),
     ...mapActions({
       getOnePoint: 'pickuppoints/getOnePoint',
+      deletePoint: 'pickuppoints/deletePoint',
     }),
     navigateToOneNomenclature() {
       router.push(`/pickup/${this.choose_point}`)
+    },
+    changeIsDelete(){
+      this.isDelete = !this.isDelete;
     }
   },
   computed: mapState({
     point_all: (state:any)=> state.pickuppoints.point_all,
     choose_point: (state:any)=> state.pickuppoints.choose_point,
     visibleMap: (state:any)=> state.pickuppoints.visibleMap,
+    isVisibleMyPoint: (state:any)=> state.pickuppoints.isVisibleMyPoint,
+    point_user: (state:any)=> state.pickuppoints.point_user,
   }),
   mounted() {
   },
 });
 </script>
 <style lang="scss" scoped>
+.point_description{
+  position: relative;
+}
+.delete_btn{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 15px;
+  width: 15px;
+  opacity: 0.6;
+  background-image: url('../../assets/close_btn.svg');
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &:hover{
+    opacity:0.8;
+  }
+}
 .custom_form_check{
   cursor: pointer !important;
 }
