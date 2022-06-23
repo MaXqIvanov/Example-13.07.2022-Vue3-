@@ -416,7 +416,10 @@ export default {
         getStatusPartners({
           commit, state
         }:any, payload:any) {
-          api.get(`marketplace/partner/`).then((response:any)=>{
+          let user_company:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings')
+          //?company=${JSON.parse(user_company).company_id}
+          // невозможно получить список партнёров для компании - которые ждут апрува
+          api.get(`marketplace/partner/?accepted=0&declined=0&company=${JSON.parse(user_company).company_id}`).then((response:any)=>{
             console.log(response);
             state.getCountPartners = response.data.count;
             state.allPartners = response.data.results
@@ -430,7 +433,7 @@ export default {
         }:any, payload:any) {
           //state.current_page_point = 1;
           let user_company:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings')
-          api.get(`marketplace/shop_for_staff/?company=${JSON.parse(user_company).company_id}&is_company_employee=1`).then((response:any)=>{
+          api.get(`marketplace/shop_for_staff/?company=${JSON.parse(user_company).company_id}&page=${state.current_page_point}&psz=${state.limit}`).then((response:any)=>{
             console.log(response);            
             state.point_user = response.data.results
             state.point_all = response.data.results
