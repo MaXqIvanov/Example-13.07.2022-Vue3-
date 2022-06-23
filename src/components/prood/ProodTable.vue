@@ -19,7 +19,7 @@
                 <td class="col-5" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._nomenclature }}</td>
                 <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.cost }}</td>
                 <td class="prood_count" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.count }}</td>
-                <td class="col-7 shop_address" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._shop.address }}</td>
+                <td class="col-7 shop_address" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood?._shop?.address ? prood?._shop?.address : 'адрес не установлен'}}</td>
                 </tr>
             </tbody>
         </table>
