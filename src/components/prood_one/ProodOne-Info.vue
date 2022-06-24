@@ -25,7 +25,7 @@
         </div>
         <div class="separate_line"></div>
         <div class="block_address">
-            <div id="map" />
+          <div class="map_wrapper"><div id="map" /></div>
             <div v-if="prood_one?._shop?.address">{{prood_one._shop?.address}}</div>
         </div>
     </div>
@@ -62,6 +62,13 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.map_wrapper{
+  overflow: hidden;
+  height: 300px;
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px rgb(0, 204, 255);
+}
 #map {
   height: 300px;
 }
@@ -98,7 +105,7 @@ export default defineComponent({
   justify-content: center;
 }
 .proodOne-info_wrapper{
-  margin-top: 10px;
+  margin-top: 30px;
   height: 90%;
   width: 90%;
   min-height: fit-content;

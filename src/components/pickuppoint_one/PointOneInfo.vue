@@ -15,7 +15,7 @@
             <div class="separate_line"></div>
         </div>
         <div class="block_address">
-            <div id="onePoint_map"></div>
+            <div class="onePoint_map_wrapper"><div id="onePoint_map"></div></div>
         </div>
     </div>
   </div>
@@ -57,6 +57,13 @@ export default defineComponent({
     background-repeat: no-repeat;
     background-size: contain;
 }
+.onePoint_map_wrapper{
+    height: 300px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0px 0px 3px rgb(0, 204, 255);
+}
 #onePoint_map{
     height: 300px;
     width: 100%;
@@ -84,7 +91,7 @@ export default defineComponent({
   justify-content: center;
 }
 .pointOne-info_wrapper{
-  margin-top: 10px;
+  margin-top: 30px;
   height: 90%;
   width: 90%;
   min-height: fit-content;

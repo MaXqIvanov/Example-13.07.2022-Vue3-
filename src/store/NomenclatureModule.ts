@@ -13,6 +13,14 @@ export default {
 
         // all modal window
         isCreateNomenclatureModal: false as boolean,
+
+        // work with add nomenclature
+        visibleAddPhoto: false as boolean,
+        nomenclature_suggest: undefined as number | undefined,
+
+        // work with not approved nomenclature
+        notApprovedNomenclature: [] as any[],
+        notApprovedNomenclatureCount: undefined as number | undefined,
     },
     mutations: {
       changeCurrentPage(state:any, page: number){
@@ -49,20 +57,63 @@ export default {
             }
           })
         },
+        CreateNomenclature({
+          commit, state
+        }:any, payload:any){
+          console.log("function createNomenclature");
+          console.log(payload);
+          api.post(`marketplace/nomenclature_suggest/`,{
+            name: payload.name.trim(),
+            height: payload.height,
+            width: payload.width,
+            long: payload.long,
+            weight: payload.weight,
+          }).then((response:any)=>{
+            console.log(response);
+            state.nomenclature_suggest = response.data.id;
+            state.visibleAddPhoto = !state.visibleAddPhoto
+          })
 
+            // state.nomenclature_suggest = 16;
+            // state.visibleAddPhoto = !state.visibleAddPhoto
+        },
+        addPhotoNomenclature({
+          commit, state
+        }:any, payload:any){
+          api.post(`marketplace/nomenclature_photo_suggest/`, payload.formData).then((response:any)=>{
+            console.log(response); 
+          })
+        },
+        getNotApprovedNomenclatureCount({
+          commit, state
+        }:any, payload:any){
+          api.get(`marketplace/nomenclature_suggest/get_count_not_approved/`).then((response:any)=>{
+            state.notApprovedNomenclatureCount = response.data.count
+            // state.notApprovedNomenclature = response.data
+          })
+        },
         // for Nomenclature_One
         getOneNomenclature({
           commit, state
         }:any, payload:any) {
-          if(state.choose_nomenclature !== payload){
-            state.choose_nomenclature = payload;
-            api.get(`marketplace/nomenclature/${payload}`).then((response:any)=>{
-              state.nomenclature_one = response.data
-            })
+          if(payload){
+            if(state.choose_nomenclature !== payload){
+              state.choose_nomenclature = payload;
+              api.get(`marketplace/nomenclature/${payload}`).then((response:any)=>{
+                state.nomenclature_one = response.data
+              })
+            }else{
+              state.choose_nomenclature == payload;
+            }
           }else{
-            state.choose_nomenclature == payload;
+            if(Object.keys(state.nomenclature_one).length === 0){
+              state.choose_nomenclature = Number(router.currentRoute.value.params.id);
+              api.get(`marketplace/nomenclature/${state.choose_nomenclature}`).then((response:any)=>{
+                state.nomenclature_one = response.data
+              })
+            }
           }
-        }
+        },
     },
     modules: {
     },
