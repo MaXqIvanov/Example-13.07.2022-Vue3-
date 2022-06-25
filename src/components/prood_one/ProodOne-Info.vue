@@ -80,12 +80,12 @@ export default defineComponent({
   display: flex;
 }
 .proodOne_info{
-    margin-left: 40px;
+    margin-left: 20px;
+    margin-right: 5px;
 }
 .block_nomenclature{
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 .separate_line{
     width: 2px;
@@ -94,6 +94,7 @@ export default defineComponent({
 .proodOne_img{
     height: 200px;
     width: 200px;
+    min-width: 150px;
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -113,5 +114,9 @@ export default defineComponent({
   grid-template-columns: 49% 2% 49%;
   font-family: 'Montserrat', sans-serif;
   color: rgb(100, 100, 100);
+
+  @media(max-width: 1100px){
+    width: 96%;
+  }
 }
 </style>

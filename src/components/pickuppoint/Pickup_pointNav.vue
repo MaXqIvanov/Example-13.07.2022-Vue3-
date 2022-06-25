@@ -3,7 +3,6 @@
     <div class="pickup_point_nav_wrapper">
         <div class="pickup_point_nav_title">Точки выдачи</div>
         <div class="d-flex pickup_point_nav_choice">
-            <div title="редактировать точку выдачи" @click="changeChangeModal" v-if="Object.keys(point_one).length !== 0 && isVisibleMyPoint == true && point_user.length !== 0" class="pickup_point_edit"></div>
             <div @click="nav_request_partner" v-if="isVisibleMyPoint == true && point_user.length !== 0" class="pickup_point_addPartners"><span>заявки в партнёры</span>
             <div class="circle_count_partners"><span>{{getCountPartners && getCountPartners}}</span></div></div>
             <div @click="addPartners" v-if="Object.keys(point_one).length !== 0 && isVisibleMyPoint == false && point_user.length == 0 ? true : false" class="pickup_point_addPartners"><span>добавить в партнёры</span></div>
@@ -34,7 +33,6 @@ export default defineComponent({
     ...mapMutations({
         changeCurrentPage: 'pickuppoints/changeCurrentPage',
         changeIsVisibleMyPoint: 'pickuppoints/changeIsVisibleMyPoint',
-        changeChangeModal: 'pickuppoints/changeChangeModal',
     }),
     ...mapActions({
         addPartners: 'pickuppoints/addPartners',
@@ -77,19 +75,6 @@ export default defineComponent({
 .pickup_point_nav_title{
     @media(max-width:900px){
         font-size: medium;
-    }
-}
-.pickup_point_edit{
-    margin-right: 10px;
-    height: 25px;
-    width: 25px;    
-    background-image: url('../../assets/change_anything_V2.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: 0.7;
-    transition: all 0.3s linear;
-    &:hover{
-        opacity: 1;
     }
 }
 .circle_count_partners{

@@ -15,6 +15,7 @@
                     <th scope="col">компания</th>
                     <th scope="col">адрес</th>
                     <th scope="col">описание</th>
+                    <th v-if="isVisibleMyPoint && point_user.length > 0" scope="col"></th>
                 </tr>
             </thead>
             <tbody >
@@ -25,9 +26,13 @@
                   <td class="col-1" :class="{'active_stroke_table': pickuppoints.id == choose_point}">{{ pickuppoints?._company }}</td>
                   <td class="col-4" :class="{'active_stroke_table': pickuppoints.id == choose_point}">{{ pickuppoints?.address }}</td>
                   <td class="col-6 point_description" :class="{'active_stroke_table': pickuppoints.id == choose_point}">{{ pickuppoints?.description ? 
-                  pickuppoints?.description : 'описание отсутствует'}}<span v-if="isVisibleMyPoint && point_user.length > 0" @mouseleave="changeIsDelete"
-                  @mouseenter="changeIsDelete" title="удалить точку выдачи" @click="deletePoint(pickuppoints)"
-                  class="delete_btn"></span></td>
+                  pickuppoints?.description : 'описание отсутствует'}}</td>
+                  <td class="todo_pickuppoints" v-if="isVisibleMyPoint && point_user.length > 0">
+                    <div title="удалить точку выдачи" @click="deletePoint(pickuppoints)" class="delete_pickuppoints"></div>
+                    <div title="редактировать точку выдачи" @click="changeChangeModal(); setPointOne(pickuppoints)"
+                    v-if="isVisibleMyPoint == true && point_user.length !== 0"
+                    class="change_pickuppoints"></div>
+                  </td>
                 </tr>
             </tbody>
         </table>
@@ -60,7 +65,9 @@ export default defineComponent({
    methods: {  
     ...mapMutations({
       changeDisplayWindow: 'pickuppoints/changeDisplayWindow',
-      changeCreateModal: 'pickuppoints/changeCreateModal'
+      changeCreateModal: 'pickuppoints/changeCreateModal',
+      changeChangeModal: 'pickuppoints/changeChangeModal',
+      setPointOne: 'pickuppoints/setPointOne',
     }),
     ...mapActions({
       getOnePoint: 'pickuppoints/getOnePoint',
@@ -79,12 +86,43 @@ export default defineComponent({
     visibleMap: (state:any)=> state.pickuppoints.visibleMap,
     isVisibleMyPoint: (state:any)=> state.pickuppoints.isVisibleMyPoint,
     point_user: (state:any)=> state.pickuppoints.point_user,
+    point_one: (state:any)=>state.pickuppoints.point_one,
   }),
   mounted() {
   },
 });
 </script>
 <style lang="scss" scoped>
+.change_pickuppoints{
+  height: 20px;
+  width: 20px;    
+  padding-left: 5px;
+  background-image: url('../../assets/change_anything_V2.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.8;
+  transition: all 0.3s linear;
+  
+  &:hover{
+    opacity: 1;
+  }
+}
+.delete_pickuppoints{
+  height: 25px;
+  width: 25px;
+  opacity: 0.6;
+  background-image: url('../../assets/close_btn.svg');
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &:hover{
+    opacity:0.8;
+  }
+}
+.todo_pickuppoints{
+  vertical-align: middle;
+}
 .point_description{
   position: relative;
 }

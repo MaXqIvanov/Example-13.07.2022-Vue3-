@@ -65,9 +65,12 @@ export default {
           state.address = {};
           state.addPointModal = !state.addPointModal;
         },
-        changeChangeModal(state:any){
+        changeChangeModal(state:any, payload:any){
           state.newAddress = {};
           state.visibleChangeModal = !state.visibleChangeModal;
+        },
+        setPointOne(state:any, payload:any){
+          state.point_one = payload
         },
         loadMapChangeModal(state:any){
           let long:any = 30.3158;

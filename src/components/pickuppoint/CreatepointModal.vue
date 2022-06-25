@@ -106,7 +106,7 @@ export default defineComponent({
     left: 50%;
     height: fit-content;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     width: 720px;
     transform: translate(-50%, -50%);
     box-shadow: 0px 0px 5px gray;
@@ -114,13 +114,27 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: scroll;
+    z-index: 999;
 }
 .block_createPoint_wrapper{
     height: 96%;
     width: 96%;
     text-align: center;
     position: relative;
-
+    max-height: 90vh;
+}
+.block_createPoint::-webkit-scrollbar {
+    width: 6px; /* ширина scrollbar */
+}
+.block_createPoint::-webkit-scrollbar-track {
+    background: rgb(255, 255, 255); /* цвет дорожки */
+    border-radius: 25px;
+}
+.block_createPoint::-webkit-scrollbar-thumb {
+    background-color: #b8e5ff; /* цвет плашки */
+    border-radius: 20px; /* закругления плашки */
+    border: 3px solid #b8e5ff; /* padding вокруг плашки */
 }
 </style>
 <style lang="scss">

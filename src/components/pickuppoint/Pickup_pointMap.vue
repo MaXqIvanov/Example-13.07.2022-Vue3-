@@ -8,6 +8,10 @@
             @dblclick="navigateToOneNomenclature" class="template_address_wrapper">
               <div class="map_company">{{point._company}}</div>
               <div class="map_address">{{point.address}}</div>
+              <div title="редактировать точку выдачи" @mouseleave="changeIsDelete"
+              @mouseenter="changeIsDelete" @click="changeChangeModal(); setPointOne(point)"
+              v-if="isVisibleMyPoint == true && point_user.length !== 0"
+              class="change_pickuppoints_map"></div>
               <div @mouseleave="changeIsDelete"
                   @mouseenter="changeIsDelete" v-if="isVisibleMyPoint && point_user.length > 0" class="delete_btn" @click="deletePoint(point)"></div>
             </div>
@@ -45,6 +49,8 @@ export default defineComponent({
     ...mapMutations({
       loadMap: 'pickuppoints/loadMap',
       flyToNewPoint: 'pickuppoints/flyToNewPoint',
+      changeChangeModal: 'pickuppoints/changeChangeModal',
+      setPointOne: 'pickuppoints/setPointOne',
     }),
     ...mapActions({
       getOnePoint: 'pickuppoints/getOnePoint',
@@ -85,12 +91,28 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.change_pickuppoints_map{
+  height: 13px;
+  width: 13px;    
+  position: absolute;
+  top: 2px;
+  right: 18px;
+  background-image: url('../../assets/change_anything_V2_map.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.7;
+  transition: all 0.3s linear;
+  z-index: 999;
+  &:hover{
+    opacity: 1;
+  }
+}
 .delete_btn{
   position: absolute;
   top: 0px;
   right: 0px;
-  height: 15px;
-  width: 15px;
+  height: 18px;
+  width: 18px;
   opacity: 0.6;
   background-image: url('../../assets/close_btn.svg');
   cursor: pointer;

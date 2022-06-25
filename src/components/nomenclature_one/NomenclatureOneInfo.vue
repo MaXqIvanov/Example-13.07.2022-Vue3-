@@ -64,6 +64,10 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+#carouselExampleFade{
+    display: flex;
+    align-items: center !important;
+}
 .nomenclature_info_wrapper{
     width: 100%;
     height: fit-content;
