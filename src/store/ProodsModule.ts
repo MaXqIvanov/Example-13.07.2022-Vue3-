@@ -44,6 +44,9 @@ export default {
       changeChangeModal(state:any){
         state.visibleChangeProodModal = !state.visibleChangeProodModal;
       },
+      setProodOne(state:any, payload:any){
+        state.prood_one = payload
+      },
       changeCurrentPage(state:any, page: number){
         if(page > state.page_count){
           page = state.page_count

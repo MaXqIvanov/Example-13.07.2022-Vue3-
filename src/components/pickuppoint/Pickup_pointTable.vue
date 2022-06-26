@@ -115,7 +115,7 @@ export default defineComponent({
   cursor: pointer;
   background-size: contain;
   background-repeat: no-repeat;
-
+  transition: all 0.3s linear;
   &:hover{
     opacity:0.8;
   }

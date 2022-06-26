@@ -2,7 +2,7 @@
   <div class="prood_pagination">
     <div class="prood_pagination_wrapper">
         <nav aria-label="Page navigation example">
-        <ul class="pagination">
+        <ul class="pagination pagination-sm">
             <li class="page-item">
                 <button class="page-link custom_link" @click="changeCurrentPage(current_page_nomenclature - 1)" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>

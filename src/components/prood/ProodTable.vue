@@ -10,6 +10,7 @@
                     <th scope="col">стоимость</th>
                     <th scope="col">количество</th>
                     <th scope="col">адресс</th>
+                    <th v-if="isVisibleMyProod && proods_user.length > 0" scope="col"></th>
                 </tr>
             </thead>
             <tbody >
@@ -19,10 +20,13 @@
                 <td class="col-5" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood._nomenclature }}</td>
                 <td :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.cost }}</td>
                 <td class="prood_count" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood.count }}</td>
-                <td class="col-7 shop_address" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood?._shop?.address ? prood?._shop?.address : 'адрес не установлен'}}
-                <span v-if="isVisibleMyProod && proods_user.length > 0" @mouseleave="changeIsDelete"
-                  @mouseenter="changeIsDelete" title="удалить товар" @click="deteteMyProod(prood)"
-                  class="delete_btn"></span></td>
+                <td class="col-7 shop_address" :class="{'active_stroke_table': prood.id == choise_prood}">{{ prood?._shop?.address ? prood?._shop?.address : 'адрес не установлен'}}</td>
+                <td class="todo_proods" v-if="isVisibleMyProod && proods_user.length > 0">
+                  <div title="удалить товар" @click="deteteMyProod(prood)" class="delete_proods"></div>
+                  <div title="редактировать товар" @click="changeChangeModal(); setProodOne(prood)"
+                  v-if="isVisibleMyProod == true && proods_user.length !== 0"
+                  class="change_proods"></div>
+                </td>
                 </tr>
             </tbody>
         </table>
@@ -50,6 +54,8 @@ export default defineComponent({
    methods: {  
     ...mapMutations({
       changeIsCreateProodModal: 'proods/changeIsCreateProodModal',
+      changeChangeModal: 'proods/changeChangeModal',
+      setProodOne: 'proods/setProodOne',
     }),
     ...mapActions({
       getOneProod: 'proods/getOneProod',
@@ -73,23 +79,37 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.change_proods{
+  height: 20px;
+  width: 20px;    
+  padding-left: 5px;
+  background-image: url('../../assets/change_anything_V2.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.8;
+  transition: all 0.3s linear;
+  
+  &:hover{
+    opacity: 1;
+  }
+}
+.todo_proods{
+  vertical-align: middle;
+}
 .shop_address{
   position: relative;
 }
-.delete_btn{
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 15px;
-  width: 15px;
-  opacity: 0.5;
+.delete_proods{
+  height: 25px;
+  width: 25px;
+  opacity: 0.6;
   background-image: url('../../assets/close_btn.svg');
   cursor: pointer;
   background-size: contain;
   background-repeat: no-repeat;
   transition: all 0.3s linear;
   &:hover{
-    opacity:0.75;
+    opacity:0.8;
   }
 }
 .custom_table{

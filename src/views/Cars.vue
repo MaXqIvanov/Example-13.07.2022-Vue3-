@@ -1,8 +1,8 @@
 <template>
   <div class="cars">
     <div class="cars_wrapper">
-        <CarsInfo />
-        <CarsArray />
+        <CarsNav />
+        <CarsList />
     </div>
   </div>
 </template>
@@ -10,22 +10,24 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
-import CarsInfo from '@/components/cars/CarsInfo.vue';
-import CarsArray from '@/components/cars/CarsArray.vue';
+import CarsList from '@/components/cars/CarsList.vue';
+import CarsNav from '@/components/cars/CarsNav.vue';
 
 export default defineComponent({
   name: 'Cars',
   components: {
-    CarsInfo,
-    CarsArray,
+    CarsList,
+    CarsNav,
   },
    methods: {  
     ...mapMutations({
     }),
     ...mapActions({
+      getCars: 'cars/getCars'
     }),
   },
   mounted() {
+    this.getCars()
   },
 });
 </script>

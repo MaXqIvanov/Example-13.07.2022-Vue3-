@@ -3,7 +3,6 @@
     <div class="prood_nav_wrapper">
         <div class="prood_nav_title">Товары</div>
         <div class="d-flex prood_nav_choice">
-            <div title="редактировать товар" @click="changeChangeModal" v-if="Object.keys(prood_one).length !== 0 && isVisibleMyProod == true && proods_user.length !== 0" class="prood_edit"></div>
             <div @click="nav_all" class="prood_all"><span>все</span></div>
             <div @click="nav_my" class="prood_my"><span>мои</span></div>
             <form class="d-flex">
@@ -32,7 +31,6 @@ export default defineComponent({
     ...mapMutations({
         changeCurrentPage: 'proods/changeCurrentPage',
         changeIsVisibleMyProod: 'proods/changeIsVisibleMyProod',
-        changeChangeModal: 'proods/changeChangeModal',
     }),
     ...mapActions({
         getCurrentUserProod: 'proods/getCurrentUserProod',
@@ -67,19 +65,6 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.prood_edit{
-    margin-right: 10px;
-    height: 25px;
-    width: 25px;    
-    background-image: url('../../assets/change_anything_V2.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: 0.7;
-    transition: all 0.3s linear;
-    &:hover{
-        opacity: 1;
-    }
-}
 .prood_nav_choice{
     cursor: pointer;
     font-size: medium;
