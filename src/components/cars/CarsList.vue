@@ -2,15 +2,25 @@
     <div class="block_CarsList">
       <div class="block_CarsList_wrapper">
         <div class="add_car">
-          <div class="add_car_wrapper">
+          <div @click="changeIsVisibleAddCarModal" class="add_car_wrapper">
             <div title="добавить машину" class="add_car_img"></div>
           </div>
         </div>
         <div v-for="car in cars_all" :key="car.id" class="cars_list">
-          <div class="card_car">
+          <div v-if="Object.keys(cars_all).length > 0" class="card_car">
             <div class="card_car_wrapper">
               <div class="car_name">{{ car.name }}</div>
+              <div :style="{backgroundImage: `url(${car._type.img})`}" class="car_image"></div>
+              <div class="car_name">модель : {{ car.model }}</div>
+              <div class="car_name">номер : {{ car.number }}</div>
+              <div class="car_name">цвет : {{ car.color }}</div>
+              <div class="car_name">цена за час макс : {{ car.cost_per_hour_max }}</div>
+              <div class="car_name">цена за час мин : {{ car.cost_per_hour_min }}</div>
+              <div class="car_name">описание : {{ car.description }}</div>
             </div>
+          </div>
+          <div class="cars_empty" v-else>
+            <span>в данный момент ваш список машин пуст</span>
           </div>
         </div>
       </div>
@@ -28,6 +38,7 @@ export default defineComponent({
   },
   methods: {  
     ...mapMutations({
+      changeIsVisibleAddCarModal: 'cars/changeIsVisibleAddCarModal',
     }),
     ...mapActions({
     }),
@@ -39,8 +50,23 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.cars_empty{
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span{
+    height: fit-content;
+    width: fit-content;
+  }
+}
+.car_image{
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 150px;
+}
 .add_car_img{
-    cursor: pointer;
     height: 150px;
     width: 150px;
     background-image: url('../../assets/cars/add_anything_car.svg');
@@ -68,6 +94,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 .card_car_wrapper{
   height: 350px;
@@ -76,6 +103,7 @@ export default defineComponent({
   min-width: 300px;
   border-radius: 5px;
   padding: 10px;
+  overflow-y: scroll;
 }
 .card_car{
   height: 350px;
@@ -99,11 +127,10 @@ export default defineComponent({
     display: grid;
     grid-template-columns: 24% 24% 24% 24%;
     column-gap: 1.33%;
-
+    row-gap: 30px;
     @media(max-width: 1660px){
       grid-template-columns: 32% 32% 32%;
       column-gap: 2%;
-      row-gap: 20px;
     }
     @media(max-width: 1300px){
       grid-template-columns: 48% 48%;

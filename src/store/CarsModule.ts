@@ -4,12 +4,18 @@ import router from '@/router';
 export default {
   state: {
       cars_all: [] as any[],
+      type_car: [] as any[],
 
+      // work with modal window
+      isVisibleAddCarModal: false,
       // one car
       choise_car: undefined as number | undefined,
       car_one: {} as any
   },
   mutations: {
+    changeIsVisibleAddCarModal(state:any,){
+      state.isVisibleAddCarModal = !state.isVisibleAddCarModal
+    }
   },
   actions: {
     getCars({
@@ -22,16 +28,26 @@ export default {
       }
     })
     },
-
+    getCarsType({
+      commit, state
+    }:any, payload:any) {
+      if(Object.keys(state.type_car).length == 0)
+      api.get(`marketplace/car-type/`).then((response:any)=>{
+        console.log(response);
+        state.type_car = response.data.results
+      })
+    },
     addCar({
       commit, state
-    }:any, pyaload:any) {
+    }:any, payload:any) {
+      // don't work add car - post method not allowed
+      console.log(payload);
       api.post(`marketplace/car/`,{
-        name: "name",
-        type: 1,
-        number: "123aa",
-        model: "Грузовой",
-        color: "Синий"
+        name: payload.name,
+        type: payload.type.id,
+        number: payload.number,
+        model: payload.model,
+        color: payload.color,
       }).then((response:any)=>{
         console.log(response);
       })
@@ -64,6 +80,13 @@ export default {
       }).then((response:any)=>{
         console.log(response);
       })
+    },
+    
+    // works with user cars
+    getUserCars({
+      commit, state
+    }:any, payload:any){
+      api.get(``)
     }
   },
   modules: {

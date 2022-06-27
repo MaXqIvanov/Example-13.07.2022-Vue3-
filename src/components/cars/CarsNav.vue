@@ -3,8 +3,8 @@
     <div class="cars_nav_wrapper">
         <div class="cars_nav_title">Машины</div>
         <div class="d-flex cars_nav_choice">
-            <!-- <div @click="nav_all" class="prood_all"><span>все</span></div>
-            <div @click="nav_my" class="prood_my"><span>мои</span></div> -->
+            <div @click="nav_all" class="prood_all"><span>все</span></div>
+            <div @click="nav_my" class="prood_my"><span>мои</span></div>
             <form class="d-flex">
                 <input class="form-control mr-sm-2" type="search" placeholder="Поиск...">
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Поиск</button>
@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+import router from '@/router';
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 export default defineComponent({
@@ -28,6 +29,12 @@ export default defineComponent({
     }),
     ...mapActions({
     }),
+    nav_all(){
+        router.push('/cars')
+    },
+    nav_my(){
+        router.push('/cars?settings=my')
+    }
   },
   computed: mapState({
   }),

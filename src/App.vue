@@ -116,4 +116,16 @@ body::-webkit-scrollbar-thumb {
     border-radius: 20px; /* закругления плашки */
     border: 3px solid #84d1fd; /* padding вокруг плашки */
   }
+  *::-webkit-scrollbar {
+    width: 6px; /* ширина scrollbar */
+  }
+*::-webkit-scrollbar-track {
+    background: rgb(255, 255, 255); /* цвет дорожки */
+    border-radius: 25px;
+  }
+*::-webkit-scrollbar-thumb {
+    background-color: #84d1fd; /* цвет плашки */
+    border-radius: 20px; /* закругления плашки */
+    border: 3px solid #84d1fd; /* padding вокруг плашки */
+  }
 </style>

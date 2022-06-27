@@ -3,6 +3,8 @@
     <div class="cars_wrapper">
         <CarsNav />
         <CarsList />
+        
+        <AddCarModal v-if="isVisibleAddCarModal"/>
     </div>
   </div>
 </template>
@@ -12,13 +14,15 @@ import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import CarsList from '@/components/cars/CarsList.vue';
 import CarsNav from '@/components/cars/CarsNav.vue';
+import AddCarModal from '@/components/cars/AddCarModal.vue';
 
 export default defineComponent({
   name: 'Cars',
   components: {
     CarsList,
     CarsNav,
-  },
+    AddCarModal
+},
    methods: {  
     ...mapMutations({
     }),
@@ -26,6 +30,9 @@ export default defineComponent({
       getCars: 'cars/getCars'
     }),
   },
+  computed: mapState({
+    isVisibleAddCarModal: (state:any)=> state.cars.isVisibleAddCarModal
+  }),
   mounted() {
     this.getCars()
   },
