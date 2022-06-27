@@ -4,7 +4,7 @@
         <NomenclatureNav />
         <!-- <NomenclatureAll /> -->
         <NomenclatureTable />
-        <PaginationNom />
+        <PaginationNom v-if="!isVisibleNomenclatureSuggestArray"/>
         <CreatenomenclatureModal v-if="isCreateNomenclatureModal"/>
     </div>
   </div>
@@ -37,6 +37,7 @@ export default defineComponent({
   },
   computed: mapState({
     isCreateNomenclatureModal: (state:any)=> state.nomenclature.isCreateNomenclatureModal,
+    isVisibleNomenclatureSuggestArray: (state:any)=> state.nomenclature.isVisibleNomenclatureSuggestArray
   }),
   mounted() {
       this.getNomenclature();

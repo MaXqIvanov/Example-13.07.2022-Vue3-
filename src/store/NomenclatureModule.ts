@@ -1,5 +1,6 @@
 import api from "@/plugins/axios";
 import router from '@/router';
+import store from ".";
 
 export default {
     state: {
@@ -21,6 +22,11 @@ export default {
         // work with not approved nomenclature
         notApprovedNomenclature: [] as any[],
         notApprovedNomenclatureCount: undefined as number | undefined,
+
+        // nomenclature suggest
+        nomenclature_suggest_array: [] as any[],
+        // isVisibleNomenclatureSuggestArray - need for change table on suggest_nomenclature
+        isVisibleNomenclatureSuggestArray: false as boolean,
     },
     mutations: {
       changeCurrentPage(state:any, page: number){
@@ -40,6 +46,14 @@ export default {
           })
         }
       },
+      changeIsVisibleNomenclatureSuggestArray(state:any){
+        state.isVisibleNomenclatureSuggestArray = !state.isVisibleNomenclatureSuggestArray
+        if(!state.isVisibleNomenclatureSuggestArray){
+          store.dispatch('nomenclature/getNomenclatureSuggest')
+        }else{
+          state.nomenclature_suggest_array = [];
+        }
+      },
       changeIsCreateNomenclatureModal(state:any){
         state.isCreateNomenclatureModal = !state.isCreateNomenclatureModal;
       }
@@ -53,8 +67,17 @@ export default {
             console.log(response);
             if(response.status === 200) {
                 state.nomenclature_all = response.data.results
-                state.page_count_nomenclature = Math.ceil(response.data.count / state.limit) 
+                state.page_count_nomenclature = Math.ceil(response.data.count / state.limit)
+                state.nomenclature_suggest_array = [];
             }
+          })
+        },
+        getNomenclatureSuggest({
+          commit, state
+        }:any, payload:any) {
+          api.get(`marketplace/nomenclature_suggest/`).then((response:any)=>{
+            console.log(response);
+            state.nomenclature_suggest_array = response.data.results
           })
         },
         CreateNomenclature({
@@ -73,8 +96,14 @@ export default {
             state.nomenclature_suggest = response.data.id;
             state.visibleAddPhoto = !state.visibleAddPhoto
           })
+          // ----
+              // description
+            // _measurement
+            // _category
+            // sub_category
+          // ----
 
-            // state.nomenclature_suggest = 16;
+            // state.nomenclature_suggest = 15;
             // state.visibleAddPhoto = !state.visibleAddPhoto
         },
         addPhotoNomenclature({

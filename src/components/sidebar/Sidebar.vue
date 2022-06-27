@@ -60,7 +60,7 @@
         <!-- name user -->
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
         <li><a class="dropdown-item" href="#">настройки</a></li>
-        <li><a class="dropdown-item" href="#">профиль</a></li>
+        <li><router-link class="dropdown-item" to="/profile">профиль</router-link></li>
         <li><hr class="dropdown-divider"></li>
         <li><router-link to="/logout" class="dropdown-item" href="#">Выход из аккаунта</router-link></li>
       </ul>

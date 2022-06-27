@@ -5,6 +5,7 @@
         <CarsList />
         
         <AddCarModal v-if="isVisibleAddCarModal"/>
+        <AddTypeModal v-if="isVisibleAddTypeModal"/>
     </div>
   </div>
 </template>
@@ -15,13 +16,15 @@ import { mapActions, mapMutations, mapState } from 'vuex';
 import CarsList from '@/components/cars/CarsList.vue';
 import CarsNav from '@/components/cars/CarsNav.vue';
 import AddCarModal from '@/components/cars/AddCarModal.vue';
+import AddTypeModal from '@/components/cars/AddTypeModal.vue';
 
 export default defineComponent({
   name: 'Cars',
   components: {
     CarsList,
     CarsNav,
-    AddCarModal
+    AddCarModal,
+    AddTypeModal
 },
    methods: {  
     ...mapMutations({
@@ -31,7 +34,8 @@ export default defineComponent({
     }),
   },
   computed: mapState({
-    isVisibleAddCarModal: (state:any)=> state.cars.isVisibleAddCarModal
+    isVisibleAddCarModal: (state:any)=> state.cars.isVisibleAddCarModal,
+    isVisibleAddTypeModal: (state:any)=> state.cars.isVisibleAddTypeModal,
   }),
   mounted() {
     this.getCars()

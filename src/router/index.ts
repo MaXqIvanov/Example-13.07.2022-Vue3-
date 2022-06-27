@@ -64,6 +64,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true, },
   },
   {
+    path: '/profile',
+    name: 'ProfileUser',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ProfileUser.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
     path: '/auth',
     name: 'Auth',
     component: () => import(/* webpackChunkName: "about" */ '../views/Auth.vue'),

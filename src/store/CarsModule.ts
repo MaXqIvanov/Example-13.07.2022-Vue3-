@@ -1,13 +1,15 @@
 import api from "@/plugins/axios";
 import router from '@/router';
+import store from ".";
 
 export default {
   state: {
       cars_all: [] as any[],
       type_car: [] as any[],
-
+      visibleTypeCar: false as boolean,
       // work with modal window
-      isVisibleAddCarModal: false,
+      isVisibleAddCarModal: false as boolean,
+      isVisibleAddTypeModal: false as boolean,
       // one car
       choise_car: undefined as number | undefined,
       car_one: {} as any
@@ -15,6 +17,17 @@ export default {
   mutations: {
     changeIsVisibleAddCarModal(state:any,){
       state.isVisibleAddCarModal = !state.isVisibleAddCarModal
+    },
+    changeIsVisibleAddTypeModal(state:any){
+      state.isVisibleAddTypeModal = !state.isVisibleAddTypeModal
+    },
+    changeVisibleTypeCar(state:any){
+      state.visibleTypeCar = !state.visibleTypeCar
+      if(state.visibleTypeCar){
+        store.dispatch(`cars/getCarsTypeForArray`)
+      }else(
+        store.dispatch(`cars/getCars`)
+      )
     }
   },
   actions: {
@@ -27,6 +40,14 @@ export default {
           state.cars_all = response.data.results
       }
     })
+    },
+    getCarsTypeForArray({
+      commit, state
+    }:any) {
+      api.get(`marketplace/car-type/`).then((response:any)=>{
+        console.log(response);
+        state.cars_all = response.data.results
+      })
     },
     getCarsType({
       commit, state

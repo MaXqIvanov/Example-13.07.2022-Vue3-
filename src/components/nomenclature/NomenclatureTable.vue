@@ -1,7 +1,7 @@
 <template>
   <div class="prood_table">
     <div class="prood_table_wrapper">
-        <table class="table table-bordered table-dark custom_table">
+        <table v-if="Object.keys(nomenclature_suggest_array).length === 0 && isVisibleNomenclatureSuggestArray !== true" class="table table-bordered table-dark custom_table">
             <thead class="thead">
                 <tr>
                     <th scope="col nomenclature_title">изображения</th>
@@ -25,6 +25,7 @@
                 </tr>
             </tbody>
         </table>
+        <SuggestNomenclature v-else/>
         <div @click="changeIsCreateNomenclatureModal" title="предложить свою номенклатуру" class="add_new_prood bg-dark">
           <span class="icon_img_add"></span>
         </div>
@@ -36,6 +37,7 @@
 import router from '@/router';
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
+import SuggestNomenclature from './SuggestNomenclature.vue';
 
 export default defineComponent({
   name: 'ProodTable',
@@ -44,7 +46,8 @@ export default defineComponent({
     }
   },
   components: {
-  },
+    SuggestNomenclature
+},
    methods: {  
     ...mapMutations({
       changeIsCreateNomenclatureModal: 'nomenclature/changeIsCreateNomenclatureModal',
@@ -59,6 +62,8 @@ export default defineComponent({
   computed: mapState({
     nomenclature_all: (state:any)=> state.nomenclature.nomenclature_all,
     choose_nomenclature: (state:any)=> state.nomenclature.choose_nomenclature,
+    nomenclature_suggest_array: (state:any)=> state.nomenclature.nomenclature_suggest_array,
+    isVisibleNomenclatureSuggestArray: (state:any)=> state.nomenclature.isVisibleNomenclatureSuggestArray,
   }),
   mounted() {
   },
