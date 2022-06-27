@@ -12,27 +12,30 @@
                     <div class="card_user_img_wrapper"><div  :style="[user.img ? {backgroundImage: `url(${user.img})`}
                     :{backgroundImage: `url(${logotype})`}]" class="card_user_img"></div>
                     <div class="card_user_name">{{user.name}}</div></div>
+                    <div class="card_user_role mt-4">
+                      разрешённые права пользователю : 
+                      <div class="form-check form-switch">
+                        <input v-model="user.admin" class="form-check-input" type="checkbox" role="switch" id="user_admin">
+                        <label class="form-check-label" for="user_admin">админестратор</label>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <ModalChange :changeVisibleModal="changeVisibleModal" title="изменить имя" v-if="isVisibleModal"/>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
-import ModalChange from './ModalChange.vue';
 import logotype from '../../assets/users/not_img_profile.svg';
 
 export default defineComponent({
   name: 'UserInfo',
   components: {
-    ModalChange
   },
   data() {
       return {
-          isVisibleModal: false,
       }
   },
   setup() {
@@ -47,9 +50,6 @@ export default defineComponent({
       changeNameProfileUser: 'user/changeNameProfileUser',
       getUsers: 'user/getUsers',
     }),
-    changeVisibleModal() {
-        this.isVisibleModal = !this.isVisibleModal;
-    }
   },
   computed: mapState({
       users_all: (state:any)=> state.user.users_all,
@@ -150,6 +150,7 @@ export default defineComponent({
   padding: 10px;
   overflow-y: scroll;
   position: relative;
+  cursor: default;
 }
 .user_list{
   height: 350px;
