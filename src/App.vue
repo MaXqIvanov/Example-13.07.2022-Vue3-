@@ -10,8 +10,6 @@
 </div>
 </template>
 
-<!-- eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYmNiZDVlNzQtNDk4OC00ZTE4LTg1ZWMtOTY5YWJlNDlmZjZjIiwidXNlcm5hbWUiOiJiY2JkNWU3NC00OTg4LTRlMTgtODVlYy05NjlhYmU0OWZmNmMiLCJleHAiOjE2NTQ3NTYyNjl9.KD5etl0kL_Oj1TjfwFqnRDDHyWmynRu-X6gJIiCeMJM -->
-
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Cookies from 'js-cookie'
@@ -104,28 +102,3 @@ export default defineComponent({
   font-family: 'Montserrat', sans-serif;
 }
 </style>
-
-<!-- <nav class="navbar navbar-expand-lg bg-dark">
-  <div class="container-fluid">
-    <router-link class="navbar-brand" to="/">Личный кабинет</router-link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Переключатель навигации">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li v-if="userAuth" class="nav-item">
-          <router-link to="/cars">Машины</router-link> 
-        </li>
-        <li v-if="userAuth" class="nav-item">
-          <router-link to="/stores">Магазины</router-link> 
-        </li>
-        <li v-if="!userAuth" class="nav-item">
-          <router-link to="/auth">Авторизация</router-link>
-        </li>
-        <li v-if="userAuth" class="nav-item">
-          <router-link to="/logout">Выход</router-link>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav> -->

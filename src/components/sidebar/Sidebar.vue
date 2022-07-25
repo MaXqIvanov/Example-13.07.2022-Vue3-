@@ -4,7 +4,7 @@
     <router-link class="navbar-brand d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
     to="/">
       <svg class="bi me-2 custom-logo-stroyroom" width="35" height="35"></svg>
-      <span v-if="collapsed" class="fs-4">STROYROOM</span>
+      <span v-if="collapsed" class="fs-4">Example</span>
     </router-link>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
