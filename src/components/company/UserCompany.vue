@@ -1,16 +1,20 @@
 <template>
-    <div class="user_company_main" :style="[company.id == choose_company ? {boxShadow: '0px 0px 5px rgb(20, 145, 247)'}:'']">
-      <div @click="chooseCompany(company.id)" class="wrapper_user_company_main" title="посмотреть подробнее информацию о компании">
+    <div class="user_company_main" :style="[company.id == choose_company ? {boxShadow: '0px 0px 5px rgb(20, 145, 247)', background: 'rgb(247, 255, 255)'} :'']">
+      <div :style="[company.id == choose_company ? {opacity: '100%'} : '']"
+      @click="isDeleteCompany && chooseCompany(company.id)" class="wrapper_user_company_main" title="посмотреть подробнее информацию о компании">
         <div class="company_name">{{ company.short_name }}</div>
         <div class="company_description">{{ company.description }}</div>
         <img :src="company.img" class="company_img">
-        <div :style="[company.status == 1 ? {backgroundImage: `url(${company_accept})`}
+        <div :style="[company.approved == true ? {backgroundImage: `url(${company_accept})`}
         :{backgroundImage: `url(${company_wait})`}]" class="company_status"></div>
+        <div @mouseenter="changeIsDeleteCompany" @mouseleave="changeIsDeleteCompany"
+        @click="deleteCompany(company.id)" class="delete-icon"></div>
       </div>
     </div>
 </template>
 
 <script lang="ts">
+import router from '@/router';
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 import company_accept from '../../assets/company/company_accept.svg';
@@ -22,6 +26,11 @@ export default defineComponent({
   setup() {
     return { company_accept, company_wait }
   },
+  data() {
+    return {
+      isDeleteCompany: true,
+    }
+  },
   components: {
   },
    methods: {  
@@ -29,7 +38,11 @@ export default defineComponent({
     }),
     ...mapActions({
         chooseCompany: 'company/chooseCompany',
+        deleteCompany: 'company/deleteCompany'
     }),
+    changeIsDeleteCompany(){
+      this.isDeleteCompany = !this.isDeleteCompany
+    },
   },
   mounted() {
   },
@@ -39,6 +52,21 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.delete-icon{
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  height: 20px;
+  width: 20px;
+  background-image: url('../../assets/close_btn.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.5;
+  z-index: 999;
+  &:hover{
+    opacity: 0.6;
+  }
+}
 .company_status{
     position: absolute;
     bottom: 0px;

@@ -1,8 +1,8 @@
 <template>
   <div class="users">
     <div class="users_wrapper">
+      <UserNav />
       <UserInfo />
-      <UserAction />
     </div>
   </div>
 </template>
@@ -10,14 +10,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import UserInfo from '@/components/user/UserInfo.vue';
-import UserAction from '@/components/user/UserAction.vue';
+import UserNav from '@/components/user/UserNav.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default defineComponent({
   name: 'Users',
   components: {
     UserInfo,
-    UserAction
+    UserNav
   },
    methods: {  
     ...mapMutations({

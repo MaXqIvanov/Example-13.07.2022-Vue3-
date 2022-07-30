@@ -1,10 +1,10 @@
 <template>
-    <div class="create_company_main">
+    <div @click="changeIsVisibleModalAddCompany" class="create_company_main">
       <div title="создать новую компанию" class="wrapper_create_company_main">
       </div>
     </div>
     <div>
-        <ModalAddCompany />
+        <ModalAddCompany v-if="isVisibleModalAddCompany" :isVisibleModalAddCompany="isVisibleModalAddCompany" :changeIsVisibleModalAddCompany="changeIsVisibleModalAddCompany"/>
     </div>
 </template>
 
@@ -18,11 +18,19 @@ export default defineComponent({
   components: {
     ModalAddCompany
 },
+    data() {
+        return {
+            isVisibleModalAddCompany: false,
+        }
+    },
    methods: {  
     ...mapMutations({
     }),
     ...mapActions({
     }),
+    changeIsVisibleModalAddCompany() {
+        this.isVisibleModalAddCompany = !this.isVisibleModalAddCompany;
+    }
   },
   mounted() {
   },

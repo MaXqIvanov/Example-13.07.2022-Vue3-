@@ -1,10 +1,17 @@
+import axios from 'axios';
 import api from "@/plugins/axios";
 import router from '@/router';
+import Cookies from 'js-cookie'
 
 export default {
     state: {
         all_company: [] as any [],
-        choose_company: undefined as number | undefined, 
+        choose_company: undefined as number | undefined,
+        one_company: {} as any,
+        validInn: false as boolean,
+
+        // companyInfo
+        visibleChangeCompany: false,
     },
     mutations: {
     },
@@ -12,9 +19,9 @@ export default {
         getCompanies({
             commit, state
         }:any) {
-          api.get('marketplace/company/').then((response:any)=>{
+          api.get('marketplace/company_for_staff/')
+          .then((response:any)=>{
               if(response.status === 200) {
-                console.log(response.data.results);
                 state.all_company = response.data.results
               }
           })
@@ -22,44 +29,87 @@ export default {
         chooseCompany({
             commit, state
         }:any, payload:any) {
-            state.choose_company = payload;
-            console.log(state.choose_company);
-            // router.push(`/company/${payload}`)
+            let company = state.all_company.filter((elem:any)=> elem.id === payload)
+            console.log(company);
+            if(company[0].approved == true) {
+                state.choose_company = payload;
+                let new_company = {
+                    company_id: payload,
+                    company_name: company[0].short_name
+                }
+                localStorage.setItem('SR_settings', JSON.stringify(new_company))
+            }
+            else {
+                alert("данная компания ещё проходит этап подтверждения")
+            }
+            //router.push(`/?company_id=${payload}`)
         },
         getOneCompany({
             commit, state
         }:any, payload: any) {
-            api.get('')
+            // проверить на наличие возможности поменять url адресс и получить не свою компанию
+            console.log('getOneCompany');
+            if(state.choose_company == undefined) {
+                let urlParams = new URLSearchParams(window.location.search);
+                state.choose_company = Number(router.currentRoute.value.params.id);
+            }
+            let history:any = localStorage.getItem('SR_settings') !== null && localStorage.getItem('SR_settings')
+            if(history){
+                state.choose_company = JSON.parse(history).company_id;
+            }
+            api.get(`marketplace/company_for_staff/${state.choose_company}/`).then((response:any)=>{
+                state.one_company = response.data
+            })
         },
         createCompany({
-            commit, state
-        }:any, payload:any) {
-            api.post('accounts/auth/',{
-                email: `${payload.email}`,
-                password: `${payload.password}`,
-            })
-            .then((response:any)=>{
-              if(response.status === 200){
-              } 
+                 commit, state
+        }:any, payload:any){
+            // 352605176243
+            console.log(payload);
+            api.post('marketplace/company_for_staff/', payload.formData).then((response:any)=>{
+                console.log(response.data);
+                state.all_company = [...state.all_company, response.data];
+            }).then(()=>{
+                payload.changeIsVisibleModalAddCompany(false)
             })
         },
-
+        checkInn({
+            commit, state
+            }:any, payload:any){
+            axios.post(`https://htmlweb.ru/json/validator/inn/${payload}`).then((response:any)=>{
+                if(response.data.status == 200) {
+                    state.validInn = true;
+                }
+                else{ state.validInn = false }
+            })
+        },
+        deleteCompany({
+            commit, state
+        }:any, payload:any){
+            const isConfirm = confirm('вы уверены что хотите удалить компанию?')
+            if(isConfirm){
+                api.delete(`marketplace/company_for_staff/${payload}/`).then((response:any)=>{
+                state.all_company = state.all_company.filter((elem:any)=> elem.id !== payload)
+                })
+            }
+        },
+        ChangeCompanyVisible({
+            commit, state
+        }:any, payload:any){
+            state.visibleChangeCompany = !state.visibleChangeCompany;
+        },
+        changeCompany({
+            commit, state
+        }:any, payload:any){
+            // console.log(...payload);
+            const isConfirm = confirm("компания будет отправлена на перепроверку изменённых данных менеджером")
+            if(isConfirm){
+                api.put(`marketplace/company_for_staff/${state.choose_company}/`, payload ).then((response:any)=>{
+                    console.log(response);
+                })
+            }
+        }        
         // test function and check
-
-        // addNewCompany({
-        //     commit, state
-        // }:any, payload:any){
-        //     console.log(payload);
-        //     api.post('http://dev1.itpw.ru:8005/marketplace/company/',{
-        //         full_name: payload.full_name,
-        //         short_name: payload.short_name,
-        //         inn: payload.inn,
-        //         img: payload.img,
-        //         description: payload.description
-        //     }).then((response:any)=>{
-        //         console.log(response);
-        //     })
-        // },
     },
     modules: {
     },

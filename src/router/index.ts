@@ -28,15 +28,45 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true, },
   },
   {
+    path: '/pickup/:id',
+    name: 'PickUpPointOne',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PickUpPointOne.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
     path: '/prood',
     name: 'Proods',
     component: () => import(/* webpackChunkName: "about" */ '../views/Proods.vue'),
     meta: { requiresAuth: true, },
   },
   {
+    path: '/prood/:id',
+    name: 'ProodOne',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ProodOne.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
+    path: '/nomenclature',
+    name: 'Nomenclature',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Nomenclature.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
+    path: '/nomenclature/:id',
+    name: 'NomenclatureOne',
+    component: () => import(/* webpackChunkName: "about" */ '../views/NomenclatureOne.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
     path: '/users',
     name: 'Users',
     component: () => import(/* webpackChunkName: "about" */ '../views/Users.vue'),
+    meta: { requiresAuth: true, },
+  },
+  {
+    path: '/profile',
+    name: 'ProfileUser',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ProfileUser.vue'),
     meta: { requiresAuth: true, },
   },
   {
@@ -63,6 +93,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
 
 router.beforeEach((to, from, next) => {
   const currentUser = Cookies.get('token');

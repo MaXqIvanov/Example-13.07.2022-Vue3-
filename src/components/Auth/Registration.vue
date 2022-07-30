@@ -8,14 +8,6 @@
           <input required type="text" placeholder="Иванов Иван Иванович" class="form-control" id="exampleInputName"
           v-model="name">
         </div>
-        <label for="selected_type" class="form-label">Тип</label>
-        <select v-model="type" class="form-select mb-2" id="selected_type" aria-label="Пример выбора по умолчанию">
-          <option selected>ООО</option>
-          <option value="АО">АО</option>
-          <option value="ЗАО">ЗАО</option>
-          <option value="ИП">ИП</option>
-          <option value="Самозанятый">Самозанятый</option>
-        </select>
         <div class="mb-2">
           <label for="exampleInputPhoneEmail" class="form-label">Почта</label>
           <input required type="email" placeholder="user@email.ru" class="form-control" id="exampleInputPhoneEmail" aria-describedby="emailHelp"
@@ -35,11 +27,9 @@
             </label>
             <div @click="navigate" title="зарегистрироваться в системе" class="auth_unauth">уже есть аккаунт?</div>
         </div>
-         <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'minLength'
+        <div class="errors_message" v-if="v$?.$errors[0]?.$validator === 'minLength'
         && v$.$errors[0]?.$property === 'name'">минимальная длина поля с именем 3 символа </div>
-        <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'required'
-        && v$.$errors[0]?.$property === 'type'">пожалуйста, выберите один из предложенных типов</div>
-          <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'email'
+        <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'email'
         && v$.$errors[0]?.$property === 'email'">пожалуйста, введите вашу почту</div>
         <div class="errors_message" v-else-if="v$?.$errors[0]?.$validator === 'minLength'
         && v$.$errors[0]?.$property === 'email'">поле с почтой должно содержать минимально 4 символа</div>
@@ -69,7 +59,6 @@ export default defineComponent({
     return {
       v$: useValidate(),
       name: '',
-      type: '',
       email: '',
       password: '',
       confirm_password: '',
@@ -78,7 +67,6 @@ export default defineComponent({
   validations() {
   		return {
         name: { required, minLength: minLength(3), maxLength: maxLength(80) },
-        type: { required },
   		  email: { required, minLength: minLength(4), maxLength: maxLength(40), email },
         password: { required, minLength: minLength(2), maxLength: maxLength(40) },
         confirm_password: { required, maxLength: maxLength(40), sameAsPassword: sameAs(this.password) },
@@ -88,13 +76,13 @@ export default defineComponent({
     ...mapMutations({
     }),
     ...mapActions({
+      user_registration: 'user/user_registration',
     }),
     validateInputs() {
       this.v$.$validate()
-      console.log(this.v$.$errors);
       if(this.v$.$error) {
       } else {
-        console.log(this.type);
+        this.user_registration({name: this.name, email: this.email, password: this.password})
       }
     },
     navigate() {

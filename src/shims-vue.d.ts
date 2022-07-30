@@ -13,3 +13,8 @@ declare module '*.svg' {
 const classNames: Record<string, string>;
 export default classNames;
 }
+
+declare module '*.png' {
+  const classNames: Record<string, string>;
+  export default classNames;
+}

@@ -1,8 +1,11 @@
 <template>
   <div class="cars">
     <div class="cars_wrapper">
-        <CarsInfo />
-        <CarsArray />
+        <CarsNav />
+        <CarsList />
+        
+        <AddCarModal v-if="isVisibleAddCarModal"/>
+        <AddTypeModal v-if="isVisibleAddTypeModal"/>
     </div>
   </div>
 </template>
@@ -10,22 +13,32 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
-import CarsInfo from '@/components/cars/CarsInfo.vue';
-import CarsArray from '@/components/cars/CarsArray.vue';
+import CarsList from '@/components/cars/CarsList.vue';
+import CarsNav from '@/components/cars/CarsNav.vue';
+import AddCarModal from '@/components/cars/AddCarModal.vue';
+import AddTypeModal from '@/components/cars/AddTypeModal.vue';
 
 export default defineComponent({
   name: 'Cars',
   components: {
-    CarsInfo,
-    CarsArray,
-  },
+    CarsList,
+    CarsNav,
+    AddCarModal,
+    AddTypeModal
+},
    methods: {  
     ...mapMutations({
     }),
     ...mapActions({
+      getCars: 'cars/getCars'
     }),
   },
+  computed: mapState({
+    isVisibleAddCarModal: (state:any)=> state.cars.isVisibleAddCarModal,
+    isVisibleAddTypeModal: (state:any)=> state.cars.isVisibleAddTypeModal,
+  }),
   mounted() {
+    this.getCars()
   },
 });
 </script>
